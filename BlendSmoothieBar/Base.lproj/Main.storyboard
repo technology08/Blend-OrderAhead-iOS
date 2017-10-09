@@ -23,7 +23,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sAr-ag-Fue">
-                                <rect key="frame" x="16" y="64" width="343" height="554"/>
+                                <rect key="frame" x="16" y="80" width="343" height="522"/>
                                 <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
@@ -230,27 +230,27 @@
                                             <outlet property="productPriceLabel" destination="A3e-Gr-h0S" id="Gr1-el-OdO"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="namePriceCell" rowHeight="88" id="n1v-q5-6GY" customClass="namePriceCell" customModule="BlendSmoothieBar" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="381" width="343" height="88"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="namePriceCell" rowHeight="100" id="n1v-q5-6GY" customClass="namePriceCell" customModule="BlendSmoothieBar" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="381" width="343" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="n1v-q5-6GY" id="qQ2-WV-Vw3">
-                                            <rect key="frame" x="0.0" y="0.0" width="343" height="87.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="99.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FBl-AU-eEi">
-                                                    <rect key="frame" x="0.0" y="0.0" width="343" height="87.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="343" height="79.5"/>
                                                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="aDN-wi-rDQ">
-                                                        <rect key="frame" x="0.0" y="0.0" width="343" height="87.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="343" height="79.5"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Strawberry Lemonade" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fai-Kz-cy1">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Strawberry Lemonade" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fai-Kz-cy1">
                                                                 <rect key="frame" x="16" y="16" width="311" height="24"/>
                                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="$3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qTk-gg-2MO">
-                                                                <rect key="frame" x="16" y="49" width="311" height="21"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qTk-gg-2MO">
+                                                                <rect key="frame" x="16" y="49" width="311" height="22.5"/>
                                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <nil key="highlightedColor"/>
@@ -272,8 +272,8 @@
                                             <constraints>
                                                 <constraint firstItem="FBl-AU-eEi" firstAttribute="leading" secondItem="qQ2-WV-Vw3" secondAttribute="leading" id="8m7-m9-xOz"/>
                                                 <constraint firstItem="FBl-AU-eEi" firstAttribute="top" secondItem="qQ2-WV-Vw3" secondAttribute="top" id="9xa-OP-N8D"/>
-                                                <constraint firstAttribute="bottom" secondItem="FBl-AU-eEi" secondAttribute="bottom" id="AY8-ey-vIY"/>
                                                 <constraint firstAttribute="trailing" secondItem="FBl-AU-eEi" secondAttribute="trailing" id="Frx-UE-Svl"/>
+                                                <constraint firstAttribute="bottom" secondItem="FBl-AU-eEi" secondAttribute="bottom" constant="20" id="rTy-UQ-due"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -291,10 +291,10 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="sAr-ag-Fue" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="1Om-UV-Tgb"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="sAr-ag-Fue" secondAttribute="bottom" constant="16" id="LHS-Po-YBi"/>
                             <constraint firstItem="sAr-ag-Fue" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="iuR-Ln-MpJ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="sAr-ag-Fue" secondAttribute="trailing" constant="16" id="siH-jx-qOu"/>
-                            <constraint firstItem="sAr-ag-Fue" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="wj5-OQ-907"/>
+                            <constraint firstItem="sAr-ag-Fue" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="16" id="wj5-OQ-907"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
