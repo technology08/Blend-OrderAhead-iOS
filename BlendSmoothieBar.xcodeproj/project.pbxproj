@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		005C922D1F8916170018DD44 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C922C1F8916170018DD44 /* AppDelegate.swift */; };
-		005C922F1F8916170018DD44 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C922E1F8916170018DD44 /* ViewController.swift */; };
 		005C92321F8916170018DD44 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 005C92301F8916170018DD44 /* Main.storyboard */; };
 		005C92341F8916170018DD44 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 005C92331F8916170018DD44 /* Assets.xcassets */; };
 		005C92371F8916180018DD44 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 005C92351F8916180018DD44 /* LaunchScreen.storyboard */; };
@@ -22,7 +21,6 @@
 /* Begin PBXFileReference section */
 		005C92291F8916170018DD44 /* BlendSmoothieBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlendSmoothieBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		005C922C1F8916170018DD44 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		005C922E1F8916170018DD44 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		005C92311F8916170018DD44 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		005C92331F8916170018DD44 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		005C92361F8916180018DD44 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -69,7 +67,6 @@
 			children = (
 				005C92451F8974EA0018DD44 /* BlendSmoothieBar.entitlements */,
 				005C922C1F8916170018DD44 /* AppDelegate.swift */,
-				005C922E1F8916170018DD44 /* ViewController.swift */,
 				00C3547C1F8C62360053A6A8 /* MenuTableViewController.swift */,
 				005C923E1F8916350018DD44 /* Product.swift */,
 				005C92411F8928EF0018DD44 /* MenuTableHeader.swift */,
@@ -174,7 +171,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				005C922F1F8916170018DD44 /* ViewController.swift in Sources */,
 				005C923F1F8916350018DD44 /* Product.swift in Sources */,
 				00C3547D1F8C62360053A6A8 /* MenuTableViewController.swift in Sources */,
 				005C92431F8928EF0018DD44 /* MenuTableHeader.swift in Sources */,
