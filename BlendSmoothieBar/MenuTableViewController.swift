@@ -40,7 +40,14 @@ class MenuTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return (self.view.frame.height - (self.view.safeAreaInsets.top + self.view.safeAreaInsets.bottom)) / CGFloat(tableView.numberOfRows(inSection: 0))
+       
+        if #available(iOS 11.0, *) {
+            return (self.view.frame.height - (self.view.safeAreaInsets.top + self.view.safeAreaInsets.bottom)) / CGFloat(tableView.numberOfRows(inSection: 0))
+        } else {
+            // Fallback on earlier versions
+ 
+            return (self.view.frame.height - (self.tabBarController!.view.frame.height + self.tabBarController!.view.frame.height)) / 3
+        }
     }
     
     
