@@ -16,6 +16,7 @@
 		005C92431F8928EF0018DD44 /* MenuTableHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C92411F8928EF0018DD44 /* MenuTableHeader.swift */; };
 		005C92441F8928EF0018DD44 /* MenuTableHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 005C92421F8928EF0018DD44 /* MenuTableHeader.xib */; };
 		005C92481F8974ED0018DD44 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 005C92471F8974ED0018DD44 /* CloudKit.framework */; };
+		00C3547D1F8C62360053A6A8 /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C3547C1F8C62360053A6A8 /* MenuTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		005C92421F8928EF0018DD44 /* MenuTableHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MenuTableHeader.xib; sourceTree = "<group>"; };
 		005C92451F8974EA0018DD44 /* BlendSmoothieBar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BlendSmoothieBar.entitlements; sourceTree = "<group>"; };
 		005C92471F8974ED0018DD44 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		00C3547C1F8C62360053A6A8 /* MenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +70,7 @@
 				005C92451F8974EA0018DD44 /* BlendSmoothieBar.entitlements */,
 				005C922C1F8916170018DD44 /* AppDelegate.swift */,
 				005C922E1F8916170018DD44 /* ViewController.swift */,
+				00C3547C1F8C62360053A6A8 /* MenuTableViewController.swift */,
 				005C923E1F8916350018DD44 /* Product.swift */,
 				005C92411F8928EF0018DD44 /* MenuTableHeader.swift */,
 				005C92421F8928EF0018DD44 /* MenuTableHeader.xib */,
@@ -173,6 +176,7 @@
 			files = (
 				005C922F1F8916170018DD44 /* ViewController.swift in Sources */,
 				005C923F1F8916350018DD44 /* Product.swift in Sources */,
+				00C3547D1F8C62360053A6A8 /* MenuTableViewController.swift in Sources */,
 				005C92431F8928EF0018DD44 /* MenuTableHeader.swift in Sources */,
 				005C922D1F8916170018DD44 /* AppDelegate.swift in Sources */,
 			);

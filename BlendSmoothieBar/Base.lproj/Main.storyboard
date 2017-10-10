@@ -9,6 +9,11 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="AvenirNext.ttc">
+            <string>AvenirNext-Bold</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Menu-->
         <scene sceneID="tne-QT-ifu">
@@ -23,7 +28,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sAr-ag-Fue">
-                                <rect key="frame" x="16" y="80" width="343" height="522"/>
+                                <rect key="frame" x="16" y="36" width="343" height="615"/>
                                 <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
@@ -308,7 +313,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="821.60000000000002" y="132.68365817091455"/>
+            <point key="canvasLocation" x="1446" y="-487"/>
         </scene>
         <!--Order Smoothie-->
         <scene sceneID="erk-iQ-nNB">
@@ -322,9 +327,9 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wXc-G4-MIE">
-                                <rect key="frame" x="16" y="80" width="343" height="571"/>
+                                <rect key="frame" x="16" y="36" width="343" height="615"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="m3t-Ig-XbU">
-                                    <rect key="frame" x="0.0" y="0.0" width="343" height="571"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="343" height="615"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Strawberry Lemonade Smoothie" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m1u-QL-047">
@@ -366,9 +371,13 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="wd6-xz-xIg" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="RVf-Wk-8MZ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" id="RVf-Wk-8MZ">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.25845314232656846" green="0.24790730151243157" blue="0.6812936230964467" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <textAttributes key="titleTextAttributes">
+                            <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="20"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -388,18 +397,75 @@
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="yhP-d5-Ucx">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="barTintColor" red="0.25845314229999999" green="0.24790730150000001" blue="0.68129362309999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="selectedImageTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="ng5-Qe-fMu"/>
+                        <segue destination="T37-GB-8GA" kind="relationship" relationship="viewControllers" id="Bfu-9z-xDo"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="keY-Wx-itk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="134" y="133"/>
         </scene>
+        <!--MENU-->
+        <scene sceneID="DQN-rd-0qx">
+            <objects>
+                <tableViewController id="T37-GB-8GA" customClass="MenuTableViewController" customModule="BlendSmoothieBar" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="i2h-pF-Bx6">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="categoryCell" rowHeight="193" id="1YR-GS-YGe" customClass="CategoryCell" customModule="BlendSmoothieBar" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="193"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1YR-GS-YGe" id="lRy-51-MBM">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="192.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="smoothie" translatesAutoresizingMaskIntoConstraints="NO" id="7JQ-Sy-0gK">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="193"/>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SMOOTHIES" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XWN-48-V5R">
+                                            <rect key="frame" x="65" y="69" width="244" height="55"/>
+                                            <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="40"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="XWN-48-V5R" firstAttribute="centerY" secondItem="lRy-51-MBM" secondAttribute="centerY" id="2dM-Q6-Yk4"/>
+                                        <constraint firstItem="7JQ-Sy-0gK" firstAttribute="leading" secondItem="lRy-51-MBM" secondAttribute="leading" id="UWc-dV-0RN"/>
+                                        <constraint firstItem="7JQ-Sy-0gK" firstAttribute="top" secondItem="lRy-51-MBM" secondAttribute="top" id="Zfb-f4-juE"/>
+                                        <constraint firstItem="XWN-48-V5R" firstAttribute="centerX" secondItem="lRy-51-MBM" secondAttribute="centerX" id="bIZ-Nd-3yx"/>
+                                        <constraint firstAttribute="bottom" secondItem="7JQ-Sy-0gK" secondAttribute="bottom" id="epe-Oc-nMM"/>
+                                        <constraint firstAttribute="trailing" secondItem="7JQ-Sy-0gK" secondAttribute="trailing" id="x3p-If-bTm"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="categoryImage" destination="7JQ-Sy-0gK" id="MsM-XL-hPm"/>
+                                    <outlet property="categoryLabel" destination="XWN-48-V5R" id="cmr-Zk-n5C"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <sections/>
+                        <connections>
+                            <outlet property="dataSource" destination="T37-GB-8GA" id="W30-Kk-eOq"/>
+                            <outlet property="delegate" destination="T37-GB-8GA" id="DT3-05-uJC"/>
+                        </connections>
+                    </tableView>
+                    <tabBarItem key="tabBarItem" title="Item" id="PFp-2k-FvI"/>
+                    <navigationItem key="navigationItem" title="MENU" id="T52-rE-HWW"/>
+                </tableViewController>
+                <tabBarItem title="Item" id="vyB-No-pgX"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="c8D-Zt-mCV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="847.20000000000005" y="131.78410794602701"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Blend_Pano_Shot" width="5499" height="1734"/>
+        <image name="smoothie" width="211" height="251"/>
     </resources>
 </document>
