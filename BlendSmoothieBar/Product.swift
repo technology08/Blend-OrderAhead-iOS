@@ -51,6 +51,8 @@ enum ProductTypes {
     case Food
 }
 
+
+
 var currentSmoothies: [Product] {
     /*
      Smoothies: (all $3)

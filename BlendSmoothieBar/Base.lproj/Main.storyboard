@@ -98,7 +98,6 @@
                                 <connections>
                                     <outlet property="categoryImage" destination="7JQ-Sy-0gK" id="MsM-XL-hPm"/>
                                     <outlet property="categoryLabel" destination="XWN-48-V5R" id="cmr-Zk-n5C"/>
-                                    <segue destination="o6r-YA-F8k" kind="show" id="RKE-it-bER"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -110,15 +109,18 @@
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Menu" id="PFp-2k-FvI"/>
                     <navigationItem key="navigationItem" title="Menu" id="GQf-SR-gZd"/>
+                    <connections>
+                        <segue destination="o6r-YA-F8k" kind="show" identifier="toMenuOrder" id="hof-Tz-zK3"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c8D-Zt-mCV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="847.20000000000005" y="131.78410794602701"/>
         </scene>
-        <!--View Controller-->
+        <!--Order Menu View Controller-->
         <scene sceneID="DVP-CJ-TqE">
             <objects>
-                <viewController id="o6r-YA-F8k" sceneMemberID="viewController">
+                <viewController id="o6r-YA-F8k" customClass="OrderMenuViewController" customModule="BlendSmoothieBar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5lM-g8-8JC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -149,7 +151,7 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <prototypes>
-                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="parameterCell" rowHeight="44" id="zEs-rt-0R7">
+                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="parameterCell" rowHeight="44" id="zEs-rt-0R7" customClass="MenuParameterCell" customModule="BlendSmoothieBar" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zEs-rt-0R7" id="Wv5-bB-IMH">
@@ -177,8 +179,12 @@
                                                         </constraints>
                                                     </tableViewCellContentView>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <connections>
+                                                        <outlet property="parameterNameLabel" destination="gMk-Mt-HWy" id="jpI-Y6-5lx"/>
+                                                        <outlet property="parameterValueLabel" destination="UVq-Tf-JTj" id="oeT-Bt-TAG"/>
+                                                    </connections>
                                                 </tableViewCell>
-                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="modifierCell" rowHeight="44" id="FLZ-1q-vnZ">
+                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="modifierCell" rowHeight="44" id="FLZ-1q-vnZ" customClass="MenuModifierCell" customModule="BlendSmoothieBar" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="72" width="375" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="FLZ-1q-vnZ" id="00W-eQ-6Yd">
@@ -193,6 +199,9 @@
                                                             </label>
                                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gKr-Zi-7Xg">
                                                                 <rect key="frame" x="306" y="7" width="51" height="31"/>
+                                                                <connections>
+                                                                    <action selector="switchChanged:" destination="FLZ-1q-vnZ" eventType="valueChanged" id="lPJ-LA-5cV"/>
+                                                                </connections>
                                                             </switch>
                                                         </subviews>
                                                         <constraints>
@@ -203,9 +212,17 @@
                                                         </constraints>
                                                     </tableViewCellContentView>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <connections>
+                                                        <outlet property="modifierNameLabel" destination="rla-oj-TBO" id="L5g-LH-YGx"/>
+                                                        <outlet property="modifierSwitch" destination="gKr-Zi-7Xg" id="Zf6-9q-nyt"/>
+                                                    </connections>
                                                 </tableViewCell>
                                             </prototypes>
                                             <sections/>
+                                            <connections>
+                                                <outlet property="dataSource" destination="o6r-YA-F8k" id="57s-H1-LHh"/>
+                                                <outlet property="delegate" destination="o6r-YA-F8k" id="JNz-wq-Goy"/>
+                                            </connections>
                                         </tableView>
                                     </subviews>
                                     <constraints>
@@ -231,10 +248,14 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="60h-qr-hPV"/>
                     </view>
+                    <connections>
+                        <outlet property="priceLabel" destination="YBx-8F-yFP" id="gg0-wS-du8"/>
+                        <outlet property="productTypeLabel" destination="GQf-wh-eey" id="p0K-58-9XN"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M70-cP-jwZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1525.5999999999999" y="131.78410794602701"/>
+            <point key="canvasLocation" x="1738" y="133"/>
         </scene>
     </scenes>
     <resources>
