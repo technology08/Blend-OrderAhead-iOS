@@ -94,7 +94,7 @@ class MenuTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
         if segue.identifier == "toMenuOrder" {
             if let destination = segue.destination as? OrderMenuViewController {
-                destination.category = selectedCategory
+                destination.currentProductCategory = selectedCategory
             }
         }
     }
