@@ -35,7 +35,16 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var cashButtonLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var cashButtonBottomConstraint: NSLayoutConstraint!
     
-    var supportedNetworks: [PKPaymentNetwork] = [.visa, .masterCard, .amex, .discover /*, .JCB*/]
+    var supportedNetworks: [PKPaymentNetwork] {
+        
+        if #available(iOS 10.1, *) {
+            return [.visa, .masterCard, .amex, .discover, .JCB]
+        } else {
+            // Fallback on earlier versions
+            return [.visa, .masterCard, .amex, .discover]
+        }
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -212,6 +221,14 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     @available(iOS 11.0, *)
     func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, handler completion: @escaping (PKPaymentAuthorizationResult) -> Void) {
         
+        STPAPIClient.shared().createToken(with: payment) { (token: STPToken?, error: Error?) in
+            
+            guard let token = token, error != nil else { return }
+            
+            
+            
+        }
+        
     }
     
     @objc func applePayButtonPressed() {
@@ -249,6 +266,8 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
      // Pass the selected object to the new view controller.
      }
      */
+    
+   
     
 }
 
