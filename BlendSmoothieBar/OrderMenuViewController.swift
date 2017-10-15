@@ -210,11 +210,12 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {
-        
+        controller.dismiss(animated: true, completion: nil)
     }
     
     @available(iOS 9.0, *)
     func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, completion: @escaping (PKPaymentAuthorizationStatus) -> Void) {
+        
         
     }
     
