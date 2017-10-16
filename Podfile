@@ -10,5 +10,7 @@ target 'BlendSmoothieBar' do
   # Pods for BlendSmoothieBar
 
 pod 'Stripe'
+pod 'AWSCognito'
+pod 'AWSLambda'
 
 end

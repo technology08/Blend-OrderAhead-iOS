@@ -9,8 +9,9 @@
 import UIKit
 import PassKit
 import Stripe
+import AWSLambda
 
-class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ModifierSwitchDelegate, PKPaymentAuthorizationViewControllerDelegate {
+class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ModifierSwitchDelegate, PKPaymentAuthorizationViewControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
     
     @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var visualEffectView: UIVisualEffectView!
@@ -26,6 +27,14 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     var selectedProduct: Product? {
         didSet {
             parameterTableView.reloadData()
+            priceLabel.text = "$\(selectedProduct?.price! ?? 3)"
+        }
+    }
+    
+    var order = Order() {
+        didSet {
+            parameterTableView.reloadData()
+            priceLabel.text = "$\(order.finalPrice ?? 3)"
         }
     }
     
@@ -101,17 +110,20 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         switch currentProductCategory {
         case ProductTypes.Smoothie:
             productTypeLabel.text = "Smoothie"
-            selectedProduct = currentSmoothies.first
+            order.baseProduct = currentSmoothies.first
+            order.finalPrice = currentSmoothies.first?.price
             visualEffectView.effect = UIBlurEffect(style: .dark)
             backgroundImageView.image = #imageLiteral(resourceName: "smoothie")
         case ProductTypes.Shake:
             productTypeLabel.text = "Shake"
-            selectedProduct = currentShakes.first
+            order.baseProduct = currentShakes.first
+            order.finalPrice = currentShakes.first?.price
             visualEffectView.effect = UIBlurEffect(style: .dark)
             backgroundImageView.image = #imageLiteral(resourceName: "shake")
         case ProductTypes.Food:
             productTypeLabel.text = "Breakfast"
-            selectedProduct = currentFoods.first
+            order.baseProduct = currentFoods.first
+            order.finalPrice = currentFoods.first?.price
             visualEffectView.effect = UIBlurEffect(style: .dark)
             backgroundImageView.image = #imageLiteral(resourceName: "waffle")
         }
@@ -129,16 +141,16 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
          -Modifiers
          */
         
-        if selectedProduct != nil && selectedProduct?.modifierNames != nil { return selectedProduct!.modifierNames!.count + 4} else { return 4 }
+        if order.baseProduct != nil && order.baseProduct.modifierNames != nil { return order.baseProduct.modifierNames!.count + 4} else { return 4 }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let product = selectedProduct else { return tableView.dequeueReusableCell(withIdentifier: "parameterCell")! }
+        guard let product = order.baseProduct else { return tableView.dequeueReusableCell(withIdentifier: "parameterCell")! }
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "parameterCell") as! MenuParameterCell
          
             cell.parameterNameLabel.text = "Flavor"
-            cell.parameterValueLabel.text = selectedProduct?.name
+            cell.parameterValueLabel.text = order.baseProduct.name
             
             return cell
         } else if indexPath.row > 0 && indexPath.row <= (product.modifierNames?.count)! {
@@ -148,7 +160,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             guard let modifier = product.modifierNames![indexPath.row - 1] as? String else { return tableView.dequeueReusableCell(withIdentifier: "parameterCell")! }
             
             var modifierText = modifier
-            if let productModifierPrice = product.modifierPrices![indexPath.row - 1] as? NSDecimalNumber {
+            if let productModifierPrice = product.modifierPrices![indexPath.row - 1] as? Decimal {
                 if productModifierPrice != 0 {
                     modifierText.append(": $\(productModifierPrice)")
                 }
@@ -159,7 +171,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             cell.modifierName = modifier
             cell.delegate = self
             
-            if selectedProduct?.name == "Ferrero Waffle" || selectedProduct?.name == "Jacked Waffle" || selectedProduct?.name == "Jacked Toast" {
+            if order.baseProduct.name == "Ferrero Waffle" || order.baseProduct.name == "Jacked Waffle" || order.baseProduct.name == "Jacked Toast" {
                 cell.modifierSwitch.setOn(true, animated: false)
             }
             
@@ -205,7 +217,23 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
-    func modifierValueDidChange(modifier: String, price: NSDecimalNumber, value: Bool) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
+    
+    func modifierValueDidChange(modifier: String, price: Decimal, value: Bool) {
+        
+        switch value {
+        case true:
+            order.modifiers?.append(modifier)
+            order.finalPrice = order.finalPrice + price
+        case false:
+            if (order.modifiers?.contains(modifier))! {
+                let index = order.modifiers?.index(of: modifier)
+                order.modifiers?.remove(at: index!)
+                order.finalPrice = order.finalPrice - price
+            }
+        }
         
     }
     
@@ -241,7 +269,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             request.supportedNetworks = supportedNetworks
             request.merchantCapabilities = .capability3DS //CHECK WITH STRIPE
             
-            let item = PKPaymentSummaryItem(label: "\(selectedProduct?.name!) \(selectedProduct?.type)", amount: (selectedProduct?.price)!)
+            let item = PKPaymentSummaryItem(label: "\(order.baseProduct.name!) \(order.baseProduct.type)", amount: NSDecimalNumber(decimal: order.baseProduct.price))
             request.paymentSummaryItems = [item]
             
             let vc = PKPaymentAuthorizationViewController(paymentRequest: request)
@@ -268,7 +296,32 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
      }
      */
     
-   
+    // MARK: - Text Field/Text View Delegate Methods
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        textField.endEditing(true)
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        textField.endEditing(true)
+        textField.resignFirstResponder()
+    }
+    
+    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+        textView.resignFirstResponder()
+        return true
+    }
+    
+    // MARK: - Backend Function
+    
+    func sendToBackend(token: STPToken, amount: Decimal) {
+        let lambdaInvoker = AWSLambdaInvoker.default()
+        let jsonObject: [String: Any] = ["tokenId": token.tokenId, "amount": amount]
+        
+        lambdaInvoker.invokeFunction("CreateStripe", jsonObject: jsonObject)
+    }
     
 }
 
@@ -285,7 +338,7 @@ class MenuModifierCell: UITableViewCell {
     
     var delegate: ModifierSwitchDelegate? = nil
     var modifierName: String!
-    var modifierPrice: NSDecimalNumber!
+    var modifierPrice: Decimal!
     
     @IBAction func switchChanged(_ sender: Any) {
         
@@ -298,5 +351,5 @@ class MenuModifierCell: UITableViewCell {
 }
 
 protocol ModifierSwitchDelegate {
-    func modifierValueDidChange(modifier: String, price: NSDecimalNumber, value: Bool)
+    func modifierValueDidChange(modifier: String, price: Decimal, value: Bool)
 }

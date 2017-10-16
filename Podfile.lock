@@ -1,12 +1,22 @@
 PODS:
+  - AWSCognito (2.5.8):
+    - AWSCore (= 2.5.8)
+  - AWSCore (2.5.8)
+  - AWSLambda (2.5.8):
+    - AWSCore (= 2.5.8)
   - Stripe (10.1.0)
 
 DEPENDENCIES:
+  - AWSCognito
+  - AWSLambda
   - Stripe
 
 SPEC CHECKSUMS:
+  AWSCognito: 8eb74039f4dc5f2d929999c4f531eeb4bd83e6cb
+  AWSCore: cf101c44d2cc5da32abc27d5529cddc63c010415
+  AWSLambda: d83a31bca72ce8e6a6b81a5a3a03e7ea2a44ec3d
   Stripe: 1c7aa951a075cced500a919d92b687b35d410705
 
-PODFILE CHECKSUM: 32a225c5ae809c38c8e3d37858e9c2f1a32419b1
+PODFILE CHECKSUM: 46ddb648b4ce5c94f55a9a793268acd84318cd6c
 
 COCOAPODS: 1.1.1

@@ -13,9 +13,9 @@ struct Product {
     var name: String!
     var description: String?
     var modifierNames: [String]?
-    var modifierPrices: [NSDecimalNumber]?
+    var modifierPrices: [Decimal]?
     var image: UIImage?
-    var price: NSDecimalNumber!
+    var price: Decimal!
     var type: ProductTypes!
     
     init(name: String, type: ProductTypes) {
@@ -23,13 +23,13 @@ struct Product {
         self.type = type
     }
     
-    init(name: String, price: NSDecimalNumber, type: ProductTypes) {
+    init(name: String, price: Decimal, type: ProductTypes) {
         self.name = name
         self.type = type
         self.price = price
     }
     
-    init(name: String, price: NSDecimalNumber, modifierNames: [String], modifierPrices: [NSDecimalNumber], type: ProductTypes) {
+    init(name: String, price: Decimal, modifierNames: [String], modifierPrices: [Decimal], type: ProductTypes) {
         self.name = name
         self.price = price
         self.modifierNames = modifierNames
@@ -37,7 +37,7 @@ struct Product {
         self.type = type
     }
     
-    init(name: String, description: String?, price: NSDecimalNumber, modifierNames: [String], modifierPrices: [NSDecimalNumber]?, type: ProductTypes, image: UIImage?) {
+    init(name: String, description: String?, price: Decimal, modifierNames: [String], modifierPrices: [Decimal]?, type: ProductTypes, image: UIImage?) {
         self.name = name
         self.description = description
         self.price = price
@@ -95,4 +95,16 @@ var currentFoods: [Product] {
     let eight = Product(name: "Ferrero Waffle", description: "Nutella, Sliced Bananas, and Pecans", price: 4, modifierNames: ["Nutella", "Sliced Bananas", "Pecans"], modifierPrices: [0, 0, 0], type: .Food, image: nil)
     let nine = Product(name: "Jacked Toast", description: "Almond Butter, Sliced Bananas, Pecans, and Honey", price: 3, modifierNames: ["Almond Butter", "Sliced Bananas", "Pecans", "Honey"], modifierPrices: [0, 0, 0, 0], type: .Food, image: nil)
     return [six, seven, eight, nine]
+}
+
+struct Order {
+    
+    var baseProduct: Product!
+    var finalPrice: Decimal!
+    var modifiers: [String]?
+    
+    init() {
+        
+    }
+    
 }

@@ -17,6 +17,7 @@
 		00CCD1E11F91308F0060D213 /* Stripe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00CCD1E01F912F810060D213 /* Stripe.framework */; };
 		00DAAC2B1F8D8AAD006F088F /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00DAAC2A1F8D8AAD006F088F /* PassKit.framework */; };
 		00DAAC2D1F8D8D09006F088F /* OrderMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00DAAC2C1F8D8D09006F088F /* OrderMenuViewController.swift */; };
+		8554A3CFAA578633F3F4E726 /* Pods_BlendSmoothieBar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27DE48AEBBA010EB85BF738A /* Pods_BlendSmoothieBar.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		00CCD1E01F912F810060D213 /* Stripe.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Stripe.framework; sourceTree = "<group>"; };
 		00DAAC2A1F8D8AAD006F088F /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
 		00DAAC2C1F8D8D09006F088F /* OrderMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderMenuViewController.swift; sourceTree = "<group>"; };
+		27DE48AEBBA010EB85BF738A /* Pods_BlendSmoothieBar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BlendSmoothieBar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4916D011EE3E996920E913E /* Pods-BlendSmoothieBar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlendSmoothieBar.release.xcconfig"; path = "Pods/Target Support Files/Pods-BlendSmoothieBar/Pods-BlendSmoothieBar.release.xcconfig"; sourceTree = "<group>"; };
 		F15E890A899817DEF3DC3F8D /* Pods-BlendSmoothieBar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlendSmoothieBar.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BlendSmoothieBar/Pods-BlendSmoothieBar.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -45,6 +47,7 @@
 				00CCD1E11F91308F0060D213 /* Stripe.framework in Frameworks */,
 				00DAAC2B1F8D8AAD006F088F /* PassKit.framework in Frameworks */,
 				005C92481F8974ED0018DD44 /* CloudKit.framework in Frameworks */,
+				8554A3CFAA578633F3F4E726 /* Pods_BlendSmoothieBar.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,6 +94,7 @@
 				00CCD1E01F912F810060D213 /* Stripe.framework */,
 				00DAAC2A1F8D8AAD006F088F /* PassKit.framework */,
 				005C92471F8974ED0018DD44 /* CloudKit.framework */,
+				27DE48AEBBA010EB85BF738A /* Pods_BlendSmoothieBar.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
