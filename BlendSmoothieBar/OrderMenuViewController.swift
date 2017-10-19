@@ -89,7 +89,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             cashButtonLeadingConstraint.constant = 8
             cashButtonBottomConstraint.constant = 8
             cashButton.layer.cornerRadius = 5
-
+            
             let leadingConstraint = applePayButton?.leadingAnchor.constraint(equalTo: cashButton.trailingAnchor, constant: 8)
             let trailingConstraint = applePayButton?.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -8)
             let bottomConstraint = applePayButton?.bottomAnchor.constraint(equalTo: addMoreItemsButton.topAnchor, constant: -8)
@@ -141,34 +141,36 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
          -Modifiers
          */
         
-        if order.baseProduct != nil && order.baseProduct.modifierNames != nil { return order.baseProduct.modifierNames!.count + 4} else { return 4 }
+        if order.baseProduct != nil {
+            return order.baseProduct.modifiers.count + 4
+        } else {
+            return 4
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let product = order.baseProduct else { return tableView.dequeueReusableCell(withIdentifier: "parameterCell")! }
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "parameterCell") as! MenuParameterCell
-         
+            
             cell.parameterNameLabel.text = "Flavor"
             cell.parameterValueLabel.text = order.baseProduct.name
             
             return cell
-        } else if indexPath.row > 0 && indexPath.row <= (product.modifierNames?.count)! {
+        } else if indexPath.row > 0 && indexPath.row <= product.modifiers.count {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "modifierCell") as! MenuModifierCell
             
-            guard let modifier = product.modifierNames![indexPath.row - 1] as? String else { return tableView.dequeueReusableCell(withIdentifier: "parameterCell")! }
+            let modifier = product.modifiers[indexPath.row - 1]
             
-            var modifierText = modifier
-            if let productModifierPrice = product.modifierPrices![indexPath.row - 1] as? Decimal {
-                if productModifierPrice != 0 {
-                    modifierText.append(": $\(productModifierPrice)")
-                }
-                cell.modifierPrice = productModifierPrice
+            var modifierText = modifier.name
+            
+            if modifier.price != 0 {
+                modifierText?.append(": $\(modifier.price!)")
             }
             
             cell.modifierNameLabel.text = modifierText
-            cell.modifierName = modifier
+            cell.modifier = modifier
             cell.delegate = self
             
             if order.baseProduct.name == "Ferrero Waffle" || order.baseProduct.name == "Jacked Waffle" || order.baseProduct.name == "Jacked Toast" {
@@ -178,12 +180,8 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             return cell
             
         } else {
-            var number = Int()
-            if product.modifierNames?.count != nil {
-                number = indexPath.row - (product.modifierNames?.count)!
-            } else {
-                number = indexPath.row
-            }
+            
+            let number = indexPath.row - (product.modifiers.count)
             
             switch number {
             case 2:
@@ -221,20 +219,21 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         
     }
     
-    func modifierValueDidChange(modifier: String, price: Decimal, value: Bool) {
-        
+    func modifierValueDidChange(modifier: Modifier, value: Bool) {
         switch value {
         case true:
-            order.modifiers?.append(modifier)
-            order.finalPrice = order.finalPrice + price
+            order.modifiers.append(modifier)
+            order.finalPrice = order.finalPrice + modifier.price
         case false:
-            if (order.modifiers?.contains(modifier))! {
-                let index = order.modifiers?.index(of: modifier)
-                order.modifiers?.remove(at: index!)
-                order.finalPrice = order.finalPrice - price
+            if let index2 = order.modifiers.index(where: { (modifier) -> Bool in
+                return true
+            }) {
+                order.modifiers.remove(at: index2)
             }
+            
+            order.finalPrice = order.finalPrice - modifier.price
+            
         }
-        
     }
     
     func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {
@@ -251,11 +250,26 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, handler completion: @escaping (PKPaymentAuthorizationResult) -> Void) {
         
         STPAPIClient.shared().createToken(with: payment) { (token: STPToken?, error: Error?) in
-            
-            guard let token = token, error != nil else { return }
-            
-            
-            
+            if error == nil {
+                guard let token = token else {
+                    completion(PKPaymentAuthorizationResult(status: .failure, errors: nil))
+                    
+                    print("Failure to create token")
+                    
+                    return
+                }
+                guard let orderprice = self.order.finalPrice else {
+                    completion(PKPaymentAuthorizationResult(status: .failure, errors: nil))
+                    print("Failure to find order price")
+                    return
+                }
+                
+                let stripeprice = orderprice * 100
+                
+                let result = self.sendToBackendResult(token: token, amount: stripeprice)
+            } else {
+                print(error!)
+            }
         }
         
     }
@@ -269,8 +283,17 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             request.supportedNetworks = supportedNetworks
             request.merchantCapabilities = .capability3DS //CHECK WITH STRIPE
             
-            let item = PKPaymentSummaryItem(label: "\(order.baseProduct.name!) \(order.baseProduct.type)", amount: NSDecimalNumber(decimal: order.baseProduct.price))
-            request.paymentSummaryItems = [item]
+            let baseItem = PKPaymentSummaryItem(label: "\(order.baseProduct.name!) \(order.baseProduct.type!)", amount: NSDecimalNumber(decimal: order.baseProduct.price))
+            
+            request.paymentSummaryItems = [baseItem]
+            
+            for modifier in order.modifiers {
+                let paymentitem = PKPaymentSummaryItem(label: modifier.name!, amount: NSDecimalNumber(decimal: modifier.price!))
+                request.paymentSummaryItems.append(paymentitem)
+            }
+            
+            let finalitem = PKPaymentSummaryItem(label: "BLEND SMOOTHIE BAR", amount: NSDecimalNumber(decimal: order.finalPrice!))
+            request.paymentSummaryItems.append(finalitem)
             
             let vc = PKPaymentAuthorizationViewController(paymentRequest: request)
             vc?.delegate = self
@@ -316,12 +339,124 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     
     // MARK: - Backend Function
     
-    func sendToBackend(token: STPToken, amount: Decimal) {
+    
+    @available(iOS 11.0, *)
+    func sendToBackendResult(token: STPToken, amount: Decimal) -> PKPaymentAuthorizationResult? {
+        
+        var result: PKPaymentAuthorizationResult?
+        
         let lambdaInvoker = AWSLambdaInvoker.default()
         let jsonObject: [String: Any] = ["tokenId": token.tokenId, "amount": amount]
         
-        lambdaInvoker.invokeFunction("CreateStripe", jsonObject: jsonObject)
+        let lambdaResult = lambdaInvoker.invokeFunction("CreateStripe", jsonObject: jsonObject).continueWith { (task) -> Any? in
+            
+            if let error = task.error as? NSError {
+                if error.domain == AWSLambdaInvokerErrorDomain && AWSLambdaInvokerErrorType.functionError == AWSLambdaInvokerErrorType(rawValue: error.code) {
+                    print("Function error: \(error.userInfo[AWSLambdaInvokerFunctionErrorKey])")
+                    return result = PKPaymentAuthorizationResult(status: .failure, errors: [error.userInfo[AWSLambdaInvokerFunctionErrorKey] as! Error])
+                } else {
+                    print("Error: \(error)")
+                    return result = PKPaymentAuthorizationResult(status: .failure, errors: [])
+                }
+                
+            } else if let response = task.result!["response"] as? String {
+                
+                //SUCCESS
+                if response == "Charge processed successfully!" {
+                    result = PKPaymentAuthorizationResult(status: .success, errors: nil)
+                    
+                    return result
+                    
+                //API ERRORS
+                } else if response == "StripeInvalidRequestError" {
+                    
+                    result = PKPaymentAuthorizationResult(status: .failure, errors: nil)
+                    
+                    self.createErrorAlert(alertBody: "The payment request was invalid. Please try again or pay in cash at pickup.", presentTryAgain: true)
+                    return result
+                } else if response == "api_connection_error" || response == "StripeApiConnectionError" {
+                    
+                    result = PKPaymentAuthorizationResult(status: .failure, errors: nil)
+                    
+                    self.createErrorAlert(alertBody: "Bad internet connection. Please check your internet settings and try again.", presentTryAgain: true)
+                    return result
+                } else if response == "rate_limit_error" || response == "StripeRateLimitError" || response == "authentication_error" || response == "StripeAuthenticationError" {
+                    
+                    result = PKPaymentAuthorizationResult(status: .failure, errors: nil)
+                    
+                    self.createErrorAlert(alertBody: "Bad connection to server. Please try again.", presentTryAgain: true)
+                    return result
+                    //CARD ERRORS
+                } else if response == "invalid_number" || response == "StripeInvalidNumber" || response == "incorrect_number" || response == "StripeIncorrectNumber" {
+                    result = PKPaymentAuthorizationResult(status: .failure, errors: nil)
+                    
+                    self.createErrorAlert(alertBody: "Invalid credit card number.", presentTryAgain: false)
+                    return result
+                } else if response == "invalid_expiry_month" || response == "StripeExpiryMonth" || response == "invalid_expiry_year" || response == "StripeExpiryYear"{
+                    result = PKPaymentAuthorizationResult(status: .failure, errors: nil)
+                    
+                    self.createErrorAlert(alertBody: "Invalid expiration date.", presentTryAgain: false)
+                    return result
+                } else if response == "invalid_cvc" || response == "StripeInvalidCvc" || response == "incorrect_cvc" || response == "StripeIncorrectCvc"{
+                    result = PKPaymentAuthorizationResult(status: .failure, errors: nil)
+                    
+                    self.createErrorAlert(alertBody: "Invalid security code.", presentTryAgain: false)
+                    return result
+                } else if response == "card_declined" || response == "StripeCardDecline" {
+                    result = PKPaymentAuthorizationResult(status: .failure, errors: nil)
+                    
+                    self.createErrorAlert(alertBody: "The credit card used was declined by the issuer.", presentTryAgain: true)
+                    return result
+                } else if response == "expired_card" || response == "StripeExpiredCard" {
+                    result = PKPaymentAuthorizationResult(status: .failure, errors: nil)
+                    
+                    self.createErrorAlert(alertBody: "The credit card used is expired.", presentTryAgain: false)
+                    return result
+                } else if response == "processing_error" || response == "StripeProcessingError" {
+                    result = PKPaymentAuthorizationResult(status: .failure, errors: nil)
+                    
+                    self.createErrorAlert(alertBody: "There was an error during processing.", presentTryAgain: true)
+                    return result
+                } else {
+                    result = PKPaymentAuthorizationResult(status: .failure, errors: nil)
+                    self.createErrorAlert(alertBody: "Unknown error was \(response).", presentTryAgain: true)
+                    return result
+                }
+                
+            } else {
+                print("No response")
+                result = PKPaymentAuthorizationResult(status: .failure, errors: nil)
+                return result
+            }
+            
+        }
+        
+        if let finalresult = lambdaResult.result as? PKPaymentAuthorizationResult {
+            return finalresult
+        } else {
+            return PKPaymentAuthorizationResult(status: .failure, errors: nil)
+        }
     }
+    
+    func createErrorAlert(alertBody: String, presentTryAgain: Bool) {
+        let alert = UIAlertController(title: "Error", message: alertBody, preferredStyle: .alert)
+        if presentTryAgain {
+            alert.addAction(UIAlertAction(title: "Try Again", style: .cancel, handler: { (action) in
+                self.applePayButtonPressed()
+            }))
+        }
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: { (action) in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    //    func sendToBackend(token: STPToken, amount: Int) -> PKPaymentAuthorizationStatus {
+    //        let lambdaInvoker = AWSLambdaInvoker.default()
+    //        let jsonObject: [String: Any] = ["tokenId": token.tokenId, "amount": amount]
+    //
+    //        lambdaInvoker.invokeFunction("CreateStripe", jsonObject: jsonObject)
+    //    }
     
 }
 
@@ -337,13 +472,12 @@ class MenuModifierCell: UITableViewCell {
     @IBOutlet weak var modifierSwitch: UISwitch!
     
     var delegate: ModifierSwitchDelegate? = nil
-    var modifierName: String!
-    var modifierPrice: Decimal!
+    var modifier: Modifier!
     
     @IBAction func switchChanged(_ sender: Any) {
         
         if (delegate != nil) {
-            delegate?.modifierValueDidChange(modifier: self.modifierName, price: self.modifierPrice, value: modifierSwitch.isOn)
+            delegate?.modifierValueDidChange(modifier: self.modifier, value: modifierSwitch.isOn)
         }
         
     }
@@ -351,5 +485,5 @@ class MenuModifierCell: UITableViewCell {
 }
 
 protocol ModifierSwitchDelegate {
-    func modifierValueDidChange(modifier: String, price: Decimal, value: Bool)
+    func modifierValueDidChange(modifier: Modifier, value: Bool)
 }

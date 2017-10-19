@@ -12,8 +12,7 @@ import UIKit
 struct Product {
     var name: String!
     var description: String?
-    var modifierNames: [String]?
-    var modifierPrices: [Decimal]?
+    var modifiers: [Modifier] = []
     var image: UIImage?
     var price: Decimal!
     var type: ProductTypes!
@@ -29,20 +28,18 @@ struct Product {
         self.price = price
     }
     
-    init(name: String, price: Decimal, modifierNames: [String], modifierPrices: [Decimal], type: ProductTypes) {
+    init(name: String, price: Decimal, modifiers: [Modifier], type: ProductTypes) {
         self.name = name
         self.price = price
-        self.modifierNames = modifierNames
-        self.modifierPrices = modifierPrices
+        self.modifiers = modifiers
         self.type = type
     }
     
-    init(name: String, description: String?, price: Decimal, modifierNames: [String], modifierPrices: [Decimal]?, type: ProductTypes, image: UIImage?) {
+    init(name: String, description: String?, price: Decimal, modifiers: [Modifier], type: ProductTypes, image: UIImage?) {
         self.name = name
         self.description = description
         self.price = price
-        self.modifierNames = modifierNames
-        self.modifierPrices = modifierPrices
+        self.modifiers = modifiers
         self.type = type
         self.image = image
     }
@@ -74,26 +71,27 @@ var currentSmoothies: [Product] {
      Ferrero Waffle - $4 (comes with Nutella, sliced bananas, and pecans)
      Jacked Toast - $3 (comes with almond butter, sliced bananas, pecans, and honey)
      */
-    
-    let one = Product(name: "Strawberry", price: 3, modifierNames: ["Whipped Cream", "Protein"], modifierPrices: [0.5, 0.5], type: .Smoothie)
-    let two = Product(name: "Strawberry Lemonade", price: 3, modifierNames: ["Whipped Cream", "Protein"], modifierPrices: [0.5, 0.5], type: .Smoothie)
-    let three = Product(name: "Pineapple", price: 3, modifierNames: ["Whipped Cream", "Protein"], modifierPrices: [0.5, 0.5], type: .Smoothie)
+    let smoothiemodifiers = [Modifier.init(name: "Whipped Cream", price: 0.5), Modifier.init(name: "Protein", price: 0.5)]
+    let one = Product(name: "Strawberry", price: 3, modifiers: smoothiemodifiers, type: .Smoothie)
+    let two = Product(name: "Strawberry Lemonade", price: 3, modifiers: smoothiemodifiers, type: .Smoothie)
+    let three = Product(name: "Pineapple", price: 3, modifiers: smoothiemodifiers, type: .Smoothie)
     return [one, two, three]
 }
 
 var currentShakes: [Product] {
     
-    let four = Product(name: "Oreo", price: 3, modifierNames: ["Whipped Cream", "Protein"], modifierPrices: [0.5, 0.5], type: .Shake)
-    let five = Product(name: "Chocolate", price: 3, modifierNames: ["Whipped Cream", "Protein"], modifierPrices: [0.5, 0.5], type: .Shake)
+    let shakemodifiers = [Modifier.init(name: "Whipped Cream", price: 0.5), Modifier.init(name: "Protein", price: 0.5)]
+    let four = Product(name: "Oreo", price: 3, modifiers: shakemodifiers, type: .Shake)
+    let five = Product(name: "Chocolate", price: 3, modifiers: shakemodifiers, type: .Shake)
     
     return [four, five]
 }
 
 var currentFoods: [Product] {
-    let six = Product(name: "Waffle", price: 3.5, modifierNames: ["Powdered Sugar", "Whipped Cream", "Chocolate"], modifierPrices: [0, 0, 0], type: .Food)
-    let seven = Product(name: "Jacked Waffle", description: "Almond Butter, Sliced Bananas, Pecans, and Honey", price: 4, modifierNames: ["Almond Butter", "Sliced Bananas", "Pecans", "Honey"], modifierPrices: [0, 0, 0, 0], type: .Food, image: nil)
-    let eight = Product(name: "Ferrero Waffle", description: "Nutella, Sliced Bananas, and Pecans", price: 4, modifierNames: ["Nutella", "Sliced Bananas", "Pecans"], modifierPrices: [0, 0, 0], type: .Food, image: nil)
-    let nine = Product(name: "Jacked Toast", description: "Almond Butter, Sliced Bananas, Pecans, and Honey", price: 3, modifierNames: ["Almond Butter", "Sliced Bananas", "Pecans", "Honey"], modifierPrices: [0, 0, 0, 0], type: .Food, image: nil)
+    let six = Product(name: "Waffle", price: 3.5, modifiers: [Modifier(name: "Powdered Sugar", price: 0), Modifier(name: "Whipped Cream", price: 0), Modifier(name: "Chocolate", price: 0)], type: .Food)
+    let seven = Product(name: "Jacked Waffle", description: "Almond Butter, Sliced Bananas, Pecans, and Honey", price: 4, modifiers: [Modifier(name: "Almond Butter", price: 0), Modifier(name: "Sliced Bananas", price: 0), Modifier(name: "Pecans", price: 0), Modifier(name: "Honey", price: 0)], type: .Food, image: nil)
+    let eight = Product(name: "Ferrero Waffle", description: "Nutella, Sliced Bananas, and Pecans", price: 4, modifiers: [Modifier(name: "Nutella", price: 0), Modifier(name: "Sliced Bananas", price: 0), Modifier(name: "Pecans", price: 0)], type: .Food, image: nil)
+    let nine = Product(name: "Jacked Toast", description: "Almond Butter, Sliced Bananas, Pecans, and Honey", price: 3, modifiers: [Modifier(name: "Almond Butter", price: 0), Modifier(name: "Sliced Bananas", price: 0), Modifier(name: "Pecans", price: 0), Modifier(name: "Honey", price: 0)], type: .Food, image: nil)
     return [six, seven, eight, nine]
 }
 
@@ -101,10 +99,24 @@ struct Order {
     
     var baseProduct: Product!
     var finalPrice: Decimal!
-    var modifiers: [String]?
+    var modifiers: [Modifier] = []
     
     init() {
         
     }
     
+}
+
+struct Modifier {
+    var price: Decimal!
+    var name: String!
+    
+    init() {
+        
+    }
+    
+    init(name: String, price: Decimal) {
+        self.name = name
+        self.price = price
+    }
 }
