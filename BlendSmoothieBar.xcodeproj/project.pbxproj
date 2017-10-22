@@ -12,7 +12,7 @@
 		005C92341F8916170018DD44 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 005C92331F8916170018DD44 /* Assets.xcassets */; };
 		005C92371F8916180018DD44 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 005C92351F8916180018DD44 /* LaunchScreen.storyboard */; };
 		005C923F1F8916350018DD44 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C923E1F8916350018DD44 /* Product.swift */; };
-		005C92481F8974ED0018DD44 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 005C92471F8974ED0018DD44 /* CloudKit.framework */; };
+		00A1C4DD1F9A789A002FB11E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00A1C4DC1F9A789A002FB11E /* CloudKit.framework */; };
 		00C3547D1F8C62360053A6A8 /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C3547C1F8C62360053A6A8 /* MenuTableViewController.swift */; };
 		00CCD1E11F91308F0060D213 /* Stripe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00CCD1E01F912F810060D213 /* Stripe.framework */; };
 		00DAAC2B1F8D8AAD006F088F /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00DAAC2A1F8D8AAD006F088F /* PassKit.framework */; };
@@ -29,7 +29,7 @@
 		005C92381F8916180018DD44 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		005C923E1F8916350018DD44 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		005C92451F8974EA0018DD44 /* BlendSmoothieBar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BlendSmoothieBar.entitlements; sourceTree = "<group>"; };
-		005C92471F8974ED0018DD44 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		00A1C4DC1F9A789A002FB11E /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		00C3547C1F8C62360053A6A8 /* MenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
 		00CCD1E01F912F810060D213 /* Stripe.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Stripe.framework; sourceTree = "<group>"; };
 		00DAAC2A1F8D8AAD006F088F /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
@@ -45,8 +45,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				00CCD1E11F91308F0060D213 /* Stripe.framework in Frameworks */,
+				00A1C4DD1F9A789A002FB11E /* CloudKit.framework in Frameworks */,
 				00DAAC2B1F8D8AAD006F088F /* PassKit.framework in Frameworks */,
-				005C92481F8974ED0018DD44 /* CloudKit.framework in Frameworks */,
 				8554A3CFAA578633F3F4E726 /* Pods_BlendSmoothieBar.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -91,9 +91,9 @@
 		005C92461F8974ED0018DD44 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				00A1C4DC1F9A789A002FB11E /* CloudKit.framework */,
 				00CCD1E01F912F810060D213 /* Stripe.framework */,
 				00DAAC2A1F8D8AAD006F088F /* PassKit.framework */,
-				005C92471F8974ED0018DD44 /* CloudKit.framework */,
 				27DE48AEBBA010EB85BF738A /* Pods_BlendSmoothieBar.framework */,
 			);
 			name = Frameworks;
@@ -385,7 +385,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = BlendSmoothieBar/BlendSmoothieBar.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9PNHQ3XQ2M;
+				DEVELOPMENT_TEAM = PRR3XF7JNB;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -393,7 +393,7 @@
 				INFOPLIST_FILE = BlendSmoothieBar/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.CE.BlendSmoothieBar;
+				PRODUCT_BUNDLE_IDENTIFIER = com.CHCA.BlendSmoothieBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -407,7 +407,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = BlendSmoothieBar/BlendSmoothieBar.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9PNHQ3XQ2M;
+				DEVELOPMENT_TEAM = PRR3XF7JNB;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -415,7 +415,7 @@
 				INFOPLIST_FILE = BlendSmoothieBar/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.CE.BlendSmoothieBar;
+				PRODUCT_BUNDLE_IDENTIFIER = com.CHCA.BlendSmoothieBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

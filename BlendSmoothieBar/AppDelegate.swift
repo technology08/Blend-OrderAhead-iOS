@@ -27,8 +27,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //AWS Setup
         
-        let credentialProvider = AWSCognitoCredentialsProvider(regionType: .USEast1, identityPoolId: "us-east-1:63e4552a-f80f-4f02-9034-e3990c10dd1f")
-        let configuration = AWSServiceConfiguration(region: .USEast1, credentialsProvider: credentialProvider)
+        let credentialsProvider = AWSCognitoCredentialsProvider(regionType: .USEast1, identityPoolId: "INSERT_AWS_KEY")
+        let configuration = AWSServiceConfiguration(region:.USEast1, credentialsProvider: credentialsProvider)
+        
         AWSServiceManager.default().defaultServiceConfiguration = configuration
         
         return true

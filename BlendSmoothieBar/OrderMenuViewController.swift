@@ -8,6 +8,7 @@
 
 import UIKit
 import PassKit
+import CloudKit
 import Stripe
 import AWSLambda
 
@@ -240,33 +241,33 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         controller.dismiss(animated: true, completion: nil)
     }
     
-    @available(iOS 9.0, *)
     func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, completion: @escaping (PKPaymentAuthorizationStatus) -> Void) {
-        
-        
-    }
-    
-    @available(iOS 11.0, *)
-    func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, handler completion: @escaping (PKPaymentAuthorizationResult) -> Void) {
         
         STPAPIClient.shared().createToken(with: payment) { (token: STPToken?, error: Error?) in
             if error == nil {
                 guard let token = token else {
-                    completion(PKPaymentAuthorizationResult(status: .failure, errors: nil))
+                    completion(PKPaymentAuthorizationStatus.failure)
                     
                     print("Failure to create token")
                     
                     return
                 }
                 guard let orderprice = self.order.finalPrice else {
-                    completion(PKPaymentAuthorizationResult(status: .failure, errors: nil))
+                    completion(PKPaymentAuthorizationStatus.failure)
                     print("Failure to find order price")
                     return
                 }
                 
-                let stripeprice = orderprice * 100
+                let secondprice = orderprice * 100
+                let stripeprice = NSDecimalNumber(decimal: secondprice).intValue
                 
-                let result = self.sendToBackendResult(token: token, amount: stripeprice)
+                self.sendToBackendResult(token: token, amount: stripeprice, completion: { (status) -> Void in
+                    
+                    //CALL CLOUDKIT AND CHECK FOR COMPLETION
+                    completion(status)
+                    
+                })
+                
             } else {
                 print(error!)
             }
@@ -275,37 +276,37 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     @objc func applePayButtonPressed() {
-        if PKPaymentAuthorizationViewController.canMakePayments(usingNetworks: supportedNetworks) {
-            let request = PKPaymentRequest()
-            request.merchantIdentifier = "INSERT_APPLE_MERCHANT_ID"
-            request.countryCode = "US"
-            request.currencyCode = "USD"
-            request.supportedNetworks = supportedNetworks
-            request.merchantCapabilities = .capability3DS //CHECK WITH STRIPE
-            
-            let baseItem = PKPaymentSummaryItem(label: "\(order.baseProduct.name!) \(order.baseProduct.type!)", amount: NSDecimalNumber(decimal: order.baseProduct.price))
-            
-            request.paymentSummaryItems = [baseItem]
-            
-            for modifier in order.modifiers {
-                let paymentitem = PKPaymentSummaryItem(label: modifier.name!, amount: NSDecimalNumber(decimal: modifier.price!))
-                request.paymentSummaryItems.append(paymentitem)
-            }
-            
-            let finalitem = PKPaymentSummaryItem(label: "BLEND SMOOTHIE BAR", amount: NSDecimalNumber(decimal: order.finalPrice!))
-            request.paymentSummaryItems.append(finalitem)
-            
-            let vc = PKPaymentAuthorizationViewController(paymentRequest: request)
-            vc?.delegate = self
-            present(vc!, animated: true, completion: nil)
-        } else {
-            //CHECK COPYRIGHT
-            let alert = UIAlertController(title: "Apple Pay Error", message: "No supported cards. Only Visa, Mastercard, American Express, and Discover cards are valid.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { (action) in
-                alert.dismiss(animated: true, completion: nil)
-            }))
-            self.present(alert, animated: true, completion: nil)
+        //if PKPaymentAuthorizationViewController.canMakePayments(usingNetworks: supportedNetworks) {
+        let request = PKPaymentRequest()
+        request.merchantIdentifier = "INSERT_APPLE_MERCHANT_ID"
+        request.countryCode = "US"
+        request.currencyCode = "USD"
+        request.supportedNetworks = supportedNetworks
+        request.merchantCapabilities = .capability3DS //CHECK WITH STRIPE
+        
+        let baseItem = PKPaymentSummaryItem(label: "\(order.baseProduct.name!) \(order.baseProduct.type!)", amount: NSDecimalNumber(decimal: order.baseProduct.price))
+        
+        request.paymentSummaryItems = [baseItem]
+        
+        for modifier in order.modifiers {
+            let paymentitem = PKPaymentSummaryItem(label: modifier.name!, amount: NSDecimalNumber(decimal: modifier.price!))
+            request.paymentSummaryItems.append(paymentitem)
         }
+        
+        let finalitem = PKPaymentSummaryItem(label: "BLEND SMOOTHIE BAR", amount: NSDecimalNumber(decimal: order.finalPrice!))
+        request.paymentSummaryItems.append(finalitem)
+        
+        let vc = PKPaymentAuthorizationViewController(paymentRequest: request)
+        vc?.delegate = self
+        present(vc!, animated: true, completion: nil)
+        /*} else {
+         //CHECK COPYRIGHT
+         let alert = UIAlertController(title: "Apple Pay Error", message: "No supported cards. Only Visa, Mastercard, American Express, and Discover cards are valid.", preferredStyle: .alert)
+         alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { (action) in
+         alert.dismiss(animated: true, completion: nil)
+         }))
+         self.present(alert, animated: true, completion: nil)
+         }*/
         
     }
     
@@ -339,102 +340,106 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     
     // MARK: - Backend Function
     
-    
-    @available(iOS 11.0, *)
-    func sendToBackendResult(token: STPToken, amount: Decimal) -> PKPaymentAuthorizationResult? {
-        
-        var result: PKPaymentAuthorizationResult?
+    func sendToBackendResult(token: STPToken, amount: Int, completion: @escaping ((PKPaymentAuthorizationStatus) -> Void)) {
         
         let lambdaInvoker = AWSLambdaInvoker.default()
         let jsonObject: [String: Any] = ["tokenId": token.tokenId, "amount": amount]
         
-        let lambdaResult = lambdaInvoker.invokeFunction("CreateStripe", jsonObject: jsonObject).continueWith { (task) -> Any? in
+        print("About to invoke lambda.")
+        
+        let _ = lambdaInvoker.invokeFunction("CreateStripe", jsonObject: jsonObject).continueWith { (task) -> Any? in
             
-            if let error = task.error as? NSError {
+            if let error = task.error as NSError? {
                 if error.domain == AWSLambdaInvokerErrorDomain && AWSLambdaInvokerErrorType.functionError == AWSLambdaInvokerErrorType(rawValue: error.code) {
-                    print("Function error: \(error.userInfo[AWSLambdaInvokerFunctionErrorKey])")
-                    return result = PKPaymentAuthorizationResult(status: .failure, errors: [error.userInfo[AWSLambdaInvokerFunctionErrorKey] as! Error])
+                    print("Function error: \(error.userInfo[AWSLambdaInvokerFunctionErrorKey] ?? "Unknown")")
+                    completion(.failure)
                 } else {
                     print("Error: \(error)")
-                    return result = PKPaymentAuthorizationResult(status: .failure, errors: [])
+                    completion(.failure)
                 }
                 
-            } else if let response = task.result!["response"] as? String {
+            } else if let response = task.result! as? String {
                 
                 //SUCCESS
                 if response == "Charge processed successfully!" {
-                    result = PKPaymentAuthorizationResult(status: .success, errors: nil)
                     
-                    return result
-                    
-                //API ERRORS
+                    completion(.success)
+                    //API ERRORS
                 } else if response == "StripeInvalidRequestError" {
                     
-                    result = PKPaymentAuthorizationResult(status: .failure, errors: nil)
-                    
-                    self.createErrorAlert(alertBody: "The payment request was invalid. Please try again or pay in cash at pickup.", presentTryAgain: true)
-                    return result
+                    DispatchQueue.main.async {
+                        self.createErrorAlert(alertBody: "The payment request was invalid. Please try again or pay in cash at pickup.", presentTryAgain: true)
+                    }
+                    completion(.failure)
                 } else if response == "api_connection_error" || response == "StripeApiConnectionError" {
                     
-                    result = PKPaymentAuthorizationResult(status: .failure, errors: nil)
-                    
-                    self.createErrorAlert(alertBody: "Bad internet connection. Please check your internet settings and try again.", presentTryAgain: true)
-                    return result
+                    DispatchQueue.main.async {
+                        self.createErrorAlert(alertBody: "Bad internet connection. Please check your internet settings and try again.", presentTryAgain: true)
+                    }
+                    completion(.failure)
                 } else if response == "rate_limit_error" || response == "StripeRateLimitError" || response == "authentication_error" || response == "StripeAuthenticationError" {
                     
-                    result = PKPaymentAuthorizationResult(status: .failure, errors: nil)
+                    DispatchQueue.main.async {
+                        self.createErrorAlert(alertBody: "Bad connection to server. Please try again.", presentTryAgain: true)
+                    }
                     
-                    self.createErrorAlert(alertBody: "Bad connection to server. Please try again.", presentTryAgain: true)
-                    return result
+                    completion(.failure)
                     //CARD ERRORS
                 } else if response == "invalid_number" || response == "StripeInvalidNumber" || response == "incorrect_number" || response == "StripeIncorrectNumber" {
-                    result = PKPaymentAuthorizationResult(status: .failure, errors: nil)
                     
-                    self.createErrorAlert(alertBody: "Invalid credit card number.", presentTryAgain: false)
-                    return result
+                    DispatchQueue.main.async {
+                        self.createErrorAlert(alertBody: "Invalid credit card number.", presentTryAgain: false)
+                    }
+                    
+                    completion(.failure)
                 } else if response == "invalid_expiry_month" || response == "StripeExpiryMonth" || response == "invalid_expiry_year" || response == "StripeExpiryYear"{
-                    result = PKPaymentAuthorizationResult(status: .failure, errors: nil)
                     
-                    self.createErrorAlert(alertBody: "Invalid expiration date.", presentTryAgain: false)
-                    return result
+                    DispatchQueue.main.async {
+                        self.createErrorAlert(alertBody: "Invalid expiration date.", presentTryAgain: false)
+                    }
+                    
+                    completion(.failure)
                 } else if response == "invalid_cvc" || response == "StripeInvalidCvc" || response == "incorrect_cvc" || response == "StripeIncorrectCvc"{
-                    result = PKPaymentAuthorizationResult(status: .failure, errors: nil)
                     
-                    self.createErrorAlert(alertBody: "Invalid security code.", presentTryAgain: false)
-                    return result
+                    DispatchQueue.main.async {
+                        self.createErrorAlert(alertBody: "Invalid security code.", presentTryAgain: false)
+                    }
+                    
+                    completion(.failure)
                 } else if response == "card_declined" || response == "StripeCardDecline" {
-                    result = PKPaymentAuthorizationResult(status: .failure, errors: nil)
                     
-                    self.createErrorAlert(alertBody: "The credit card used was declined by the issuer.", presentTryAgain: true)
-                    return result
+                    DispatchQueue.main.async {
+                        self.createErrorAlert(alertBody: "The credit card used was declined by the issuer.", presentTryAgain: true)
+                    }
+                    
+                    completion(.failure)
                 } else if response == "expired_card" || response == "StripeExpiredCard" {
-                    result = PKPaymentAuthorizationResult(status: .failure, errors: nil)
                     
-                    self.createErrorAlert(alertBody: "The credit card used is expired.", presentTryAgain: false)
-                    return result
+                    DispatchQueue.main.async {
+                        self.createErrorAlert(alertBody: "The credit card used is expired.", presentTryAgain: false)
+                    }
+                    
+                    completion(.failure)
                 } else if response == "processing_error" || response == "StripeProcessingError" {
-                    result = PKPaymentAuthorizationResult(status: .failure, errors: nil)
                     
-                    self.createErrorAlert(alertBody: "There was an error during processing.", presentTryAgain: true)
-                    return result
+                    DispatchQueue.main.async {
+                        self.createErrorAlert(alertBody: "There was an error during processing.", presentTryAgain: true)
+                    }
+                    
+                    completion(.failure)
                 } else {
-                    result = PKPaymentAuthorizationResult(status: .failure, errors: nil)
-                    self.createErrorAlert(alertBody: "Unknown error was \(response).", presentTryAgain: true)
-                    return result
+                    DispatchQueue.main.async {
+                        self.createErrorAlert(alertBody: "Unknown error was \(response).", presentTryAgain: true)
+                    }
+                    
+                    completion(.failure)
                 }
                 
             } else {
                 print("No response")
-                result = PKPaymentAuthorizationResult(status: .failure, errors: nil)
-                return result
+                completion(.failure)
             }
-            
-        }
-        
-        if let finalresult = lambdaResult.result as? PKPaymentAuthorizationResult {
-            return finalresult
-        } else {
-            return PKPaymentAuthorizationResult(status: .failure, errors: nil)
+           return nil
         }
     }
     
@@ -451,13 +456,41 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         self.present(alert, animated: true, completion: nil)
     }
     
-    //    func sendToBackend(token: STPToken, amount: Int) -> PKPaymentAuthorizationStatus {
-    //        let lambdaInvoker = AWSLambdaInvoker.default()
-    //        let jsonObject: [String: Any] = ["tokenId": token.tokenId, "amount": amount]
-    //
-    //        lambdaInvoker.invokeFunction("CreateStripe", jsonObject: jsonObject)
-    //    }
+    var orderCounter = 0
     
+    func createOrder(order: Order, payed: Bool, completion: @escaping ((Bool) -> Void)) {
+        
+        let record = CKRecord(recordType: "Order")
+        record["item"] = order.baseProduct.name + " " + String(describing: order.baseProduct.type) as CKRecordValue
+        //record["pickuptime"] = order.pickuptime as? CKRecordValue
+        //record["name"] = order.ordername as? CKRecordValue
+        var modifiers: [String] = []
+        for modifier in order.modifiers {
+            modifiers.append(modifier.name)
+        }
+        //record["pickUpLocation"] = order.pickuplocation as? CKRecordValue
+        record["modifiers"] = modifiers as CKRecordValue
+        record["payedFor"] = payed as CKRecordValue
+
+        CKContainer.default().publicCloudDatabase.save(record) { (record, error) in
+            if error != nil {
+                self.orderCounter += 1
+                if self.orderCounter < 2 {
+                    self.createOrder(order: self.order, payed: payed, completion: { (succeeded) -> Void in
+                       completion(succeeded)
+                    })
+                } else {
+                    completion(false)
+                }
+            } else {
+                //GO BACK TO MENU, SHOW CONFIRMATION, YOU ARE DONE!
+                
+                completion(true)
+                
+            }
+        }
+        
+    }
 }
 
 class MenuParameterCell: UITableViewCell {
