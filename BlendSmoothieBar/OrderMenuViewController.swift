@@ -263,7 +263,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                 
                 self.sendToBackendResult(token: token, amount: stripeprice, completion: { (status) -> Void in
                     
-                    //CALL CLOUDKIT AND CHECK FOR COMPLETION
+                    //CALL CLOUDKIT AND CHECK FOR COMPLETION, AS WELL AS SHOW CONFIRMATION IF APPLICABLE
                     completion(status)
                     
                 })
@@ -470,7 +470,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         //record["pickUpLocation"] = order.pickuplocation as? CKRecordValue
         record["modifiers"] = modifiers as CKRecordValue
-        record["payedFor"] = payed as CKRecordValue
+        record["payedFor"] = NSNumber.init(value: payed) as CKRecordValue
 
         CKContainer.default().publicCloudDatabase.save(record) { (record, error) in
             if error != nil {
