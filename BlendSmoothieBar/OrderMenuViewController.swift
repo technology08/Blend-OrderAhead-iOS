@@ -12,7 +12,7 @@ import CloudKit
 import Stripe
 import AWSLambda
 
-class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ModifierSwitchDelegate, PKPaymentAuthorizationViewControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
+class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ModifierSwitchDelegate, FlavorPickerCellDelegate, PKPaymentAuthorizationViewControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
     
     @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var visualEffectView: UIVisualEffectView!
@@ -143,7 +143,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
          */
         
         if order.baseProduct != nil {
-            return order.baseProduct.modifiers.count + 4
+            return order.baseProduct.modifiers.count + 5
         } else {
             return 4
         }
@@ -161,11 +161,11 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             switch index1Shown {
             case true:
                 //UIView.animate(withDuration: 0.75, delay: 0, options: [.curveEaseOut], animations: {
-                    return 200
-                //}, completion: nil)
+                return 150
+            //}, completion: nil)
             case false:
                 //UIView.animate(withDuration: 0.75, delay: 0, options: [.curveEaseOut], animations: {
-                    return 0
+                return 0
                 //}, completion: nil)
             }
             
@@ -173,7 +173,6 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         } else {
             return 44
         }
-        return 44
     }
     
     func showPicker(tableView: UITableView) {
@@ -197,9 +196,10 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             let cell = tableView.dequeueReusableCell(withIdentifier: "pickerCell") as! FlavorPickerTableViewCell
             
             cell.product = order.baseProduct
+            cell.delegate = self
             
             return cell
-        
+            
         } else if indexPath.row > 1 && indexPath.row <= product.modifiers.count + 1{
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "modifierCell") as! MenuModifierCell
@@ -224,7 +224,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             
         } else {
             
-            let number = (indexPath.row - (product.modifiers.count)) + 1
+            let number = (indexPath.row - (product.modifiers.count)) - 1 //+ 1
             
             switch number {
             case 2:
@@ -277,6 +277,8 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
+    // MARK: - Custom Table View Cells Delegate Method
+    
     func modifierValueDidChange(modifier: Modifier, value: Bool) {
         switch value {
         case true:
@@ -293,6 +295,14 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             
         }
     }
+    
+    func flavorSelected(productRow: Product) {
+        order.baseProduct = productRow
+        index1Shown = false
+        parameterTableView.reloadData()
+    }
+    
+    // MARK: - Apple Pay Delegate Methods
     
     func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {
         controller.dismiss(animated: true, completion: nil)
@@ -589,7 +599,7 @@ class FlavorPickerTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
     }
     
     var delegate: FlavorPickerCellDelegate? = nil
-
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
@@ -644,18 +654,33 @@ class FlavorPickerTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
             
             return attributedString
         }
-       
+        
     }
     @IBAction func donePressed(_ sender: Any) {
-    
+        
         if (delegate != nil) {
-            delegate?.donePressed(product: picker.selectedRow(inComponent: 0))
+            let row = picker.selectedRow(inComponent: 0)
+            
+            var returnedProduct: Product!
+            
+            guard let productType = product?.type else { return }
+            
+            switch productType {
+            case .Smoothie:
+                returnedProduct = currentSmoothies[row]
+            case .Shake:
+                returnedProduct = currentShakes[row]
+            case .Food:
+                returnedProduct = currentShakes[row]
+            }
+            
+             delegate?.flavorSelected(productRow: returnedProduct)
         }
-    
+   
     }
     
 }
 
 protocol FlavorPickerCellDelegate {
-    func donePressed(productRow: Int)
+    func flavorSelected(productRow: Product)
 }
