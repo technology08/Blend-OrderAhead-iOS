@@ -25,7 +25,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     
     var applePayButton: UIButton?
     var currentProductCategory: ProductTypes = .Smoothie
-    var selectedProduct: Product? {
+    public var selectedProduct: Product? {
         didSet {
             parameterTableView.reloadData()
             priceLabel.text = "$\(selectedProduct?.price! ?? 3)"
@@ -149,6 +149,40 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
+    var index1Shown = false {
+        didSet {
+            parameterTableView.reloadData()
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row == 1 {
+            
+            switch index1Shown {
+            case true:
+                //UIView.animate(withDuration: 0.75, delay: 0, options: [.curveEaseOut], animations: {
+                    return 200
+                //}, completion: nil)
+            case false:
+                //UIView.animate(withDuration: 0.75, delay: 0, options: [.curveEaseOut], animations: {
+                    return 0
+                //}, completion: nil)
+            }
+            
+            
+        } else {
+            return 44
+        }
+        return 44
+    }
+    
+    func showPicker(tableView: UITableView) {
+        tableView.beginUpdates()
+        tableView.endUpdates()
+        
+        
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let product = order.baseProduct else { return tableView.dequeueReusableCell(withIdentifier: "parameterCell")! }
         if indexPath.row == 0 {
@@ -158,11 +192,19 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             cell.parameterValueLabel.text = order.baseProduct.name
             
             return cell
-        } else if indexPath.row > 0 && indexPath.row <= product.modifiers.count {
+        } else if indexPath.row == 1 {
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "pickerCell") as! FlavorPickerTableViewCell
+            
+            cell.product = order.baseProduct
+            
+            return cell
+        
+        } else if indexPath.row > 1 && indexPath.row <= product.modifiers.count + 1{
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "modifierCell") as! MenuModifierCell
             
-            let modifier = product.modifiers[indexPath.row - 1]
+            let modifier = product.modifiers[indexPath.row - 2]
             
             var modifierText = modifier.name
             
@@ -182,7 +224,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             
         } else {
             
-            let number = indexPath.row - (product.modifiers.count)
+            let number = (indexPath.row - (product.modifiers.count)) + 1
             
             switch number {
             case 2:
@@ -218,6 +260,21 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        if indexPath.row == 0 {
+            
+            switch index1Shown {
+            case true:
+                index1Shown = false
+            case false:
+                index1Shown = true
+            }
+        }
+        
+        if indexPath.row > 1 && indexPath.row <= order.baseProduct.modifiers.count + 1 {
+            tableView.deselectRow(at: indexPath, animated: false)
+        } else {
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
     }
     
     func modifierValueDidChange(modifier: Modifier, value: Bool) {
@@ -439,7 +496,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                 print("No response")
                 completion(.failure)
             }
-           return nil
+            return nil
         }
     }
     
@@ -471,13 +528,13 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         //record["pickUpLocation"] = order.pickuplocation as? CKRecordValue
         record["modifiers"] = modifiers as CKRecordValue
         record["payedFor"] = NSNumber.init(value: payed) as CKRecordValue
-
+        
         CKContainer.default().publicCloudDatabase.save(record) { (record, error) in
             if error != nil {
                 self.orderCounter += 1
                 if self.orderCounter < 2 {
                     self.createOrder(order: self.order, payed: payed, completion: { (succeeded) -> Void in
-                       completion(succeeded)
+                        completion(succeeded)
                     })
                 } else {
                     completion(false)
@@ -519,4 +576,86 @@ class MenuModifierCell: UITableViewCell {
 
 protocol ModifierSwitchDelegate {
     func modifierValueDidChange(modifier: Modifier, value: Bool)
+}
+
+class FlavorPickerTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    @IBOutlet weak var picker: UIPickerView!
+    
+    var product: Product? {
+        didSet {
+            picker.reloadAllComponents()
+        }
+    }
+    
+    var delegate: FlavorPickerCellDelegate? = nil
+
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        guard let productType = product?.type else { return 0 }
+        
+        switch productType {
+        case .Smoothie:
+            return currentSmoothies.count
+        case .Shake:
+            return currentShakes.count
+        case .Food:
+            return currentFoods.count
+        default:
+            return 0
+        }
+    }
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+        
+        guard let productType = product?.type else { return nil }
+        
+        switch productType {
+        case .Smoothie:
+            let string = currentSmoothies[row].name
+            
+            let attributedString = NSAttributedString(string: string!, attributes: [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
+            
+            return attributedString
+        case .Shake:
+            let string = currentShakes[row].name
+            
+            let attributedString = NSAttributedString(string: string!, attributes: [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
+            
+            return attributedString
+        case .Food:
+            let string = currentShakes[row].name
+            
+            let attributedString = NSAttributedString(string: string!, attributes: [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
+            
+            return attributedString
+        }
+       
+    }
+    @IBAction func donePressed(_ sender: Any) {
+    
+        if (delegate != nil) {
+            delegate?.donePressed(product: picker.selectedRow(inComponent: 0))
+        }
+    
+    }
+    
+}
+
+protocol FlavorPickerCellDelegate {
+    func donePressed(productRow: Int)
 }

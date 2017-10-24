@@ -221,6 +221,46 @@
                                                         <outlet property="modifierSwitch" destination="gKr-Zi-7Xg" id="Zf6-9q-nyt"/>
                                                     </connections>
                                                 </tableViewCell>
+                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="pickerCell" rowHeight="0.0" id="PSz-em-ejL" customClass="FlavorPickerTableViewCell" customModule="BlendSmoothieBar" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="116" width="375" height="0.0"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PSz-em-ejL" id="nRR-Bv-GWh">
+                                                        <rect key="frame" x="0.0" y="-0.5" width="375" height="0.5"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <subviews>
+                                                            <pickerView contentMode="scaleToFill" verticalCompressionResistancePriority="749" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8cr-P5-dS6">
+                                                                <rect key="frame" x="0.0" y="0.0" width="375" height="143"/>
+                                                                <connections>
+                                                                    <outlet property="dataSource" destination="PSz-em-ejL" id="PpW-dZ-W4W"/>
+                                                                    <outlet property="delegate" destination="PSz-em-ejL" id="JPa-m2-mxR"/>
+                                                                </connections>
+                                                            </pickerView>
+                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9sB-pf-HjL">
+                                                                <rect key="frame" x="161.5" y="151" width="52" height="36"/>
+                                                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="17"/>
+                                                                <state key="normal" title="DONE">
+                                                                    <color key="titleColor" red="0.79999232292175293" green="0.79999488592147827" blue="0.80000025033950806" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                                </state>
+                                                                <connections>
+                                                                    <action selector="donePressed:" destination="PSz-em-ejL" eventType="touchUpInside" id="xDx-cd-5by"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstItem="9sB-pf-HjL" firstAttribute="top" secondItem="8cr-P5-dS6" secondAttribute="bottom" constant="8" id="7hg-R4-CtG"/>
+                                                            <constraint firstAttribute="bottomMargin" secondItem="9sB-pf-HjL" secondAttribute="bottom" constant="5" id="8bp-Ur-H5a"/>
+                                                            <constraint firstItem="8cr-P5-dS6" firstAttribute="leading" secondItem="nRR-Bv-GWh" secondAttribute="leading" id="KgC-pF-iY5"/>
+                                                            <constraint firstAttribute="trailing" secondItem="8cr-P5-dS6" secondAttribute="trailing" id="UCY-DS-2vV"/>
+                                                            <constraint firstItem="8cr-P5-dS6" firstAttribute="centerX" secondItem="nRR-Bv-GWh" secondAttribute="centerX" id="aLl-SB-sx2"/>
+                                                            <constraint firstItem="8cr-P5-dS6" firstAttribute="top" secondItem="nRR-Bv-GWh" secondAttribute="top" id="rhv-Hr-FBK"/>
+                                                            <constraint firstItem="9sB-pf-HjL" firstAttribute="centerX" secondItem="nRR-Bv-GWh" secondAttribute="centerX" id="sO8-Q8-0oe"/>
+                                                        </constraints>
+                                                    </tableViewCellContentView>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <connections>
+                                                        <outlet property="picker" destination="8cr-P5-dS6" id="mHP-Ch-kes"/>
+                                                    </connections>
+                                                </tableViewCell>
                                             </prototypes>
                                             <sections/>
                                             <connections>
