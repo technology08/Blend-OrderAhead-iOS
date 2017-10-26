@@ -196,13 +196,13 @@
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Whipped Cream: $0.5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rla-oj-TBO">
-                                                                <rect key="frame" x="28" y="10.5" width="175" height="23.5"/>
+                                                                <rect key="frame" x="28" y="10" width="175" height="23.5"/>
                                                                 <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="17"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="gKr-Zi-7Xg">
-                                                                <rect key="frame" x="306" y="7" width="51" height="31"/>
+                                                                <rect key="frame" x="306" y="6.5" width="51" height="31"/>
                                                                 <connections>
                                                                     <action selector="switchChanged:" destination="FLZ-1q-vnZ" eventType="valueChanged" id="lPJ-LA-5cV"/>
                                                                 </connections>
@@ -229,14 +229,14 @@
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
                                                             <pickerView contentMode="scaleToFill" verticalCompressionResistancePriority="749" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8cr-P5-dS6">
-                                                                <rect key="frame" x="0.0" y="0.0" width="375" height="143"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
                                                                 <connections>
                                                                     <outlet property="dataSource" destination="PSz-em-ejL" id="PpW-dZ-W4W"/>
                                                                     <outlet property="delegate" destination="PSz-em-ejL" id="JPa-m2-mxR"/>
                                                                 </connections>
                                                             </pickerView>
                                                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9sB-pf-HjL">
-                                                                <rect key="frame" x="161.5" y="151" width="52" height="36"/>
+                                                                <rect key="frame" x="161.5" y="0.0" width="52" height="30.5"/>
                                                                 <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="17"/>
                                                                 <state key="normal" title="DONE">
                                                                     <color key="titleColor" red="0.79999232292175293" green="0.79999488592147827" blue="0.80000025033950806" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -259,6 +259,46 @@
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <connections>
                                                         <outlet property="picker" destination="8cr-P5-dS6" id="mHP-Ch-kes"/>
+                                                    </connections>
+                                                </tableViewCell>
+                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="timeCell" rowHeight="0.0" id="yRD-V3-79g" customClass="TimeCell" customModule="BlendSmoothieBar" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="116" width="375" height="0.0"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="yRD-V3-79g" id="qnq-Aa-gKU">
+                                                        <rect key="frame" x="0.0" y="-0.5" width="375" height="0.5"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <subviews>
+                                                            <pickerView contentMode="scaleToFill" verticalCompressionResistancePriority="749" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4yu-Vz-dD6">
+                                                                <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
+                                                                <connections>
+                                                                    <outlet property="dataSource" destination="yRD-V3-79g" id="NGq-nV-cwJ"/>
+                                                                    <outlet property="delegate" destination="yRD-V3-79g" id="J6v-iW-9rb"/>
+                                                                </connections>
+                                                            </pickerView>
+                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mQL-cs-4wO">
+                                                                <rect key="frame" x="161.5" y="0.0" width="52" height="30.5"/>
+                                                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="17"/>
+                                                                <state key="normal" title="DONE">
+                                                                    <color key="titleColor" red="0.7999923229" green="0.79999488590000001" blue="0.80000025029999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                                </state>
+                                                                <connections>
+                                                                    <action selector="donePressed:" destination="yRD-V3-79g" eventType="touchUpInside" id="wGj-Xh-Rme"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstItem="4yu-Vz-dD6" firstAttribute="top" secondItem="qnq-Aa-gKU" secondAttribute="top" id="3Uo-FJ-rTW"/>
+                                                            <constraint firstItem="mQL-cs-4wO" firstAttribute="top" secondItem="4yu-Vz-dD6" secondAttribute="bottom" id="4B8-iB-C0f"/>
+                                                            <constraint firstAttribute="trailing" secondItem="4yu-Vz-dD6" secondAttribute="trailing" id="575-zN-HYK"/>
+                                                            <constraint firstItem="4yu-Vz-dD6" firstAttribute="centerX" secondItem="qnq-Aa-gKU" secondAttribute="centerX" id="RMB-0h-BzT"/>
+                                                            <constraint firstItem="4yu-Vz-dD6" firstAttribute="leading" secondItem="qnq-Aa-gKU" secondAttribute="leading" id="SW1-ms-6AP"/>
+                                                            <constraint firstAttribute="bottomMargin" secondItem="mQL-cs-4wO" secondAttribute="bottom" constant="5" id="UBc-FX-ctn"/>
+                                                            <constraint firstItem="mQL-cs-4wO" firstAttribute="centerX" secondItem="qnq-Aa-gKU" secondAttribute="centerX" id="aCS-JD-iQb"/>
+                                                        </constraints>
+                                                    </tableViewCellContentView>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <connections>
+                                                        <outlet property="picker" destination="4yu-Vz-dD6" id="56z-o7-ux6"/>
                                                     </connections>
                                                 </tableViewCell>
                                             </prototypes>

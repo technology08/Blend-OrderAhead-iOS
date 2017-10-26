@@ -12,8 +12,9 @@ import CloudKit
 import Stripe
 import AWSLambda
 
-class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ModifierSwitchDelegate, FlavorPickerCellDelegate, PKPaymentAuthorizationViewControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
+class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ParameterReturnDelegate, PKPaymentAuthorizationViewControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
     
+    // MARK: - IBOutlets
     @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var visualEffectView: UIVisualEffectView!
     
@@ -34,7 +35,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     
     var order = Order() {
         didSet {
-            parameterTableView.reloadData()
+            //parameterTableView.reloadData()
             priceLabel.text = "$\(order.finalPrice ?? 3)"
         }
     }
@@ -56,6 +57,8 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         
     }
     
+    // MARK: - UIViewController Setup Methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -68,6 +71,12 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        
     }
     
     override func viewWillLayoutSubviews() {
@@ -131,6 +140,22 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         
     }
     
+    // MARK: - Picker Cells Booleans
+    
+    var index1Shown = false {
+        didSet {
+            parameterTableView.reloadData()
+        }
+    }
+    
+    var timePickerShown = false {
+        didSet {
+            parameterTableView.reloadData()
+        }
+    }
+    
+    // MARK: - UITableViewDelegate Methods
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         /*
          CELLS ARE:
@@ -143,15 +168,9 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
          */
         
         if order.baseProduct != nil {
-            return order.baseProduct.modifiers.count + 5
+            return order.baseProduct.modifiers.count + 6
         } else {
             return 4
-        }
-    }
-    
-    var index1Shown = false {
-        didSet {
-            parameterTableView.reloadData()
         }
     }
     
@@ -169,17 +188,16 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                 //}, completion: nil)
             }
             
-            
+        } else if indexPath.row == (order.baseProduct.modifiers.count + 4) {
+            switch timePickerShown {
+            case true:
+                return 150
+            case false:
+                return 0
+            }
         } else {
             return 44
         }
-    }
-    
-    func showPicker(tableView: UITableView) {
-        tableView.beginUpdates()
-        tableView.endUpdates()
-        
-        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -187,7 +205,15 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "parameterCell") as! MenuParameterCell
             
-            cell.parameterNameLabel.text = "Flavor"
+            switch product.type! {
+            case .Smoothie:
+                cell.parameterNameLabel.text = "Flavor"
+            case .Shake:
+                cell.parameterNameLabel.text = "Flavor"
+            case .Food:
+                cell.parameterNameLabel.text = "Item"
+            }
+            
             cell.parameterValueLabel.text = order.baseProduct.name
             
             return cell
@@ -224,31 +250,60 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             
         } else {
             
-            let number = (indexPath.row - (product.modifiers.count)) - 1 //+ 1
+            let number = (indexPath.row - (order.baseProduct.modifiers.count)) - 1 //+ 1
             
             switch number {
-            case 2:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "parameterCell") as! MenuParameterCell
-                
-                cell.parameterNameLabel.text = "Pick-Up Time"
-                //ADD TO ADJUST TO TIME OF DAY
-                cell.parameterValueLabel.text = "7:45 AM"
-                
-                return cell
-            case 3:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "parameterCell") as! MenuParameterCell
-                
-                cell.parameterNameLabel.text = "Pick-Up Location"
-                //ADJUST TO USER PREFERENCES
-                cell.parameterValueLabel.text = "Smoothie Bar"
-                
-                return cell
             case 1:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "parameterCell") as! MenuParameterCell
                 
                 cell.parameterNameLabel.text = "Name"
                 //ADJUST TO USER PREFERENCES
                 cell.parameterValueLabel.text = ""
+                
+                return cell
+            case 2:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "parameterCell") as! MenuParameterCell
+                
+                cell.parameterNameLabel.text = "Pick-Up Time"
+                //ADD TO ADJUST TO TIME OF DAY
+                
+                if order.pickUpTime == nil {
+                    guard let date = Date() as? Date else { return cell}
+                    date.ceil(precision: 300)
+                    var calendar = Calendar.current
+                    guard let hour = calendar.dateComponents([.hour, .minute], from: date) as? DateComponents else { return cell }
+                    
+                    if ((hour.hour! == 10 && hour.minute! >= 30) || (hour.hour! > 10)) && (hour.hour! == 13 && hour.minute! <= 25) {
+                        //GO TO 1:25
+                        order.pickUpTime = "1:25 PM"
+                    } else if (hour.hour! == 10 && hour.minute! <= 30) || hour.hour! < 10 {
+                        
+                        order.pickUpTime = "\(hour.hour!):\(hour.minute!) AM"
+                        
+                    } else if (hour.hour! == 13 && hour.minute! > 25) || hour.hour! > 14 {
+                        
+                        guard let newHour = hour.hour! - 12 as? Int else { return cell}
+                        order.pickUpTime = "\(newHour):\(hour.minute!) PM"
+                        
+                    } else {
+                        order.pickUpTime = "7:30 AM"
+                    }
+                }
+                cell.parameterValueLabel.text = order.pickUpTime ?? "7:45 AM"
+                
+                return cell
+            case 3:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "timeCell") as! TimeCell
+                
+                cell.delegate = self
+                
+                return cell
+            case 4:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "parameterCell") as! MenuParameterCell
+                
+                cell.parameterNameLabel.text = "Pick-Up Location"
+                //ADJUST TO USER PREFERENCES
+                cell.parameterValueLabel.text = "Smoothie Bar"
                 
                 return cell
             default:
@@ -261,16 +316,22 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if indexPath.row == 0 {
-            
             switch index1Shown {
             case true:
                 index1Shown = false
             case false:
                 index1Shown = true
             }
+        } else if indexPath.row == (order.baseProduct.modifiers.count + 3) {
+            switch timePickerShown {
+            case true:
+                timePickerShown = false
+            case false:
+                timePickerShown = true
+            }
         }
         
-        if indexPath.row > 1 && indexPath.row <= order.baseProduct.modifiers.count + 1 {
+        if indexPath.row > 1 && indexPath.row <= order.modifiers.count + 1 {
             tableView.deselectRow(at: indexPath, animated: false)
         } else {
             tableView.deselectRow(at: indexPath, animated: true)
@@ -299,6 +360,13 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     func flavorSelected(productRow: Product) {
         order.baseProduct = productRow
         index1Shown = false
+        parameterTableView.reloadData()
+    }
+    
+    func time(time: String) {
+        let int = order.baseProduct.modifiers.count + 3
+        
+        order.pickUpTime = times[int]
         parameterTableView.reloadData()
     }
     
@@ -571,7 +639,7 @@ class MenuModifierCell: UITableViewCell {
     @IBOutlet weak var modifierNameLabel: UILabel!
     @IBOutlet weak var modifierSwitch: UISwitch!
     
-    var delegate: ModifierSwitchDelegate? = nil
+    var delegate: ParameterReturnDelegate? = nil
     var modifier: Modifier!
     
     @IBAction func switchChanged(_ sender: Any) {
@@ -584,10 +652,6 @@ class MenuModifierCell: UITableViewCell {
     
 }
 
-protocol ModifierSwitchDelegate {
-    func modifierValueDidChange(modifier: Modifier, value: Bool)
-}
-
 class FlavorPickerTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
     
     @IBOutlet weak var picker: UIPickerView!
@@ -598,7 +662,7 @@ class FlavorPickerTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
         }
     }
     
-    var delegate: FlavorPickerCellDelegate? = nil
+    var delegate: ParameterReturnDelegate? = nil
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -626,8 +690,6 @@ class FlavorPickerTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
             return currentShakes.count
         case .Food:
             return currentFoods.count
-        default:
-            return 0
         }
     }
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
@@ -648,7 +710,7 @@ class FlavorPickerTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
             
             return attributedString
         case .Food:
-            let string = currentShakes[row].name
+            let string = currentFoods[row].name
             
             let attributedString = NSAttributedString(string: string!, attributes: [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
             
@@ -671,16 +733,57 @@ class FlavorPickerTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
             case .Shake:
                 returnedProduct = currentShakes[row]
             case .Food:
-                returnedProduct = currentShakes[row]
+                returnedProduct = currentFoods[row]
             }
             
-             delegate?.flavorSelected(productRow: returnedProduct)
+            delegate?.flavorSelected(productRow: returnedProduct)
         }
-   
+        
     }
     
 }
 
-protocol FlavorPickerCellDelegate {
+protocol ParameterReturnDelegate {
+    func modifierValueDidChange(modifier: Modifier, value: Bool)
     func flavorSelected(productRow: Product)
+    func time(time: String)
+}
+
+class TimeCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    @IBOutlet weak var picker: UIPickerView!
+    
+    var delegate: ParameterReturnDelegate? = nil
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return times.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+        
+        
+        let string = times[row]
+        
+        let attributedString = NSAttributedString(string: string, attributes: [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
+        
+        return attributedString
+        
+        
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if delegate != nil {
+            delegate?.time(time: times[picker.selectedRow(inComponent: 0)])
+        }
+    }
+    
+    @IBAction func donePressed(_ sender: Any) {
+        if delegate != nil {
+            delegate?.time(time: times[picker.selectedRow(inComponent: 0)])
+        }
+    }
 }
