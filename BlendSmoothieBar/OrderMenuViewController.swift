@@ -65,7 +65,6 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         // Do any additional setup after loading the view.
         
         parameterTableView.delegate = self
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -150,7 +149,24 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     
     var timePickerShown = false {
         didSet {
-            parameterTableView.reloadData()
+            if timePickerShown == false {
+                parameterTableView.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: .top, animated: true)
+                //Wait until scrolling is done
+                UIView.animate(withDuration: 0.5, animations: {
+                    guard let cellPicker = self.parameterTableView.cellForRow(at: IndexPath.init(row: self.order.baseProduct.modifiers.count + 4, section: 0)) as? TimeCell else { return }
+                    cellPicker.alpha = 0
+                }, completion: { (bool) in
+                    self.parameterTableView.reloadData()
+                })
+            } else {
+                parameterTableView.reloadData()
+                parameterTableView.scrollToRow(at: IndexPath.init(row: order.baseProduct.modifiers.count + 3, section: 0), at: .top, animated: true)
+                
+                UIView.animate(withDuration: 0.5, animations: {
+                    guard let cellPicker = self.parameterTableView.cellForRow(at: IndexPath.init(row: self.order.baseProduct.modifiers.count + 4, section: 0)) as? TimeCell else { return }
+                    cellPicker.alpha = 1
+                })
+            }
         }
     }
     
@@ -180,7 +196,8 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             switch index1Shown {
             case true:
                 //UIView.animate(withDuration: 0.75, delay: 0, options: [.curveEaseOut], animations: {
-                return 150
+               return 150
+                
             //}, completion: nil)
             case false:
                 //UIView.animate(withDuration: 0.75, delay: 0, options: [.curveEaseOut], animations: {
@@ -268,12 +285,12 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                 //ADD TO ADJUST TO TIME OF DAY
                 
                 if order.pickUpTime == nil {
-                    guard let date = Date() as? Date else { return cell}
-                    date.ceil(precision: 300)
-                    var calendar = Calendar.current
-                    guard let hour = calendar.dateComponents([.hour, .minute], from: date) as? DateComponents else { return cell }
+                    let date = Date()
+                    let newDate = date.ceil(precision: 300)
+                    let calendar = Calendar.current
+                    let hour = calendar.dateComponents([.hour, .minute], from: newDate)
                     
-                    if ((hour.hour! == 10 && hour.minute! >= 30) || (hour.hour! > 10)) && (hour.hour! == 13 && hour.minute! <= 25) {
+                    if (((hour.hour! == 10 && hour.minute! >= 30) || (hour.hour! > 10))) && ((hour.hour == 13 && hour.minute! <= 25) || (hour.hour! <= 13)) {
                         //GO TO 1:25
                         order.pickUpTime = "1:25 PM"
                     } else if (hour.hour! == 10 && hour.minute! <= 30) || hour.hour! < 10 {
@@ -282,7 +299,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                         
                     } else if (hour.hour! == 13 && hour.minute! > 25) || hour.hour! > 14 {
                         
-                        guard let newHour = hour.hour! - 12 as? Int else { return cell}
+                        let newHour = hour.hour! - 12
                         order.pickUpTime = "\(newHour):\(hour.minute!) PM"
                         
                     } else {
@@ -326,6 +343,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             switch timePickerShown {
             case true:
                 timePickerShown = false
+                tableView.scrollToRow(at: indexPath, at: .top, animated: true)
             case false:
                 timePickerShown = true
             }
@@ -363,10 +381,9 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         parameterTableView.reloadData()
     }
     
-    func time(time: String) {
-        let int = order.baseProduct.modifiers.count + 3
-        
-        order.pickUpTime = times[int]
+    func time(time: String, remainShowing: Bool) {
+        order.pickUpTime = time
+        timePickerShown = remainShowing
         parameterTableView.reloadData()
     }
     
@@ -593,10 +610,12 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     
     var orderCounter = 0
     
-    func createOrder(order: Order, payed: Bool, completion: @escaping ((Bool) -> Void)) {
+    // MARK: - CloudKit
+    
+    func createOrder(finalOrder: Order, payed: Bool, completion: @escaping ((Bool) -> Void)) {
         
         let record = CKRecord(recordType: "Order")
-        record["item"] = order.baseProduct.name + " " + String(describing: order.baseProduct.type) as CKRecordValue
+        record["item"] = finalOrder.baseProduct.name + " " + String(describing: order.baseProduct.type) as CKRecordValue
         //record["pickuptime"] = order.pickuptime as? CKRecordValue
         //record["name"] = order.ordername as? CKRecordValue
         var modifiers: [String] = []
@@ -606,12 +625,15 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         //record["pickUpLocation"] = order.pickuplocation as? CKRecordValue
         record["modifiers"] = modifiers as CKRecordValue
         record["payedFor"] = NSNumber.init(value: payed) as CKRecordValue
+        record["pickUpTime"] = finalOrder.pickUpTime as CKRecordValue
+        record["name"] = finalOrder.orderName as CKRecordValue
+        record["price"] = finalOrder.finalPrice.description as CKRecordValue
         
         CKContainer.default().publicCloudDatabase.save(record) { (record, error) in
             if error != nil {
                 self.orderCounter += 1
                 if self.orderCounter < 2 {
-                    self.createOrder(order: self.order, payed: payed, completion: { (succeeded) -> Void in
+                    self.createOrder(finalOrder: self.order, payed: payed, completion: { (succeeded) -> Void in
                         completion(succeeded)
                     })
                 } else {
@@ -746,7 +768,7 @@ class FlavorPickerTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
 protocol ParameterReturnDelegate {
     func modifierValueDidChange(modifier: Modifier, value: Bool)
     func flavorSelected(productRow: Product)
-    func time(time: String)
+    func time(time: String, remainShowing: Bool)
 }
 
 class TimeCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
@@ -777,13 +799,13 @@ class TimeCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if delegate != nil {
-            delegate?.time(time: times[picker.selectedRow(inComponent: 0)])
+            delegate?.time(time: times[picker.selectedRow(inComponent: 0)], remainShowing: true)
         }
     }
     
     @IBAction func donePressed(_ sender: Any) {
         if delegate != nil {
-            delegate?.time(time: times[picker.selectedRow(inComponent: 0)])
+            delegate?.time(time: times[picker.selectedRow(inComponent: 0)], remainShowing: false)
         }
     }
 }

@@ -100,8 +100,8 @@ struct Order {
     var baseProduct: Product!
     var finalPrice: Decimal!
     var modifiers: [Modifier] = []
-    var pickUpTime: String?
-    var orderName: String?
+    var pickUpTime: String!
+    var orderName: String! = "No Name"
     
     init() {
         
