@@ -163,12 +163,12 @@
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Flavor" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gMk-Mt-HWy">
-                                                                <rect key="frame" x="28" y="10.5" width="49" height="23.5"/>
+                                                                <rect key="frame" x="28" y="10.5" width="148" height="23.5"/>
                                                                 <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="17"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Strawberry Lemonade" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UVq-Tf-JTj">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Strawberry Lemonade" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UVq-Tf-JTj">
                                                                 <rect key="frame" x="184" y="10.5" width="171" height="23.5"/>
                                                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="17"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -179,6 +179,7 @@
                                                             <constraint firstItem="gMk-Mt-HWy" firstAttribute="leading" secondItem="Wv5-bB-IMH" secondAttribute="leadingMargin" constant="20" id="7Az-5p-rLv"/>
                                                             <constraint firstAttribute="trailing" secondItem="UVq-Tf-JTj" secondAttribute="trailing" constant="20" id="Mjv-HM-vtW"/>
                                                             <constraint firstItem="UVq-Tf-JTj" firstAttribute="centerY" secondItem="Wv5-bB-IMH" secondAttribute="centerY" id="RBc-mw-jcv"/>
+                                                            <constraint firstItem="UVq-Tf-JTj" firstAttribute="leading" secondItem="gMk-Mt-HWy" secondAttribute="trailing" constant="8" id="hu9-Pl-9Eg"/>
                                                             <constraint firstItem="gMk-Mt-HWy" firstAttribute="centerY" secondItem="Wv5-bB-IMH" secondAttribute="centerY" id="t10-zM-Fam"/>
                                                         </constraints>
                                                     </tableViewCellContentView>
@@ -196,7 +197,7 @@
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Whipped Cream: $0.5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rla-oj-TBO">
-                                                                <rect key="frame" x="28" y="10" width="175" height="23.5"/>
+                                                                <rect key="frame" x="28" y="10" width="270" height="23.5"/>
                                                                 <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="17"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <nil key="highlightedColor"/>
@@ -213,6 +214,7 @@
                                                             <constraint firstItem="rla-oj-TBO" firstAttribute="centerY" secondItem="00W-eQ-6Yd" secondAttribute="centerY" id="Gme-si-tda"/>
                                                             <constraint firstItem="rla-oj-TBO" firstAttribute="leading" secondItem="00W-eQ-6Yd" secondAttribute="leadingMargin" constant="20" id="LVB-T6-43Q"/>
                                                             <constraint firstItem="gKr-Zi-7Xg" firstAttribute="centerY" secondItem="00W-eQ-6Yd" secondAttribute="centerY" id="Uzk-uI-323"/>
+                                                            <constraint firstItem="gKr-Zi-7Xg" firstAttribute="leading" secondItem="rla-oj-TBO" secondAttribute="trailing" constant="8" id="Z1V-Ml-0T5"/>
                                                         </constraints>
                                                     </tableViewCellContentView>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -299,6 +301,40 @@
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <connections>
                                                         <outlet property="picker" destination="4yu-Vz-dD6" id="56z-o7-ux6"/>
+                                                    </connections>
+                                                </tableViewCell>
+                                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="nameCell" rowHeight="44" id="h2C-ib-Qto" customClass="NameCell" customModule="BlendSmoothieBar" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="116" width="375" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="h2C-ib-Qto" id="5gn-oT-93t">
+                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mVm-Hc-igl">
+                                                                <rect key="frame" x="28" y="10" width="47.5" height="24"/>
+                                                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="17"/>
+                                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Qt2-ec-Pqf">
+                                                                <rect key="frame" x="83.5" y="9" width="271.5" height="24"/>
+                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="17"/>
+                                                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
+                                                            </textField>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstItem="Qt2-ec-Pqf" firstAttribute="centerY" secondItem="5gn-oT-93t" secondAttribute="centerY" id="0az-0a-tRk"/>
+                                                            <constraint firstItem="mVm-Hc-igl" firstAttribute="centerY" secondItem="5gn-oT-93t" secondAttribute="centerY" id="3WK-D2-nwH"/>
+                                                            <constraint firstItem="Qt2-ec-Pqf" firstAttribute="leading" secondItem="mVm-Hc-igl" secondAttribute="trailing" constant="8" id="3jw-MI-xfE"/>
+                                                            <constraint firstItem="mVm-Hc-igl" firstAttribute="leading" secondItem="5gn-oT-93t" secondAttribute="leadingMargin" constant="20" id="WwK-Dq-9dy"/>
+                                                            <constraint firstAttribute="trailing" secondItem="Qt2-ec-Pqf" secondAttribute="trailing" constant="20" id="kiL-Wc-K9Z"/>
+                                                        </constraints>
+                                                    </tableViewCellContentView>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <connections>
+                                                        <outlet property="textField" destination="Qt2-ec-Pqf" id="LiS-dL-xl6"/>
                                                     </connections>
                                                 </tableViewCell>
                                             </prototypes>

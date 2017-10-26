@@ -24,6 +24,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     
     @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
     
+    let defaults = UserDefaults.standard
     var applePayButton: UIButton?
     var currentProductCategory: ProductTypes = .Smoothie
     public var selectedProduct: Product? {
@@ -150,22 +151,15 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     var timePickerShown = false {
         didSet {
             if timePickerShown == false {
-                parameterTableView.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: .top, animated: true)
-                //Wait until scrolling is done
-                UIView.animate(withDuration: 0.5, animations: {
-                    guard let cellPicker = self.parameterTableView.cellForRow(at: IndexPath.init(row: self.order.baseProduct.modifiers.count + 4, section: 0)) as? TimeCell else { return }
-                    cellPicker.alpha = 0
-                }, completion: { (bool) in
-                    self.parameterTableView.reloadData()
-                })
+                
+                self.parameterTableView.reloadData()
+                
+
             } else {
+                //parameterTableView.scrollToRow(at: IndexPath.init(row: order.baseProduct.modifiers.count + 3, section: 0), at: .top, animated: true)
                 parameterTableView.reloadData()
                 parameterTableView.scrollToRow(at: IndexPath.init(row: order.baseProduct.modifiers.count + 3, section: 0), at: .top, animated: true)
                 
-                UIView.animate(withDuration: 0.5, animations: {
-                    guard let cellPicker = self.parameterTableView.cellForRow(at: IndexPath.init(row: self.order.baseProduct.modifiers.count + 4, section: 0)) as? TimeCell else { return }
-                    cellPicker.alpha = 1
-                })
             }
         }
     }
@@ -271,11 +265,11 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             
             switch number {
             case 1:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "parameterCell") as! MenuParameterCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "nameCell") as! NameCell
                 
-                cell.parameterNameLabel.text = "Name"
                 //ADJUST TO USER PREFERENCES
-                cell.parameterValueLabel.text = ""
+                cell.textField.text = defaults.string(forKey: "name")
+                cell.delegate = self
                 
                 return cell
             case 2:
@@ -373,6 +367,8 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             order.finalPrice = order.finalPrice - modifier.price
             
         }
+        
+        defaults.set(value, forKey: "\(order.baseProduct.type!)\(modifier.name)")
     }
     
     func flavorSelected(productRow: Product) {
@@ -383,7 +379,17 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func time(time: String, remainShowing: Bool) {
         order.pickUpTime = time
-        timePickerShown = remainShowing
+        //timePickerShown = remainShowing
+        parameterTableView.reloadData()
+        if !remainShowing {
+            timePickerShown = false
+            parameterTableView.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: .top, animated: true)
+        }
+    }
+    
+    func nameEntered(name: String) {
+        order.orderName = name
+        defaults.set(name, forKey: "name")
         parameterTableView.reloadData()
     }
     
@@ -769,6 +775,7 @@ protocol ParameterReturnDelegate {
     func modifierValueDidChange(modifier: Modifier, value: Bool)
     func flavorSelected(productRow: Product)
     func time(time: String, remainShowing: Bool)
+    func nameEntered(name: String)
 }
 
 class TimeCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
@@ -806,6 +813,44 @@ class TimeCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
     @IBAction func donePressed(_ sender: Any) {
         if delegate != nil {
             delegate?.time(time: times[picker.selectedRow(inComponent: 0)], remainShowing: false)
+        }
+    }
+}
+
+class NameCell: UITableViewCell, UITextFieldDelegate {
+    
+    @IBOutlet weak var textField: UITextField!
+    
+    var delegate: ParameterReturnDelegate? = nil
+    
+    let userDefaults = UserDefaults.standard
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        textField.attributedPlaceholder = NSAttributedString(string: "Tap here to enter your name...", attributes: [NSAttributedStringKey.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
+        textField.delegate = self
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        returnName()
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        
+        returnName()
+        textField.resignFirstResponder()
+        return true
+        
+    }
+    
+    func returnName() {
+        if delegate != nil {
+            delegate?.nameEntered(name: self.textField.text!)
         }
     }
 }
