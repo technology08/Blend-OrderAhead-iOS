@@ -29,8 +29,10 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     var currentProductCategory: ProductTypes = .Smoothie
     public var selectedProduct: Product? {
         didSet {
-            parameterTableView.reloadData()
+            parameterTableView.beginUpdates()
             priceLabel.text = "$\(selectedProduct?.price! ?? 3)"
+            parameterTableView.endUpdates()
+            parameterTableView.reloadData()
         }
     }
     
@@ -144,7 +146,27 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     
     var index1Shown = false {
         didSet {
+            parameterTableView.beginUpdates()
+            parameterTableView.endUpdates()
             parameterTableView.reloadData()
+        }
+    }
+    
+    var locationShown = false {
+        didSet {
+            if locationShown == false {
+                
+                parameterTableView.beginUpdates()
+                parameterTableView.endUpdates()
+                parameterTableView.reloadData()
+                
+            } else {
+                
+                parameterTableView.beginUpdates()
+                parameterTableView.endUpdates()
+                parameterTableView.scrollToRow(at: IndexPath.init(row: order.baseProduct.modifiers.count + 5, section: 0), at: .top, animated: true)
+                parameterTableView.reloadData()
+            }
         }
     }
     
@@ -152,14 +174,16 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         didSet {
             if timePickerShown == false {
                 
-                self.parameterTableView.reloadData()
-                
-
-            } else {
-                //parameterTableView.scrollToRow(at: IndexPath.init(row: order.baseProduct.modifiers.count + 3, section: 0), at: .top, animated: true)
+                parameterTableView.beginUpdates()
+                parameterTableView.endUpdates()
                 parameterTableView.reloadData()
-                parameterTableView.scrollToRow(at: IndexPath.init(row: order.baseProduct.modifiers.count + 3, section: 0), at: .top, animated: true)
                 
+            } else {
+                
+                parameterTableView.beginUpdates()
+                parameterTableView.endUpdates()
+                parameterTableView.scrollToRow(at: IndexPath.init(row: order.baseProduct.modifiers.count + 3, section: 0), at: .top, animated: true)
+                parameterTableView.reloadData()
             }
         }
     }
@@ -178,9 +202,9 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
          */
         
         if order.baseProduct != nil {
-            return order.baseProduct.modifiers.count + 6
+            return order.baseProduct.modifiers.count + 7
         } else {
-            return 4
+            return 7
         }
     }
     
@@ -190,7 +214,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             switch index1Shown {
             case true:
                 //UIView.animate(withDuration: 0.75, delay: 0, options: [.curveEaseOut], animations: {
-               return 150
+                return 150
                 
             //}, completion: nil)
             case false:
@@ -206,6 +230,14 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             case false:
                 return 0
             }
+        } else if indexPath.row == (order.baseProduct.modifiers.count + 6) {
+            switch locationShown {
+            case true:
+                return 150
+            case false:
+                return 0
+            }
+            
         } else {
             return 44
         }
@@ -314,8 +346,12 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                 
                 cell.parameterNameLabel.text = "Pick-Up Location"
                 //ADJUST TO USER PREFERENCES
-                cell.parameterValueLabel.text = "Smoothie Bar"
+                cell.parameterValueLabel.text = order.pickUpPlace ?? defaults.string(forKey: "place") ?? "Smoothie Bar"
                 
+                return cell
+            case 5:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "locationCell") as! LocationPickerCell
+                cell.delegate = self
                 return cell
             default:
                 print("PROBLEM!")
@@ -342,12 +378,26 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                 timePickerShown = true
             }
         }
+        else if indexPath.row == (order.baseProduct.modifiers.count + 5) {
+            print("tap")
+            switch locationShown {
+            case true:
+                locationShown = false
+                tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+            case false:
+                locationShown = true
+            }
+        }
+        
+        print(indexPath.row)
         
         if indexPath.row > 1 && indexPath.row <= order.modifiers.count + 1 {
             tableView.deselectRow(at: indexPath, animated: false)
         } else {
             tableView.deselectRow(at: indexPath, animated: true)
         }
+        
+        
     }
     
     // MARK: - Custom Table View Cells Delegate Method
@@ -371,28 +421,63 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         defaults.set(value, forKey: "\(order.baseProduct.type!)\(modifier.name)")
     }
     
-    func flavorSelected(productRow: Product) {
+    func flavorSelected(productRow: Product, remainShowing: Bool) {
         order.baseProduct = productRow
-        index1Shown = false
-        parameterTableView.reloadData()
+        index1Shown = remainShowing
+        //parameterTableView.reloadData()
     }
     
     func time(time: String, remainShowing: Bool) {
         order.pickUpTime = time
         //timePickerShown = remainShowing
-        parameterTableView.reloadData()
+        parameterTableView.beginUpdates()
         if !remainShowing {
             timePickerShown = false
             parameterTableView.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: .top, animated: true)
         }
-    }
-    
-    func nameEntered(name: String) {
-        order.orderName = name
-        defaults.set(name, forKey: "name")
+        parameterTableView.endUpdates()
         parameterTableView.reloadData()
     }
     
+    func nameEntered(name: String) {
+        parameterTableView.beginUpdates()
+        order.orderName = name
+        defaults.set(name, forKey: "name")
+        parameterTableView.endUpdates()
+        parameterTableView.reloadData()
+    }
+    
+    func locationChanged(location: String, remainShowing: Bool) {
+        parameterTableView.beginUpdates()
+        if !remainShowing {
+            timePickerShown = false
+            parameterTableView.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: .top, animated: true)
+        }
+        defaults.set(location, forKey: "place")
+        parameterTableView.endUpdates()
+        parameterTableView.reloadData()
+    }
+    
+    // MARK: - Other Payment Methods
+    
+    @IBAction func cashButtonPressed(_ sender: Any) {
+        
+        createOrder(finalOrder: self.order, payed: false) { (success, error) in
+            if success {
+                self.performSegue(withIdentifier: "toConfirmation", sender: nil)
+            } else {
+                if let error = error as? CKError {
+                    //HANDLE
+                    print(error)
+                } else if error != nil {
+                    print(error)
+                } else {
+                    
+                }
+            }
+        }
+        
+    }
     // MARK: - Apple Pay Delegate Methods
     
     func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {
@@ -421,6 +506,26 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                 
                 self.sendToBackendResult(token: token, amount: stripeprice, completion: { (status) -> Void in
                     
+                    self.createOrder(finalOrder: self.order, payed: true, completion: { (success, error) in
+                        
+                        completion(status)
+                        if success {
+                            if success {
+                                self.performSegue(withIdentifier: "toConfirmation", sender: nil)
+                            } else {
+                                if let error = error as? CKError {
+                                    //HANDLE
+                                    print(error)
+                                } else if error != nil {
+                                    print(error)
+                                } else {
+                                    
+                                }
+                            }
+                            
+                            
+                        }
+                    })
                     //CALL CLOUDKIT AND CHECK FOR COMPLETION, AS WELL AS SHOW CONFIRMATION IF APPLICABLE
                     completion(status)
                     
@@ -468,15 +573,17 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         
     }
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "toConfirmation" {
+            if let destination = segue.destination as? ConfirmationViewController {
+                destination.order = self.order
+            }
+        }
+    }
+    
     
     // MARK: - Text Field/Text View Delegate Methods
     
@@ -618,10 +725,10 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     
     // MARK: - CloudKit
     
-    func createOrder(finalOrder: Order, payed: Bool, completion: @escaping ((Bool) -> Void)) {
+    func createOrder(finalOrder: Order, payed: Bool, completion: @escaping ((Bool, Error?) -> Void)) {
         
         let record = CKRecord(recordType: "Order")
-        record["item"] = finalOrder.baseProduct.name + " " + String(describing: order.baseProduct.type) as CKRecordValue
+        record["item"] = finalOrder.baseProduct.name + " " + String(describing: order.baseProduct.type!) as CKRecordValue
         //record["pickuptime"] = order.pickuptime as? CKRecordValue
         //record["name"] = order.ordername as? CKRecordValue
         var modifiers: [String] = []
@@ -638,219 +745,17 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         CKContainer.default().publicCloudDatabase.save(record) { (record, error) in
             if error != nil {
                 self.orderCounter += 1
-                if self.orderCounter < 2 {
-                    self.createOrder(finalOrder: self.order, payed: payed, completion: { (succeeded) -> Void in
-                        completion(succeeded)
-                    })
-                } else {
-                    completion(false)
-                }
+                
+                print(error!)
+                completion(false, error)
+                
             } else {
                 //GO BACK TO MENU, SHOW CONFIRMATION, YOU ARE DONE!
-                
-                completion(true)
+                print("SUCCESS")
+                completion(true, nil)
                 
             }
         }
         
-    }
-}
-
-class MenuParameterCell: UITableViewCell {
-    
-    @IBOutlet weak var parameterNameLabel: UILabel!
-    @IBOutlet weak var parameterValueLabel: UILabel!
-    
-}
-
-class MenuModifierCell: UITableViewCell {
-    @IBOutlet weak var modifierNameLabel: UILabel!
-    @IBOutlet weak var modifierSwitch: UISwitch!
-    
-    var delegate: ParameterReturnDelegate? = nil
-    var modifier: Modifier!
-    
-    @IBAction func switchChanged(_ sender: Any) {
-        
-        if (delegate != nil) {
-            delegate?.modifierValueDidChange(modifier: self.modifier, value: modifierSwitch.isOn)
-        }
-        
-    }
-    
-}
-
-class FlavorPickerTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
-    
-    @IBOutlet weak var picker: UIPickerView!
-    
-    var product: Product? {
-        didSet {
-            picker.reloadAllComponents()
-        }
-    }
-    
-    var delegate: ParameterReturnDelegate? = nil
-    
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        guard let productType = product?.type else { return 0 }
-        
-        switch productType {
-        case .Smoothie:
-            return currentSmoothies.count
-        case .Shake:
-            return currentShakes.count
-        case .Food:
-            return currentFoods.count
-        }
-    }
-    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        
-        guard let productType = product?.type else { return nil }
-        
-        switch productType {
-        case .Smoothie:
-            let string = currentSmoothies[row].name
-            
-            let attributedString = NSAttributedString(string: string!, attributes: [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
-            
-            return attributedString
-        case .Shake:
-            let string = currentShakes[row].name
-            
-            let attributedString = NSAttributedString(string: string!, attributes: [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
-            
-            return attributedString
-        case .Food:
-            let string = currentFoods[row].name
-            
-            let attributedString = NSAttributedString(string: string!, attributes: [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
-            
-            return attributedString
-        }
-        
-    }
-    @IBAction func donePressed(_ sender: Any) {
-        
-        if (delegate != nil) {
-            let row = picker.selectedRow(inComponent: 0)
-            
-            var returnedProduct: Product!
-            
-            guard let productType = product?.type else { return }
-            
-            switch productType {
-            case .Smoothie:
-                returnedProduct = currentSmoothies[row]
-            case .Shake:
-                returnedProduct = currentShakes[row]
-            case .Food:
-                returnedProduct = currentFoods[row]
-            }
-            
-            delegate?.flavorSelected(productRow: returnedProduct)
-        }
-        
-    }
-    
-}
-
-protocol ParameterReturnDelegate {
-    func modifierValueDidChange(modifier: Modifier, value: Bool)
-    func flavorSelected(productRow: Product)
-    func time(time: String, remainShowing: Bool)
-    func nameEntered(name: String)
-}
-
-class TimeCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
-    
-    @IBOutlet weak var picker: UIPickerView!
-    
-    var delegate: ParameterReturnDelegate? = nil
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return times.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        
-        
-        let string = times[row]
-        
-        let attributedString = NSAttributedString(string: string, attributes: [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
-        
-        return attributedString
-        
-        
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if delegate != nil {
-            delegate?.time(time: times[picker.selectedRow(inComponent: 0)], remainShowing: true)
-        }
-    }
-    
-    @IBAction func donePressed(_ sender: Any) {
-        if delegate != nil {
-            delegate?.time(time: times[picker.selectedRow(inComponent: 0)], remainShowing: false)
-        }
-    }
-}
-
-class NameCell: UITableViewCell, UITextFieldDelegate {
-    
-    @IBOutlet weak var textField: UITextField!
-    
-    var delegate: ParameterReturnDelegate? = nil
-    
-    let userDefaults = UserDefaults.standard
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        textField.attributedPlaceholder = NSAttributedString(string: "Tap here to enter your name...", attributes: [NSAttributedStringKey.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
-        textField.delegate = self
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
-        returnName()
-        textField.resignFirstResponder()
-        return true
-    }
-    
-    
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        
-        returnName()
-        textField.resignFirstResponder()
-        return true
-        
-    }
-    
-    func returnName() {
-        if delegate != nil {
-            delegate?.nameEntered(name: self.textField.text!)
-        }
     }
 }

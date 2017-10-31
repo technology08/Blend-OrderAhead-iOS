@@ -133,6 +133,10 @@ class MenuTableViewController: UITableViewController {
         return true
     }
     */
+    
+    @IBAction func unwindToTable(sender: UIStoryboardSegue) {
+        
+    }
 }
 
 class CategoryCell: UITableViewCell {

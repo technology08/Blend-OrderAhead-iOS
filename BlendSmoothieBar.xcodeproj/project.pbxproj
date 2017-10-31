@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0034E2431FA79C7D008FDC23 /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0034E2421FA79C7D008FDC23 /* ConfirmationViewController.swift */; };
+		0034E2451FA7A2CB008FDC23 /* CustomTableViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0034E2441FA7A2CB008FDC23 /* CustomTableViewCells.swift */; };
 		005C922D1F8916170018DD44 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C922C1F8916170018DD44 /* AppDelegate.swift */; };
 		005C92321F8916170018DD44 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 005C92301F8916170018DD44 /* Main.storyboard */; };
 		005C92341F8916170018DD44 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 005C92331F8916170018DD44 /* Assets.xcassets */; };
@@ -21,6 +23,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0034E2421FA79C7D008FDC23 /* ConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationViewController.swift; sourceTree = "<group>"; };
+		0034E2441FA7A2CB008FDC23 /* CustomTableViewCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCells.swift; sourceTree = "<group>"; };
 		005C92291F8916170018DD44 /* BlendSmoothieBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlendSmoothieBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		005C922C1F8916170018DD44 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		005C92311F8916170018DD44 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -79,6 +83,8 @@
 				005C922C1F8916170018DD44 /* AppDelegate.swift */,
 				00C3547C1F8C62360053A6A8 /* MenuTableViewController.swift */,
 				00DAAC2C1F8D8D09006F088F /* OrderMenuViewController.swift */,
+				0034E2441FA7A2CB008FDC23 /* CustomTableViewCells.swift */,
+				0034E2421FA79C7D008FDC23 /* ConfirmationViewController.swift */,
 				005C923E1F8916350018DD44 /* Product.swift */,
 				005C92301F8916170018DD44 /* Main.storyboard */,
 				005C92331F8916170018DD44 /* Assets.xcassets */,
@@ -246,6 +252,8 @@
 				005C923F1F8916350018DD44 /* Product.swift in Sources */,
 				00C3547D1F8C62360053A6A8 /* MenuTableViewController.swift in Sources */,
 				005C922D1F8916170018DD44 /* AppDelegate.swift in Sources */,
+				0034E2451FA7A2CB008FDC23 /* CustomTableViewCells.swift in Sources */,
+				0034E2431FA79C7D008FDC23 /* ConfirmationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

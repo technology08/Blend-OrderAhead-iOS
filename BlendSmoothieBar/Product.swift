@@ -102,6 +102,8 @@ struct Order {
     var modifiers: [Modifier] = []
     var pickUpTime: String!
     var orderName: String! = "No Name"
+    var pickUpPlace: String?
+    var payed: Bool!
     
     init() {
         
