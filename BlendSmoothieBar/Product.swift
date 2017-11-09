@@ -49,6 +49,17 @@ enum ProductTypes {
     case Smoothie
     case Shake
     case Food
+    
+    var description: String {
+        switch self {
+        case .Smoothie:
+            return "Smoothie"
+        case .Shake:
+            return "Shake"
+        case .Food:
+            return "Food"
+        }
+    }
 }
 
 var currentSmoothies: [Product] {

@@ -98,17 +98,24 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             self.view.addSubview(applePayButton!)
             
             cashButtonTrailingConstraint.isActive = false
-            cashButtonLeadingConstraint.constant = 8
-            cashButtonBottomConstraint.constant = 8
+            //cashButtonLeadingConstraint.constant = 8
+            //cashButtonBottomConstraint.constant = 8
             cashButton.layer.cornerRadius = 5
             
             let leadingConstraint = applePayButton?.leadingAnchor.constraint(equalTo: cashButton.trailingAnchor, constant: 8)
             let trailingConstraint = applePayButton?.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -8)
-            let bottomConstraint = applePayButton?.bottomAnchor.constraint(equalTo: addMoreItemsButton.topAnchor, constant: -8)
+//            let bottomConstraint = applePayButton?.bottomAnchor.constraint(equalTo: addMoreItemsButton.topAnchor, constant: -8)
+            var bottomConstraint: NSLayoutConstraint!
+            if #available(iOS 11.0, *) {
+                bottomConstraint = applePayButton?.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -8)
+            } else {
+                // Fallback on earlier versions
+                bottomConstraint = applePayButton?.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -8)
+            }
             let equalWidths = applePayButton?.widthAnchor.constraint(equalTo: cashButton.widthAnchor)
             let height = applePayButton?.heightAnchor.constraint(equalToConstant: 44)
             
-            NSLayoutConstraint.activate([leadingConstraint!, trailingConstraint!, bottomConstraint!, equalWidths!, height!])
+            NSLayoutConstraint.activate([leadingConstraint!, trailingConstraint!, bottomConstraint, equalWidths!, height!])
             
         } else {
             //Extend cash button full width
@@ -148,7 +155,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         didSet {
             parameterTableView.beginUpdates()
             parameterTableView.endUpdates()
-            parameterTableView.reloadData()
+            //parameterTableView.reloadData()
         }
     }
     
@@ -424,6 +431,9 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     func flavorSelected(productRow: Product, remainShowing: Bool) {
         order.baseProduct = productRow
         index1Shown = remainShowing
+        if remainShowing {
+            parameterTableView.reloadData()
+        }
         //parameterTableView.reloadData()
     }
     
@@ -728,7 +738,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     func createOrder(finalOrder: Order, payed: Bool, completion: @escaping ((Bool, Error?) -> Void)) {
         
         let record = CKRecord(recordType: "Order")
-        record["item"] = finalOrder.baseProduct.name + " " + String(describing: order.baseProduct.type!) as CKRecordValue
+        record["item"] = (finalOrder.baseProduct.name + " " + finalOrder.baseProduct.type.description) as CKRecordValue
         //record["pickuptime"] = order.pickuptime as? CKRecordValue
         //record["name"] = order.ordername as? CKRecordValue
         var modifiers: [String] = []
