@@ -114,6 +114,7 @@ struct Order {
     var pickUpTime: String!
     var orderName: String! = "No Name"
     var pickUpPlace: String?
+    var specialInstructions: String?
     var payed: Bool!
     
     init() {

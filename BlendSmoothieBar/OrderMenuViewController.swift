@@ -104,7 +104,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             
             let leadingConstraint = applePayButton?.leadingAnchor.constraint(equalTo: cashButton.trailingAnchor, constant: 8)
             let trailingConstraint = applePayButton?.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -8)
-//            let bottomConstraint = applePayButton?.bottomAnchor.constraint(equalTo: addMoreItemsButton.topAnchor, constant: -8)
+            //            let bottomConstraint = applePayButton?.bottomAnchor.constraint(equalTo: addMoreItemsButton.topAnchor, constant: -8)
             var bottomConstraint: NSLayoutConstraint!
             if #available(iOS 11.0, *) {
                 bottomConstraint = applePayButton?.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -8)
@@ -199,13 +199,13 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         /*
-         CELLS ARE:
+         CELLS ARE:The single story is an entire understanding of a culture, race, nation, or group of people
          
          -Flavor (Item for food)
          -Pick-Up Time
          -Pick-Up Location
          -Name
-         -Modifiers
+         -Modifiers 
          */
         
         if order.baseProduct != nil {
@@ -472,19 +472,151 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     
     @IBAction func cashButtonPressed(_ sender: Any) {
         
-        createOrder(finalOrder: self.order, payed: false) { (success, error) in
-            if success {
-                self.performSegue(withIdentifier: "toConfirmation", sender: nil)
-            } else {
-                if let error = error as? CKError {
-                    //HANDLE
-                    print(error)
-                } else if error != nil {
-                    print(error)
-                } else {
+        if !defaults.bool(forKey: "authCodeEntered") {
+            
+            let alert = UIAlertController(title: "Student ID Required", message: "To enable the cash button, please enter your first and last name, along with a code posted by the smoothie bar. This only happens the first time to make sure you are a student.", preferredStyle: .alert)
+            alert.addTextField(configurationHandler: { (field) in
+                field.placeholder = "First Name"
+                field.text = self.order.orderName ?? ""
+                field.clearButtonMode = .whileEditing
+                field.clearsOnBeginEditing = true
+            })
+            alert.addTextField(configurationHandler: { (field) in
+                field.placeholder = "Last Name"
+                field.clearButtonMode = .whileEditing
+                field.clearsOnBeginEditing = true
+            })
+            alert.addTextField(configurationHandler: { (field) in
+                field.placeholder = "Code"
+                field.clearButtonMode = .whileEditing
+                field.clearsOnBeginEditing = true
+            })
+            
+            alert.addAction(UIAlertAction(title: "Enter", style: .cancel, handler: { (action) in
+                
+                let id = CKRecordID(recordName: "INSERT_CLOUDKIT_RECORD_ID")
+                let currentCodeQuery = CKQuery(recordType: "Constants", predicate: NSPredicate(format: "recordID = %@", id))
+                let database = CKContainer.default().publicCloudDatabase
+                database.perform(currentCodeQuery, inZoneWith: nil, completionHandler: { (recordArray, error) in
                     
+                    alert.dismiss(animated: true, completion: nil)
+                    if error != nil {
+                        //Handle error
+                        if let error = error as? CKError {
+                            //Handle CKError
+                            print(error)
+                            if error.localizedDescription == "Couldn't send a valid signature" {
+                                let alert2 = UIAlertController(title: "Sign into iCloud", message: "This phone needs to have an iCloud account used with it in order to send orders to the server. Please sign in inside the Settings app and turn on iCloud Drive.", preferredStyle: .alert)
+                                alert2.addAction(UIAlertAction(title: "OK", style: .destructive, handler: { (action) in
+                                    alert2.dismiss(animated: true, completion: nil)
+                                }))
+                                self.present(alert2, animated: true, completion: nil)
+                            } else {
+                                let alert2 = UIAlertController(title: "Error", message: "Problem with server. Please try again.", preferredStyle: .alert)
+                                alert2.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                                    alert2.dismiss(animated: true, completion: nil)
+                                }))
+                                self.present(alert2, animated: true, completion: nil)
+                            }
+                        } else {
+                            let alert2 = UIAlertController(title: "Error", message: "Something broke. Please try again.", preferredStyle: .alert)
+                            alert2.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                                alert2.dismiss(animated: true, completion: nil)
+                            }))
+                            self.present(alert2, animated: true, completion: nil)
+                        }
+                    } else {
+                        //NO ERROR
+                        guard let array = recordArray else {
+                            
+                            let alert2 = UIAlertController(title: "Error", message: "Something broke. Please try again.", preferredStyle: .alert)
+                            alert2.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                                alert2.dismiss(animated: true, completion: nil)
+                            }))
+                            self.present(alert2, animated: true, completion: nil)
+                            return
+                        }
+                        for record in array {
+                            if record.recordID == id {
+                                DispatchQueue.main.async {
+                                    if alert.textFields![2].text == (record["string"] as? String) {
+                                        //SUCCESSFULLY AUTH
+                                        
+                                        self.defaults.set(true, forKey: "authCodeEntered")
+                                        
+                                        self.createOrder(finalOrder: self.order, payed: false) { (success, error) in
+                                            if success {
+                                                self.performSegue(withIdentifier: "toConfirmation", sender: nil)
+                                            } else {
+                                                //if let error = error as? CKError {
+                                                //HANDLE
+                                                let alert2 = UIAlertController(title: "Error", message: "The code you entered is correct, but there was an error creating the order. Please try again. You were not charged.", preferredStyle: .alert)
+                                                alert2.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: { (action) in
+                                                    alert2.dismiss(animated: true, completion: nil)
+                                                }))
+                                                alert2.addAction(UIAlertAction(title: "Try again", style: .destructive, handler: { (action) in
+                                                    self.createOrder(finalOrder: self.order, payed: false, completion: { (bool, error) in
+                                                        //NOTHING
+                                                    })
+                                                }))
+                                                self.present(alert2, animated: true, completion: nil)
+                                                //} else if error != nil {
+                                                //    print(error)
+                                                //} else {
+                                                
+                                                // }
+                                                
+                                            }
+                                        }
+                                        return
+                                    } else {
+                                        //FAILED AUTH
+                                        
+                                        let alert2 = UIAlertController(title: "Incorrect Code", message: "The code you entered is wrong. Please try again.", preferredStyle: .alert)
+                                        alert2.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                                            alert2.dismiss(animated: true, completion: nil)
+                                        }))
+                                        self.present(alert2, animated: true, completion: nil)
+                                        return
+                                    }
+                                }
+                            }
+                            
+                        }
+                    }
+                })
+                
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Nevermind", style: .default, handler: { (action) in
+                alert.dismiss(animated: true, completion: nil)
+            }))
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            let alert = UIAlertController(title: "Place Order?", message: "Are you sure you want to place your order?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
+                self.createOrder(finalOrder: self.order, payed: false) { (success, error) in
+                    if success {
+                        self.performSegue(withIdentifier: "toConfirmation", sender: nil)
+                    } else {
+                        if let error = error as? CKError {
+                            //HANDLE
+                            print(error)
+                        } else if error != nil {
+                            print(error!)
+                        } else {
+                            
+                        }
+                    }
                 }
-            }
+                alert.dismiss(animated: true, completion: {
+                   
+                })
+            }))
+            alert.addAction(UIAlertAction(title: "No", style: .default, handler: { (action) in
+                alert.dismiss(animated: true, completion: nil)
+            }))
+            self.present(alert, animated: true, completion: nil)
         }
         
     }
@@ -527,7 +659,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                                     //HANDLE
                                     print(error)
                                 } else if error != nil {
-                                    print(error)
+                                    print(error!)
                                 } else {
                                     
                                 }
@@ -588,11 +720,15 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "toConfirmation" {
-            if let destination = segue.destination as? ConfirmationViewController {
-                destination.order = self.order
-            }
+            if let destination = segue.destination as? UINavigationController {
+                if let destination2 = destination.viewControllers.first as? ConfirmationViewController {
+                    destination2.order = self.order
+                }
+           }
         }
     }
+    
+
     
     
     // MARK: - Text Field/Text View Delegate Methods
@@ -748,6 +884,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         //record["pickUpLocation"] = order.pickuplocation as? CKRecordValue
         record["modifiers"] = modifiers as CKRecordValue
         record["payedFor"] = NSNumber.init(value: payed) as CKRecordValue
+        self.order.payed = payed
         record["pickUpTime"] = finalOrder.pickUpTime as CKRecordValue
         record["name"] = finalOrder.orderName as CKRecordValue
         record["price"] = finalOrder.finalPrice.description as CKRecordValue
@@ -767,5 +904,32 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             }
         }
         
+    }
+    @IBAction func addSpecialItems(_ sender: Any) {
+        
+        let alert = UIAlertController(title: "Add Special Instructions", message: "", preferredStyle: .alert)
+        alert.addTextField { (field) in
+            field.text = self.order.specialInstructions ?? ""
+            field.placeholder = "Add instructions here..."
+        }
+        
+        let action2 = UIAlertAction(title: "Dismiss", style: .default) { (action) in
+            alert.dismiss(animated: true, completion: {
+                alert.dismiss(animated: true, completion: {
+                    
+                })
+            })
+        }
+        
+        let action = UIAlertAction(title: "OK", style: .cancel) { (action) in
+            let text = alert.textFields?.first?.text
+            self.order.specialInstructions = text
+            alert.dismiss(animated: true, completion: {
+                
+            })
+        }
+        alert.addAction(action2)
+        alert.addAction(action)
+        self.present(alert, animated: true, completion: nil)
     }
 }
