@@ -39,7 +39,10 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     var order = Order() {
         didSet {
             //parameterTableView.reloadData()
-            priceLabel.text = "$\(order.finalPrice ?? 3)"
+            
+            DispatchQueue.main.async {
+                self.priceLabel.text = "$\(self.order.finalPrice ?? 3)"
+            }
         }
     }
     
@@ -153,9 +156,23 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     
     var index1Shown = false {
         didSet {
-            parameterTableView.beginUpdates()
-            parameterTableView.endUpdates()
+            //parameterTableView.beginUpdates()
+            //parameterTableView.endUpdates()
             //parameterTableView.reloadData()
+            
+            if locationShown == false {
+                
+                parameterTableView.beginUpdates()
+                parameterTableView.endUpdates()
+                parameterTableView.reloadData()
+                
+            } else {
+                
+                parameterTableView.beginUpdates()
+                parameterTableView.endUpdates()
+                //parameterTableView.scrollToRow(at: IndexPath.init(row: order.baseProduct.modifiers.count + 5, section: 0), at: .top, animated: true)
+                parameterTableView.reloadData()
+            }
         }
     }
     
@@ -308,6 +325,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                 
                 //ADJUST TO USER PREFERENCES
                 cell.textField.text = defaults.string(forKey: "name")
+                self.order.orderName = defaults.string(forKey: "name")
                 cell.delegate = self
                 
                 return cell
@@ -326,6 +344,10 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                     if (((hour.hour! == 10 && hour.minute! >= 30) || (hour.hour! > 10))) && ((hour.hour == 13 && hour.minute! <= 25) || (hour.hour! <= 13)) {
                         //GO TO 1:25
                         order.pickUpTime = "1:25 PM"
+                    } else if hour.hour! > 16 || (hour.hour! > 15 && hour.minute! > 30) {
+                        //GO TO 7:30
+                        
+                        order.pickUpTime = "7:30 AM"
                     } else if (hour.hour! == 10 && hour.minute! <= 30) || hour.hour! < 10 {
                         
                         order.pickUpTime = "\(hour.hour!):\(hour.minute!) AM"
@@ -354,7 +376,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                 cell.parameterNameLabel.text = "Pick-Up Location"
                 //ADJUST TO USER PREFERENCES
                 cell.parameterValueLabel.text = order.pickUpPlace ?? defaults.string(forKey: "place") ?? "Smoothie Bar"
-                
+                self.order.pickUpPlace = order.pickUpPlace ?? defaults.string(forKey: "place") ?? "Smoothie Bar"
                 return cell
             case 5:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "locationCell") as! LocationPickerCell
@@ -430,9 +452,17 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func flavorSelected(productRow: Product, remainShowing: Bool) {
         order.baseProduct = productRow
-        index1Shown = remainShowing
+        //Price stuff
+        var modifierPrices:Decimal = 0.0
+        for mod in order.modifiers {
+            modifierPrices += mod.price
+        }
+        
+        order.finalPrice = order.baseProduct.price + modifierPrices
+        
         if remainShowing {
             parameterTableView.reloadData()
+            index1Shown = false
         }
         //parameterTableView.reloadData()
     }
@@ -440,12 +470,14 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     func time(time: String, remainShowing: Bool) {
         order.pickUpTime = time
         //timePickerShown = remainShowing
-        parameterTableView.beginUpdates()
+        
         if !remainShowing {
+            parameterTableView.beginUpdates()
             timePickerShown = false
             parameterTableView.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: .top, animated: true)
+            parameterTableView.endUpdates()
         }
-        parameterTableView.endUpdates()
+        
         parameterTableView.reloadData()
     }
     
@@ -458,13 +490,16 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func locationChanged(location: String, remainShowing: Bool) {
-        parameterTableView.beginUpdates()
+        self.order.pickUpPlace = location
+        
         if !remainShowing {
-            timePickerShown = false
+            parameterTableView.beginUpdates()
+            locationShown = false
             parameterTableView.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: .top, animated: true)
+            parameterTableView.endUpdates()
         }
         defaults.set(location, forKey: "place")
-        parameterTableView.endUpdates()
+        
         parameterTableView.reloadData()
     }
     
@@ -875,19 +910,84 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         
         let record = CKRecord(recordType: "Order")
         record["item"] = (finalOrder.baseProduct.name + " " + finalOrder.baseProduct.type.description) as CKRecordValue
-        //record["pickuptime"] = order.pickuptime as? CKRecordValue
-        //record["name"] = order.ordername as? CKRecordValue
+        
         var modifiers: [String] = []
         for modifier in order.modifiers {
             modifiers.append(modifier.name)
         }
-        //record["pickUpLocation"] = order.pickuplocation as? CKRecordValue
+        record["pickUpLocation"] = (finalOrder.pickUpPlace ?? "Smoothie Bar") as CKRecordValue
         record["modifiers"] = modifiers as CKRecordValue
         record["payedFor"] = NSNumber.init(value: payed) as CKRecordValue
         self.order.payed = payed
         record["pickUpTime"] = finalOrder.pickUpTime as CKRecordValue
         record["name"] = finalOrder.orderName as CKRecordValue
         record["price"] = finalOrder.finalPrice.description as CKRecordValue
+        
+        let date = Date()
+        let components = Calendar.current.dateComponents([.year, .month, .day], from: date)
+        
+        var digits = [Int]()
+        
+        let number = components.year!
+        digits.append(number)
+        let number2 = components.month!
+        
+        if number2.digitCount == 1 {
+            digits.append(0)
+        }
+        
+        digits.append(number2)
+        
+        let number3 = components.day!
+        
+        if number3.digitCount == 1 {
+            digits.append(0)
+        }
+        
+        digits.append(number3)
+        
+        let pickuptime = self.order.pickUpTime
+        let characters = pickuptime?.components(separatedBy: " ")
+        let furtherseperated = characters?.first?.components(separatedBy: ":")
+        var hour = Int()
+        
+        if (pickuptime?.starts(with: "10"))! {
+            hour = 10
+        } else {
+            hour = Int((furtherseperated?.first)!)!
+            if ((pickuptime?.starts(with: "1"))! || (pickuptime?.starts(with: "2"))! || (pickuptime?.starts(with: "3"))!) {
+                hour += 12
+            }
+        }
+        digits.append(hour)
+        
+        let minute = Int(furtherseperated![1])
+        
+        if (furtherseperated?[1].starts(with: "0"))! {
+           digits.append(0)
+        }
+        
+        digits.append(minute!)
+        let value = Int(digits.map(String.init).joined())
+        
+        record["sortDate"] = value! as CKRecordValue
+        
+        var modifierString = ""
+        
+        for item in modifiers {
+            if item == modifiers.last {
+                modifierString.append("\(item).")
+            } else {
+                modifierString.append("\(item), ")
+            }
+            
+        }
+        
+        if modifierString != "" {
+            record["notificationPayload"] = "New Order: \(finalOrder.baseProduct.name + " " + finalOrder.baseProduct.type.description) for \((finalOrder.orderName)!) with \(modifierString)" as CKRecordValue
+        } else {
+            record["notificationPayload"] = "New Order: \(finalOrder.baseProduct.name + " " + finalOrder.baseProduct.type.description) for \((finalOrder.orderName)!)." as CKRecordValue
+        }
         
         CKContainer.default().publicCloudDatabase.save(record) { (record, error) in
             if error != nil {

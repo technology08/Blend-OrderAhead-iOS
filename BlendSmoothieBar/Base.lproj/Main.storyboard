@@ -388,7 +388,7 @@
                                                 <outlet property="delegate" destination="o6r-YA-F8k" id="JNz-wq-Goy"/>
                                             </connections>
                                         </tableView>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sux-np-ONm">
+                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sux-np-ONm">
                                             <rect key="frame" x="8" y="430" width="359" height="44"/>
                                             <color key="backgroundColor" red="0.22878849506378174" green="0.24111029505729675" blue="0.32550078630447388" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <constraints>
@@ -582,8 +582,8 @@
                         <constraints>
                             <constraint firstItem="Kja-uk-evq" firstAttribute="trailing" secondItem="Xoe-NB-zrv" secondAttribute="trailing" id="0Tq-W3-SzW"/>
                             <constraint firstItem="Kja-uk-evq" firstAttribute="leading" secondItem="Xoe-NB-zrv" secondAttribute="leading" id="FnZ-uK-uEo"/>
-                            <constraint firstItem="c01-uC-kbk" firstAttribute="bottom" secondItem="Xoe-NB-zrv" secondAttribute="bottom" id="HGc-jr-hqi"/>
-                            <constraint firstItem="Kja-uk-evq" firstAttribute="bottom" secondItem="Xoe-NB-zrv" secondAttribute="bottom" id="NRb-14-beL"/>
+                            <constraint firstItem="c01-uC-kbk" firstAttribute="bottom" secondItem="fIn-QI-LHf" secondAttribute="bottom" id="HGc-jr-hqi"/>
+                            <constraint firstItem="Kja-uk-evq" firstAttribute="bottom" secondItem="fIn-QI-LHf" secondAttribute="bottom" id="NRb-14-beL"/>
                             <constraint firstItem="Kja-uk-evq" firstAttribute="top" secondItem="Xoe-NB-zrv" secondAttribute="top" id="Vrb-O6-MBO"/>
                             <constraint firstItem="c01-uC-kbk" firstAttribute="leading" secondItem="Xoe-NB-zrv" secondAttribute="leading" id="aPO-rx-GDP"/>
                             <constraint firstItem="c01-uC-kbk" firstAttribute="top" secondItem="Xoe-NB-zrv" secondAttribute="top" id="cZj-5w-3PJ"/>

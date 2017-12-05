@@ -30,14 +30,14 @@ class ConfirmationViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let orderNameValue = order.orderName ?? "No Name"
+        let orderNameValue = order.orderName!
         orderName.text = "Order Name: \(orderNameValue)"
-        pickUpDate.text = getDate(pickUpTime: order.pickUpTime)
-        pickUpLocation.text = "Pick Up at \(String(describing: (order.pickUpPlace ?? "Smoothie Bar") + (order.pickUpTime ?? "")))."
+        pickUpDate.text = getDate(pickUpTime: order.pickUpTime!)
+        pickUpLocation.text = "Pick Up at \(String(describing: (order.pickUpPlace ?? "Smoothie Bar")!))."
         if order.payed {
             amountDue.text = "Pre-Paid"
         } else {
-            amountDue.text = "$\(order.finalPrice)"
+            amountDue.text = "Amount Due: $\(order.finalPrice!)"
         }
     }
     
@@ -62,7 +62,7 @@ class ConfirmationViewController: UIViewController {
         let calendar = Calendar.current
         
         let components = calendar.dateComponents([.month, .day, .year], from: datething)
-        return "Pick Up on \(String(describing: components.month?.description)).\(String(describing: components.day?.description)).\(String(describing: components.year?.description)) at \(pickUpTime)"
+        return "Pick Up on \(components.month.unsafelyUnwrapped).\(components.day.unsafelyUnwrapped).\(components.year.unsafelyUnwrapped) at \(pickUpTime)"
     }
 
 }

@@ -32,6 +32,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         AWSServiceManager.default().defaultServiceConfiguration = configuration
         
+        UIApplication.shared.statusBarStyle = .lightContent
+        
         return true
     }
 
