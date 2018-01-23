@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		000CF6732005088E009A8CCD /* InitialLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000CF6722005088E009A8CCD /* InitialLoadingViewController.swift */; };
 		0034E2431FA79C7D008FDC23 /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0034E2421FA79C7D008FDC23 /* ConfirmationViewController.swift */; };
 		0034E2451FA7A2CB008FDC23 /* CustomTableViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0034E2441FA7A2CB008FDC23 /* CustomTableViewCells.swift */; };
 		005C922D1F8916170018DD44 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C922C1F8916170018DD44 /* AppDelegate.swift */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		000CF6722005088E009A8CCD /* InitialLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialLoadingViewController.swift; sourceTree = "<group>"; };
 		0034E2421FA79C7D008FDC23 /* ConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationViewController.swift; sourceTree = "<group>"; };
 		0034E2441FA7A2CB008FDC23 /* CustomTableViewCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCells.swift; sourceTree = "<group>"; };
 		005C92291F8916170018DD44 /* BlendSmoothieBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlendSmoothieBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -81,6 +83,7 @@
 			children = (
 				005C92451F8974EA0018DD44 /* BlendSmoothieBar.entitlements */,
 				005C922C1F8916170018DD44 /* AppDelegate.swift */,
+				000CF6722005088E009A8CCD /* InitialLoadingViewController.swift */,
 				00C3547C1F8C62360053A6A8 /* MenuTableViewController.swift */,
 				00DAAC2C1F8D8D09006F088F /* OrderMenuViewController.swift */,
 				0034E2441FA7A2CB008FDC23 /* CustomTableViewCells.swift */,
@@ -248,6 +251,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				000CF6732005088E009A8CCD /* InitialLoadingViewController.swift in Sources */,
 				00DAAC2D1F8D8D09006F088F /* OrderMenuViewController.swift in Sources */,
 				005C923F1F8916350018DD44 /* Product.swift in Sources */,
 				00C3547D1F8C62360053A6A8 /* MenuTableViewController.swift in Sources */,

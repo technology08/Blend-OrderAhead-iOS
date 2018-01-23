@@ -11,6 +11,7 @@ import PassKit
 import CloudKit
 import Stripe
 import AWSLambda
+import LocalAuthentication
 
 class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ParameterReturnDelegate, PKPaymentAuthorizationViewControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
     
@@ -26,7 +27,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     
     let defaults = UserDefaults.standard
     var applePayButton: UIButton?
-    var currentProductCategory: ProductTypes = .Smoothie
+    var currentProductCategory: String = "Smoothie"
     public var selectedProduct: Product? {
         didSet {
             parameterTableView.beginUpdates()
@@ -130,24 +131,36 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         super.viewWillAppear(animated)
         
         switch currentProductCategory {
-        case ProductTypes.Smoothie:
+        case "Smoothies":
             productTypeLabel.text = "Smoothie"
             order.baseProduct = currentSmoothies.first
             order.finalPrice = currentSmoothies.first?.price
             visualEffectView.effect = UIBlurEffect(style: .dark)
             backgroundImageView.image = #imageLiteral(resourceName: "smoothie")
-        case ProductTypes.Shake:
-            productTypeLabel.text = "Shake"
-            order.baseProduct = currentShakes.first
-            order.finalPrice = currentShakes.first?.price
+        case "Drinks":
+            productTypeLabel.text = "Drinks"
+            order.baseProduct = currentDrinks.first
+            order.finalPrice = currentDrinks.first?.price
+            visualEffectView.effect = UIBlurEffect(style: .dark)
+            backgroundImageView.image = #imageLiteral(resourceName: "smoothie")
+        case "Ice Cream & Sweets":
+            productTypeLabel.text = "Ice Cream & Sweets"
+            order.baseProduct = currentIceCream.first
+            order.finalPrice = currentIceCream.first?.price
             visualEffectView.effect = UIBlurEffect(style: .dark)
             backgroundImageView.image = #imageLiteral(resourceName: "shake")
-        case ProductTypes.Food:
-            productTypeLabel.text = "Breakfast"
+        case "Food":
+            productTypeLabel.text = "Food"
             order.baseProduct = currentFoods.first
             order.finalPrice = currentFoods.first?.price
             visualEffectView.effect = UIBlurEffect(style: .dark)
             backgroundImageView.image = #imageLiteral(resourceName: "waffle")
+        default:
+            productTypeLabel.text = "Smoothie"
+            order.baseProduct = currentSmoothies.first
+            order.finalPrice = currentSmoothies.first?.price
+            visualEffectView.effect = UIBlurEffect(style: .dark)
+            backgroundImageView.image = #imageLiteral(resourceName: "smoothie")
         }
         
     }
@@ -156,21 +169,14 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     
     var index1Shown = false {
         didSet {
-            //parameterTableView.beginUpdates()
-            //parameterTableView.endUpdates()
-            //parameterTableView.reloadData()
-            
+
             if locationShown == false {
-                
                 parameterTableView.beginUpdates()
                 parameterTableView.endUpdates()
                 parameterTableView.reloadData()
-                
             } else {
-                
                 parameterTableView.beginUpdates()
                 parameterTableView.endUpdates()
-                //parameterTableView.scrollToRow(at: IndexPath.init(row: order.baseProduct.modifiers.count + 5, section: 0), at: .top, animated: true)
                 parameterTableView.reloadData()
             }
         }
@@ -216,8 +222,6 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         /*
-         CELLS ARE:The single story is an entire understanding of a culture, race, nation, or group of people
-         
          -Flavor (Item for food)
          -Pick-Up Time
          -Pick-Up Location
@@ -237,14 +241,9 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             
             switch index1Shown {
             case true:
-                //UIView.animate(withDuration: 0.75, delay: 0, options: [.curveEaseOut], animations: {
                 return 150
-                
-            //}, completion: nil)
             case false:
-                //UIView.animate(withDuration: 0.75, delay: 0, options: [.curveEaseOut], animations: {
                 return 0
-                //}, completion: nil)
             }
             
         } else if indexPath.row == (order.baseProduct.modifiers.count + 4) {
@@ -273,11 +272,11 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             let cell = tableView.dequeueReusableCell(withIdentifier: "parameterCell") as! MenuParameterCell
             
             switch product.type! {
-            case .Smoothie:
+            case "Smoothies":
                 cell.parameterNameLabel.text = "Flavor"
-            case .Shake:
+            case "Ice Cream & Sweets":
                 cell.parameterNameLabel.text = "Flavor"
-            case .Food:
+            default /*INCLUDES FOOD*/:
                 cell.parameterNameLabel.text = "Item"
             }
             
@@ -507,7 +506,8 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     
     @IBAction func cashButtonPressed(_ sender: Any) {
         
-        if !defaults.bool(forKey: "authCodeEntered") {
+        
+        if !self.defaults.bool(forKey: "authCodeEntered") {
             
             let alert = UIAlertController(title: "Student ID Required", message: "To enable the cash button, please enter your first and last name, along with a code posted by the smoothie bar. This only happens the first time to make sure you are a student.", preferredStyle: .alert)
             alert.addTextField(configurationHandler: { (field) in
@@ -578,31 +578,34 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                                         //SUCCESSFULLY AUTH
                                         
                                         self.defaults.set(true, forKey: "authCodeEntered")
-                                        
-                                        self.createOrder(finalOrder: self.order, payed: false) { (success, error) in
-                                            if success {
-                                                self.performSegue(withIdentifier: "toConfirmation", sender: nil)
-                                            } else {
-                                                //if let error = error as? CKError {
-                                                //HANDLE
-                                                let alert2 = UIAlertController(title: "Error", message: "The code you entered is correct, but there was an error creating the order. Please try again. You were not charged.", preferredStyle: .alert)
-                                                alert2.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: { (action) in
-                                                    alert2.dismiss(animated: true, completion: nil)
-                                                }))
-                                                alert2.addAction(UIAlertAction(title: "Try again", style: .destructive, handler: { (action) in
-                                                    self.createOrder(finalOrder: self.order, payed: false, completion: { (bool, error) in
-                                                        //NOTHING
-                                                    })
-                                                }))
-                                                self.present(alert2, animated: true, completion: nil)
-                                                //} else if error != nil {
-                                                //    print(error)
-                                                //} else {
-                                                
-                                                // }
-                                                
+                                        self.authenticate(completion: { (auth) in
+                                            if auth {
+                                                self.createOrder(finalOrder: self.order, payed: false) { (success, error) in
+                                                    if success {
+                                                        self.performSegue(withIdentifier: "toConfirmation", sender: nil)
+                                                    } else {
+                                                        //if let error = error as? CKError {
+                                                        //HANDLE
+                                                        let alert2 = UIAlertController(title: "Error", message: "The code you entered is correct, but there was an error creating the order. Please try again. You were not charged.", preferredStyle: .alert)
+                                                        alert2.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: { (action) in
+                                                            alert2.dismiss(animated: true, completion: nil)
+                                                        }))
+                                                        alert2.addAction(UIAlertAction(title: "Try again", style: .destructive, handler: { (action) in
+                                                            self.createOrder(finalOrder: self.order, payed: false, completion: { (bool, error) in
+                                                                //NOTHING
+                                                            })
+                                                        }))
+                                                        self.present(alert2, animated: true, completion: nil)
+                                                        //} else if error != nil {
+                                                        //    print(error)
+                                                        //} else {
+                                                        
+                                                        // }
+                                                        
+                                                    }
+                                                }
                                             }
-                                        }
+                                        })
                                         return
                                     } else {
                                         //FAILED AUTH
@@ -628,24 +631,29 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             }))
             self.present(alert, animated: true, completion: nil)
         } else {
+            
             let alert = UIAlertController(title: "Place Order?", message: "Are you sure you want to place your order?", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
-                self.createOrder(finalOrder: self.order, payed: false) { (success, error) in
-                    if success {
-                        self.performSegue(withIdentifier: "toConfirmation", sender: nil)
-                    } else {
-                        if let error = error as? CKError {
-                            //HANDLE
-                            print(error)
-                        } else if error != nil {
-                            print(error!)
-                        } else {
-                            
+                self.authenticate(completion: { (auth) in
+                    if auth {
+                        self.createOrder(finalOrder: self.order, payed: false) { (success, error) in
+                            if success {
+                                self.performSegue(withIdentifier: "toConfirmation", sender: nil)
+                            } else {
+                                if let error = error as? CKError {
+                                    //HANDLE
+                                    print(error)
+                                    fatalError("CKError is as follows: \(String(describing:(error)))")
+                                } else if error != nil {
+                                    print(error!)
+                                    fatalError("Error is as follows: \(String(describing: error))")
+                                } else {
+                                    
+                                }
+                            }
                         }
+                        alert.dismiss(animated: true, completion: nil)
                     }
-                }
-                alert.dismiss(animated: true, completion: {
-                   
                 })
             }))
             alert.addAction(UIAlertAction(title: "No", style: .default, handler: { (action) in
@@ -655,6 +663,8 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         
     }
+    
+    
     // MARK: - Apple Pay Delegate Methods
     
     func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {
@@ -759,11 +769,11 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                 if let destination2 = destination.viewControllers.first as? ConfirmationViewController {
                     destination2.order = self.order
                 }
-           }
+            }
         }
     }
     
-
+    
     
     
     // MARK: - Text Field/Text View Delegate Methods
@@ -964,7 +974,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         let minute = Int(furtherseperated![1])
         
         if (furtherseperated?[1].starts(with: "0"))! {
-           digits.append(0)
+            digits.append(0)
         }
         
         digits.append(minute!)
@@ -1031,5 +1041,26 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         alert.addAction(action2)
         alert.addAction(action)
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    func authenticate(completion: @escaping ((Bool) -> Void)) {
+        let context:LAContext = LAContext()
+        if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil) {
+            context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: "Please use biometrics in order to verify your identity before purchase.", reply: { (authenticated, error) in
+                
+                if let error = error as? LAError {
+                    switch error.errorCode {
+                   
+                    case LAError.passcodeNotSet.rawValue:
+                        completion(true)
+                  
+                    default:
+                        completion(false)
+                    }
+                } else {
+                    completion(authenticated)
+                }
+            })
+        }
     }
 }

@@ -72,12 +72,16 @@ class FlavorPickerTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
         guard let productType = product?.type else { return 0 }
         
         switch productType {
-        case .Smoothie:
+        case "Smoothies":
             return currentSmoothies.count
-        case .Shake:
-            return currentShakes.count
-        case .Food:
+        case "Drinks":
+            return currentDrinks.count
+        case "Ice Cream & Sweets":
+            return currentIceCream.count
+        case "Food":
             return currentFoods.count
+        default:
+            return 0
         }
     }
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
@@ -85,24 +89,32 @@ class FlavorPickerTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
         guard let productType = product?.type else { return nil }
         
         switch productType {
-        case .Smoothie:
+        case "Smoothies":
             let string = currentSmoothies[row].name
             
             let attributedString = NSAttributedString(string: string!, attributes: [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
             
             return attributedString
-        case .Shake:
-            let string = currentShakes[row].name
+        case "Drinks":
+            let string = currentDrinks[row].name
             
             let attributedString = NSAttributedString(string: string!, attributes: [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
             
             return attributedString
-        case .Food:
+        case "Ice Cream & Sweets":
+            let string = currentIceCream[row].name
+            
+            let attributedString = NSAttributedString(string: string!, attributes: [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
+            
+            return attributedString
+        case "Food":
             let string = currentFoods[row].name
             
             let attributedString = NSAttributedString(string: string!, attributes: [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
             
             return attributedString
+        default:
+            return nil
         }
         
     }
@@ -116,12 +128,16 @@ class FlavorPickerTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
             guard let productType = product?.type else { return }
             
             switch productType {
-            case .Smoothie:
+            case "Smoothies":
                 returnedProduct = currentSmoothies[row]
-            case .Shake:
-                returnedProduct = currentShakes[row]
-            case .Food:
+            case  "Drinks":
+                returnedProduct = currentDrinks[row]
+            case "Ice Cream & Sweets":
+                returnedProduct = currentIceCream[row]
+            case "Food":
                 returnedProduct = currentFoods[row]
+            default:
+                fatalError("Return Product not a category")
             }
             
             delegate?.flavorSelected(productRow: returnedProduct, remainShowing: false)
@@ -138,12 +154,16 @@ class FlavorPickerTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
             guard let productType = product?.type else { return }
             
             switch productType {
-            case .Smoothie:
+            case "Smoothies":
                 returnedProduct = currentSmoothies[row]
-            case .Shake:
-                returnedProduct = currentShakes[row]
-            case .Food:
+            case "Drinks":
+                returnedProduct = currentDrinks[row]
+            case "Ice Cream & Sweets":
+                returnedProduct = currentIceCream[row]
+            case "Food":
                 returnedProduct = currentFoods[row]
+            default:
+                fatalError("User selected product: Does not fall in a category.")
             }
             
             delegate?.flavorSelected(productRow: returnedProduct, remainShowing: true)

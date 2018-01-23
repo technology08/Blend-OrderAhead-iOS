@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import CloudKit
 
 class MenuTableViewController: UITableViewController {
 
-    var selectedCategory: ProductTypes!
+    var selectedCategory: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +23,7 @@ class MenuTableViewController: UITableViewController {
         
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    
     }
 
     override func didReceiveMemoryWarning() {
@@ -38,7 +40,7 @@ class MenuTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 3
+        return 4
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -48,7 +50,7 @@ class MenuTableViewController: UITableViewController {
         } else {
             // Fallback on earlier versions
  
-            return (self.view.frame.height - (self.tabBarController!.view.frame.height + self.tabBarController!.view.frame.height)) / 3
+            return (self.view.frame.height - (self.tabBarController!.view.frame.height + self.tabBarController!.view.frame.height)) / 4
         }
     }
     
@@ -62,15 +64,22 @@ class MenuTableViewController: UITableViewController {
         case 0:
             cell.categoryImage.image = #imageLiteral(resourceName: "smoothie")
             cell.categoryLabel.text = "SMOOTHIES"
-            cell.category = ProductTypes.Smoothie
+            cell.category = "Smoothies"
         case 1:
-            cell.categoryImage.image = #imageLiteral(resourceName: "shake")
-            cell.categoryLabel.text = "SHAKES"
-            cell.category = ProductTypes.Shake
+            cell.categoryLabel.text = "BEVERAGES"
+            cell.category = "Drinks"
         case 2:
+            cell.categoryImage.image = #imageLiteral(resourceName: "shake")
+            cell.categoryLabel.text =   """
+                                        ICE CREAM &
+                                        SWEETS
+                                        """
+            cell.categoryLabel.numberOfLines = 2
+            cell.category = "Ice Cream & Sweets"
+        case 3:
             cell.categoryImage.image = #imageLiteral(resourceName: "waffle")
-            cell.categoryLabel.text = "BREAKFAST"
-            cell.category = ProductTypes.Food
+            cell.categoryLabel.text = "FOOD"
+            cell.category = "Food"
         default:
             //Grab new categories from CloudKit?
             print("cellforrowat error category cell")
@@ -84,6 +93,7 @@ class MenuTableViewController: UITableViewController {
         let cellCategory = (tableView.cellForRow(at: indexPath) as! CategoryCell).category
         selectedCategory = cellCategory
         performSegue(withIdentifier: "toMenuOrder", sender: self)
+    
     }
 
     // MARK: - Navigation
@@ -142,5 +152,5 @@ class MenuTableViewController: UITableViewController {
 class CategoryCell: UITableViewCell {
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var categoryImage: UIImageView!
-    var category: ProductTypes!
+    var category: String!
 }
