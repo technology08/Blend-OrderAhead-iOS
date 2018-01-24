@@ -459,7 +459,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         
         order.finalPrice = order.baseProduct.price + modifierPrices
         
-        if remainShowing {
+        if !remainShowing {
             parameterTableView.reloadData()
             index1Shown = false
         }
