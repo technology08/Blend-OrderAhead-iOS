@@ -10,10 +10,10 @@ import CloudKit
 import UIKit
 
 struct Product: Codable {
-    var name: String!
+    var name: String = ""
     var modifiers: [Modifier] = []
-    var price: Decimal!
-    var type: String!
+    var price: Decimal = 0
+    var type: String = "Smoothies"
     
     init(name: String, type: String) {
         self.name = name
@@ -48,10 +48,10 @@ struct Order {
     var finalPrice: Decimal!
     var modifiers: [Modifier] = []
     var pickUpTime: String!
-    var orderName: String! = "No Name"
-    var pickUpPlace: String?
+    var orderName = "No Name"
+    var pickUpPlace = "Smoothie Bar"
     var specialInstructions: String?
-    var payed: Bool!
+    var payed: Bool = false
     var sortDate = Int()
     
     init() {

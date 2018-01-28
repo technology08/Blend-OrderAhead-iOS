@@ -42,7 +42,7 @@ class MenuTableViewController: UITableViewController {
         // #warning Incomplete implementation, return the number of rows
         return 4
     }
-
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
        
         if #available(iOS 11.0, *) {
@@ -56,7 +56,7 @@ class MenuTableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as! CategoryCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell") as! CategoryCell
 
         // Configure the cell...
 
@@ -68,6 +68,7 @@ class MenuTableViewController: UITableViewController {
         case 1:
             cell.categoryLabel.text = "BEVERAGES"
             cell.category = "Drinks"
+            cell.categoryImage.image = #imageLiteral(resourceName: "drink")
         case 2:
             cell.categoryImage.image = #imageLiteral(resourceName: "shake")
             cell.categoryLabel.text =   """

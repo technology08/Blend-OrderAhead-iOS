@@ -30,10 +30,10 @@ class ConfirmationViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let orderNameValue = order.orderName!
+        let orderNameValue = order.orderName
         orderName.text = "Order Name: \(orderNameValue)"
         pickUpDate.text = getDate(pickUpTime: order.pickUpTime!)
-        pickUpLocation.text = "Pick Up at \(String(describing: (order.pickUpPlace ?? "Smoothie Bar")!))."
+        pickUpLocation.text = "Pick Up at \(String(describing: (order.pickUpPlace)))."
         if order.payed {
             amountDue.text = "Pre-Paid"
         } else {

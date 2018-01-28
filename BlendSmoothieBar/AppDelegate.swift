@@ -59,7 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
+/*
     func createMenuItems() {
         CKContainer.default().publicCloudDatabase.perform(CKQuery(recordType: "Item", predicate: NSPredicate(format: "TRUEPREDICATE", argumentArray: nil)), inZoneWith: nil, completionHandler: { (results:[CKRecord]?, error:Error?) in
             guard error == nil else { print(error!); return }
@@ -119,6 +119,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-    
+    */
 }
 

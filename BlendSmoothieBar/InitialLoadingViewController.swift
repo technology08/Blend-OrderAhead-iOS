@@ -85,7 +85,7 @@ class InitialLoadingViewController: UIViewController {
             case "Food":
                 currentFoods.append(decoded)
             default:
-                print("Encountered product which doesn't conform to category. Record name: \(decoded.name)")
+                fatalError("Encountered product which doesn't conform to category. Record name: \(decoded.name)")
             }
         }
     }

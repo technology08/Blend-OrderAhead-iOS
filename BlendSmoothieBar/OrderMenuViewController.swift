@@ -31,7 +31,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     public var selectedProduct: Product? {
         didSet {
             parameterTableView.beginUpdates()
-            priceLabel.text = "$\(selectedProduct?.price! ?? 3)"
+            priceLabel.text = "$\(selectedProduct?.price ?? 3)"
             parameterTableView.endUpdates()
             parameterTableView.reloadData()
         }
@@ -88,7 +88,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     override func viewWillLayoutSubviews() {
         super.updateViewConstraints()
         
-        self.tableViewHeightConstraint.constant = self.parameterTableView.contentSize.height
+        /*self.tableViewHeightConstraint.constant = self.parameterTableView.contentSize.height*/
         
         if PKPaymentAuthorizationViewController.canMakePayments() {
             if #available(iOS 10.0, *) {
@@ -169,16 +169,18 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     
     var index1Shown = false {
         didSet {
-
+            parameterTableView.beginUpdates()
+            parameterTableView.endUpdates()
+/*
             if locationShown == false {
                 parameterTableView.beginUpdates()
                 parameterTableView.endUpdates()
                 parameterTableView.reloadData()
             } else {
-                parameterTableView.beginUpdates()
-                parameterTableView.endUpdates()
+             
                 parameterTableView.reloadData()
             }
+ */
         }
     }
     
@@ -238,14 +240,12 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 1 {
-            
             switch index1Shown {
             case true:
                 return 150
             case false:
                 return 0
             }
-            
         } else if indexPath.row == (order.baseProduct.modifiers.count + 4) {
             switch timePickerShown {
             case true:
@@ -271,7 +271,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "parameterCell") as! MenuParameterCell
             
-            switch product.type! {
+            switch product.type {
             case "Smoothies":
                 cell.parameterNameLabel.text = "Flavor"
             case "Ice Cream & Sweets":
@@ -324,7 +324,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                 
                 //ADJUST TO USER PREFERENCES
                 cell.textField.text = defaults.string(forKey: "name")
-                self.order.orderName = defaults.string(forKey: "name")
+                self.order.orderName = defaults.string(forKey: "name") ?? ""
                 cell.delegate = self
                 
                 return cell
@@ -407,7 +407,6 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             }
         }
         else if indexPath.row == (order.baseProduct.modifiers.count + 5) {
-            print("tap")
             switch locationShown {
             case true:
                 locationShown = false
@@ -416,8 +415,6 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                 locationShown = true
             }
         }
-        
-        print(indexPath.row)
         
         if indexPath.row > 1 && indexPath.row <= order.modifiers.count + 1 {
             tableView.deselectRow(at: indexPath, animated: false)
@@ -446,7 +443,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             
         }
         
-        defaults.set(value, forKey: "\(order.baseProduct.type!)\(modifier.name)")
+        defaults.set(value, forKey: "\(order.baseProduct.type)\(modifier.name)")
     }
     
     func flavorSelected(productRow: Product, remainShowing: Bool) {
@@ -460,10 +457,14 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         order.finalPrice = order.baseProduct.price + modifierPrices
         
         if !remainShowing {
-            parameterTableView.reloadData()
             index1Shown = false
+            /*
+            parameterTableView.beginUpdates()
+            parameterTableView.endUpdates()
+            */
+        } else {
+            parameterTableView.reloadData()
         }
-        //parameterTableView.reloadData()
     }
     
     func time(time: String, remainShowing: Bool) {
@@ -475,9 +476,9 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             timePickerShown = false
             parameterTableView.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: .top, animated: true)
             parameterTableView.endUpdates()
+        } else {
+            parameterTableView.reloadData()
         }
-        
-        parameterTableView.reloadData()
     }
     
     func nameEntered(name: String) {
@@ -494,12 +495,14 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         if !remainShowing {
             parameterTableView.beginUpdates()
             locationShown = false
-            parameterTableView.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: .top, animated: true)
+            //parameterTableView.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: .top, animated: true)
             parameterTableView.endUpdates()
+        } else {
+            parameterTableView.reloadData()
         }
         defaults.set(location, forKey: "place")
         
-        parameterTableView.reloadData()
+        
     }
     
     // MARK: - Other Payment Methods
@@ -539,7 +542,6 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                         //Handle error
                         if let error = error as? CKError {
                             //Handle CKError
-                            print(error)
                             if error.localizedDescription == "Couldn't send a valid signature" {
                                 let alert2 = UIAlertController(title: "Sign into iCloud", message: "This phone needs to have an iCloud account used with it in order to send orders to the server. Please sign in inside the Settings app and turn on iCloud Drive.", preferredStyle: .alert)
                                 alert2.addAction(UIAlertAction(title: "OK", style: .destructive, handler: { (action) in
@@ -553,6 +555,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                                 }))
                                 self.present(alert2, animated: true, completion: nil)
                             }
+                            fatalError(error.localizedDescription)
                         } else {
                             let alert2 = UIAlertController(title: "Error", message: "Something broke. Please try again.", preferredStyle: .alert)
                             alert2.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
@@ -578,7 +581,8 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                                         //SUCCESSFULLY AUTH
                                         
                                         self.defaults.set(true, forKey: "authCodeEntered")
-                                        self.authenticate(completion: { (auth) in
+                                        //self.authenticate(completion: { (auth) in
+                                        let auth = true
                                             if auth {
                                                 self.createOrder(finalOrder: self.order, payed: false) { (success, error) in
                                                     if success {
@@ -605,7 +609,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                                                     }
                                                 }
                                             }
-                                        })
+                                        //})
                                         return
                                     } else {
                                         //FAILED AUTH
@@ -634,7 +638,8 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             
             let alert = UIAlertController(title: "Place Order?", message: "Are you sure you want to place your order?", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
-                self.authenticate(completion: { (auth) in
+                //self.authenticate(completion: { (auth) in
+                let auth = true
                     if auth {
                         self.createOrder(finalOrder: self.order, payed: false) { (success, error) in
                             if success {
@@ -654,7 +659,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                         }
                         alert.dismiss(animated: true, completion: nil)
                     }
-                })
+                //})
             }))
             alert.addAction(UIAlertAction(title: "No", style: .default, handler: { (action) in
                 alert.dismiss(animated: true, completion: nil)
@@ -679,13 +684,14 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                     completion(PKPaymentAuthorizationStatus.failure)
                     
                     print("Failure to create token")
-                    
-                    return
+                    fatalError("Failure to create STPToken")
+                    //return
                 }
                 guard let orderprice = self.order.finalPrice else {
                     completion(PKPaymentAuthorizationStatus.failure)
                     print("Failure to find order price")
-                    return
+                    fatalError("Failure to find order price")
+                    //return
                 }
                 
                 let secondprice = orderprice * 100
@@ -703,8 +709,10 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                                 if let error = error as? CKError {
                                     //HANDLE
                                     print(error)
+                                    fatalError("CKError while uploading order: \(error.localizedDescription)")
                                 } else if error != nil {
                                     print(error!)
+                                    fatalError("Error while uploading order to CloudKit: \(error?.localizedDescription ?? "No error description.")")
                                 } else {
                                     
                                 }
@@ -713,7 +721,6 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                             
                         }
                     })
-                    //CALL CLOUDKIT AND CHECK FOR COMPLETION, AS WELL AS SHOW CONFIRMATION IF APPLICABLE
                     completion(status)
                     
                 })
@@ -734,7 +741,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         request.supportedNetworks = supportedNetworks
         request.merchantCapabilities = .capability3DS //CHECK WITH STRIPE
         
-        let baseItem = PKPaymentSummaryItem(label: "\(order.baseProduct.name!) \(order.baseProduct.type!)", amount: NSDecimalNumber(decimal: order.baseProduct.price))
+        let baseItem = PKPaymentSummaryItem(label: "\(order.baseProduct.name) \(order.baseProduct.type)", amount: NSDecimalNumber(decimal: order.baseProduct.price))
         
         request.paymentSummaryItems = [baseItem]
         
@@ -801,17 +808,17 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         let lambdaInvoker = AWSLambdaInvoker.default()
         let jsonObject: [String: Any] = ["tokenId": token.tokenId, "amount": amount]
         
-        print("About to invoke lambda.")
-        
         let _ = lambdaInvoker.invokeFunction("CreateStripe", jsonObject: jsonObject).continueWith { (task) -> Any? in
             
             if let error = task.error as NSError? {
                 if error.domain == AWSLambdaInvokerErrorDomain && AWSLambdaInvokerErrorType.functionError == AWSLambdaInvokerErrorType(rawValue: error.code) {
                     print("Function error: \(error.userInfo[AWSLambdaInvokerFunctionErrorKey] ?? "Unknown")")
-                    completion(.failure)
+                    fatalError("Function error: \(error.userInfo[AWSLambdaInvokerFunctionErrorKey] ?? "Unknown")")
+                    //completion(.failure)
                 } else {
                     print("Error: \(error)")
-                    completion(.failure)
+                    fatalError("Error: \(error.localizedDescription)")
+                    //completion(.failure)
                 }
                 
             } else if let response = task.result! as? String {
@@ -893,6 +900,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                 
             } else {
                 print("No response")
+                fatalError("No response from AWS.")
                 completion(.failure)
             }
             return nil
@@ -925,7 +933,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         for modifier in order.modifiers {
             modifiers.append(modifier.name)
         }
-        record["pickUpLocation"] = (finalOrder.pickUpPlace ?? "Smoothie Bar") as CKRecordValue
+        record["pickUpLocation"] = finalOrder.pickUpPlace as CKRecordValue
         record["modifiers"] = modifiers as CKRecordValue
         record["payedFor"] = NSNumber.init(value: payed) as CKRecordValue
         self.order.payed = payed
@@ -938,9 +946,9 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         
         var digits = [Int]()
         
-        let number = components.year!
+        let number = components.year! //2018
         digits.append(number)
-        let number2 = components.month!
+        let number2 = components.month! //1
         
         if number2.digitCount == 1 {
             digits.append(0)
@@ -948,7 +956,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         
         digits.append(number2)
         
-        let number3 = components.day!
+        let number3 = components.day! //5
         
         if number3.digitCount == 1 {
             digits.append(0)
@@ -994,9 +1002,9 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         
         if modifierString != "" {
-            record["notificationPayload"] = "New Order: \(finalOrder.baseProduct.name + " " + finalOrder.baseProduct.type.description) for \((finalOrder.orderName)!) with \(modifierString)" as CKRecordValue
+            record["notificationPayload"] = "New Order: \(finalOrder.baseProduct.name + " " + finalOrder.baseProduct.type.description) for \((finalOrder.orderName)) with \(modifierString)" as CKRecordValue
         } else {
-            record["notificationPayload"] = "New Order: \(finalOrder.baseProduct.name + " " + finalOrder.baseProduct.type.description) for \((finalOrder.orderName)!)." as CKRecordValue
+            record["notificationPayload"] = "New Order: \(finalOrder.baseProduct.name + " " + finalOrder.baseProduct.type.description) for \((finalOrder.orderName))." as CKRecordValue
         }
         
         CKContainer.default().publicCloudDatabase.save(record) { (record, error) in
@@ -1004,11 +1012,11 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                 self.orderCounter += 1
                 
                 print(error!)
+                fatalError(error?.localizedDescription ?? error.debugDescription)
                 completion(false, error)
                 
             } else {
                 //GO BACK TO MENU, SHOW CONFIRMATION, YOU ARE DONE!
-                print("SUCCESS")
                 completion(true, nil)
                 
             }
@@ -1042,7 +1050,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         alert.addAction(action)
         self.present(alert, animated: true, completion: nil)
     }
-    
+    /*
     func authenticate(completion: @escaping ((Bool) -> Void)) {
         let context:LAContext = LAContext()
         if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil) {
@@ -1063,4 +1071,5 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             })
         }
     }
+ */
 }
