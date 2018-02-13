@@ -49,7 +49,7 @@ struct Order {
     var modifiers: [Modifier] = []
     var pickUpTime: String!
     var orderName = "No Name"
-    var pickUpPlace = "Smoothie Bar"
+    var pickUpPlace: String? 
     var specialInstructions: String?
     var payed: Bool = false
     var sortDate = Int()

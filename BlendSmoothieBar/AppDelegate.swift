@@ -77,9 +77,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let malt = Modifier(name: "Malt", price: 0.5)
         //Encoder
         
-        let product = Product(name: "Strawberry Smoothie", price: 3, modifiers: [modifier, secondmodifier], type: "Smoothies")
-        let product2 = Product(name: "Pineapple Smoothie", price: 3, modifiers: [modifier, secondmodifier], type: "Smoothies")
-        let product3 = Product(name: "Strawberry Lemonade Smoothie", price: 3, modifiers: [secondmodifier], type: "Smoothies")
+        let product = Product(name: "Strawberry", price: 3, modifiers: [modifier, secondmodifier], type: "Smoothies")
+        let product2 = Product(name: "Pineapple", price: 3, modifiers: [modifier, secondmodifier], type: "Smoothies")
+        let product3 = Product(name: "Strawberry Lemonade", price: 3, modifiers: [secondmodifier], type: "Smoothies")
         let product4 = Product(name: "Blackberry Izze®", price: 1, modifiers: [], type: "Drinks")
         let product5 = Product(name: "Grapefruit Izze®", price: 1, modifiers: [], type: "Drinks")
         let product6 = Product(name: "Clementine Izze®", price: 1, modifiers: [], type: "Drinks")

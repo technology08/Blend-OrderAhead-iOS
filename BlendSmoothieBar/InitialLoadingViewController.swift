@@ -11,14 +11,17 @@ import CloudKit
 
 class InitialLoadingViewController: UIViewController {
     
+    var ai: UIActivityIndicatorView?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        
+        self.displayLoadingIndicator()
         fetchMenuItems { (completion, items) in
             if completion {
                 self.sortMenuItems(items: items)
+                self.stopLoadingIndicator()
                 self.performSegue(withIdentifier: "toApp", sender: nil)
             }
         }
@@ -44,7 +47,15 @@ class InitialLoadingViewController: UIViewController {
         let database = CKContainer.default().publicCloudDatabase
         let query = CKQuery(recordType: "Item", predicate: NSPredicate(format: "TRUEPREDICATE", argumentArray: nil))
         database.perform(query, inZoneWith: nil, completionHandler: { (results:[CKRecord]?, error:Error?) in
-            guard error == nil else { fatalError(error.debugDescription) }
+            guard error == nil else {
+                if let error = error as? CKError {
+                    let error = error.handleAndAlert()
+                    self.present(error, animated: true, completion: nil)
+                    completion(false, [])
+                    return
+                }
+                fatalError(error.debugDescription)
+            }
             
             if let results = results {
                 
@@ -87,6 +98,24 @@ class InitialLoadingViewController: UIViewController {
             default:
                 fatalError("Encountered product which doesn't conform to category. Record name: \(decoded.name)")
             }
+        }
+    }
+    
+    func displayLoadingIndicator() {
+        self.ai = UIActivityIndicatorView.init(activityIndicatorStyle: .whiteLarge)
+        self.ai!.startAnimating()
+        self.ai!.center = self.view.center
+        
+        DispatchQueue.main.async {
+            self.view.addSubview(self.ai!)
+        }
+    }
+    
+    func stopLoadingIndicator() {
+        DispatchQueue.main.async {
+            guard let activity = self.ai else { return }
+            activity.stopAnimating()
+            activity.removeFromSuperview()
         }
     }
 }

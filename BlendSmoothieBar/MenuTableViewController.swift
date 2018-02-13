@@ -50,7 +50,8 @@ class MenuTableViewController: UITableViewController {
         } else {
             // Fallback on earlier versions
  
-            return (self.view.frame.height - (self.tabBarController!.view.frame.height + self.tabBarController!.view.frame.height)) / 4
+            //return (self.view.frame.height - (self.navigationController?.navigationBar.frame.height)!) / 4
+            return self.tableView.frame.height / CGFloat(tableView.numberOfRows(inSection: 0))
         }
     }
     
@@ -76,6 +77,7 @@ class MenuTableViewController: UITableViewController {
                                         SWEETS
                                         """
             cell.categoryLabel.numberOfLines = 2
+            cell.categoryLabel.textAlignment = .center
             cell.category = "Ice Cream & Sweets"
         case 3:
             cell.categoryImage.image = #imageLiteral(resourceName: "waffle")

@@ -33,7 +33,7 @@ class ConfirmationViewController: UIViewController {
         let orderNameValue = order.orderName
         orderName.text = "Order Name: \(orderNameValue)"
         pickUpDate.text = getDate(pickUpTime: order.pickUpTime!)
-        pickUpLocation.text = "Pick Up at \(String(describing: (order.pickUpPlace)))."
+        pickUpLocation.text = "Pick Up at \(order.pickUpPlace!)."
         if order.payed {
             amountDue.text = "Pre-Paid"
         } else {
