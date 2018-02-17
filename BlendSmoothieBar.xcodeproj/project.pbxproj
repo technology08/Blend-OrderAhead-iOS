@@ -15,6 +15,7 @@
 		005C92341F8916170018DD44 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 005C92331F8916170018DD44 /* Assets.xcassets */; };
 		005C92371F8916180018DD44 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 005C92351F8916180018DD44 /* LaunchScreen.storyboard */; };
 		005C923F1F8916350018DD44 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C923E1F8916350018DD44 /* Product.swift */; };
+		00721DF720388A6A005A1602 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 00721DF620388A6A005A1602 /* Settings.bundle */; };
 		00A1C4DD1F9A789A002FB11E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00A1C4DC1F9A789A002FB11E /* CloudKit.framework */; };
 		00C3547D1F8C62360053A6A8 /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C3547C1F8C62360053A6A8 /* MenuTableViewController.swift */; };
 		00CCD1E11F91308F0060D213 /* Stripe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00CCD1E01F912F810060D213 /* Stripe.framework */; };
@@ -35,6 +36,7 @@
 		005C92381F8916180018DD44 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		005C923E1F8916350018DD44 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		005C92451F8974EA0018DD44 /* BlendSmoothieBar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BlendSmoothieBar.entitlements; sourceTree = "<group>"; };
+		00721DF620388A6A005A1602 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		00A1C4DC1F9A789A002FB11E /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		00C3547C1F8C62360053A6A8 /* MenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
 		00CCD1E01F912F810060D213 /* Stripe.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Stripe.framework; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 				0034E2421FA79C7D008FDC23 /* ConfirmationViewController.swift */,
 				005C923E1F8916350018DD44 /* Product.swift */,
 				005C92301F8916170018DD44 /* Main.storyboard */,
+				00721DF620388A6A005A1602 /* Settings.bundle */,
 				005C92331F8916170018DD44 /* Assets.xcassets */,
 				005C92351F8916180018DD44 /* LaunchScreen.storyboard */,
 				005C92381F8916180018DD44 /* Info.plist */,
@@ -190,6 +193,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00721DF720388A6A005A1602 /* Settings.bundle in Resources */,
 				005C92371F8916180018DD44 /* LaunchScreen.storyboard in Resources */,
 				005C92341F8916170018DD44 /* Assets.xcassets in Resources */,
 				005C92321F8916170018DD44 /* Main.storyboard in Resources */,

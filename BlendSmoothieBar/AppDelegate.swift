@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //createMenuItems()
         //Stripe Setup
         
-        STPPaymentConfiguration.shared().publishableKey = "pk_test_2UXUHLEQ5DolsR55W6jvxwxU"
+        STPPaymentConfiguration.shared().publishableKey = "INSERT_STRIPE_PUBLISHABLE_KEY"
         STPPaymentConfiguration.shared().appleMerchantIdentifier = "INSERT_APPLE_MERCHANT_ID"
         
         //AWS Setup

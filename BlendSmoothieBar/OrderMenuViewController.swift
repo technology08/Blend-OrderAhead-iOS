@@ -414,7 +414,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                 return tableView.dequeueReusableCell(withIdentifier: "parameterCell")!
             }
         }
-    }
+ }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -692,11 +692,14 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     
     // MARK: - Apple Pay Delegate Methods
     var applepaysucceeded = false
+    var applepayalert: UIAlertController?
     func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {
         controller.dismiss(animated: true, completion: nil)
         
         if applepaysucceeded {
             self.performSegue(withIdentifier: "toConfirmation", sender: nil)
+        } else if let alert = applepayalert {
+            self.present(alert, animated: true, completion: nil)
         }
     }
     
@@ -715,7 +718,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                 
                 let secondprice = orderprice * 100
                 let stripeprice = NSDecimalNumber(decimal: secondprice).intValue
-                self.sendToBackendResult(token: token, amount: stripeprice, completion: { (success1) -> Void in
+                self.sendToBackendResult(token: token, amount: stripeprice, completion: { (success1, alert)  -> Void in
                     if success1 == PKPaymentAuthorizationStatus.success {
                         self.createOrder(finalOrder: self.order, payed: true, completion: { (success, record, error) in
                      
@@ -739,6 +742,9 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                             }
                         })
                     } else {
+                        
+                        guard let alert = alert else { completion(success1); return }
+                        self.applepayalert = alert
                         completion(success1)
                     }
                     
@@ -862,7 +868,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     
     // MARK: - Backend Function
     
-    func sendToBackendResult(token: STPToken, amount: Int, completion: @escaping ((PKPaymentAuthorizationStatus) -> Void)) {
+    func sendToBackendResult(token: STPToken, amount: Int, completion: @escaping ((PKPaymentAuthorizationStatus, UIAlertController?) -> Void)) {
         
         let lambdaInvoker = AWSLambdaInvoker.default()
         let jsonObject: [String: Any] = ["tokenId": token.tokenId, "amount": amount]
@@ -881,85 +887,85 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                 }
                 
             } else if let response = task.result! as? String {
-                
+                //print(response)
                 //SUCCESS
                 if response == "Charge processed successfully!" {
                     
-                    completion(.success)
+                    completion(.success, nil)
                     //API ERRORS
                 } else if response == "StripeInvalidRequestError" {
                     
-                    DispatchQueue.main.async {
-                        self.createErrorAlert(alertBody: "The payment request was invalid. Please try again or pay in cash at pickup.", presentTryAgain: true)
-                    }
-                    completion(.failure)
+                    
+                    let alert = self.createErrorAlert(alertBody: "The payment request was invalid. Please try again or pay in cash at pickup.", presentTryAgain: true)
+                    
+                    completion(.failure, alert)
                 } else if response == "api_connection_error" || response == "StripeApiConnectionError" {
                     
-                    DispatchQueue.main.async {
-                        self.createErrorAlert(alertBody: "Bad internet connection. Please check your internet settings and try again.", presentTryAgain: true)
-                    }
-                    completion(.failure)
+                    //DispatchQueue.main.async {
+                        let alert = self.createErrorAlert(alertBody: "Bad internet connection. Please check your internet settings and try again.", presentTryAgain: true)
+                    //}
+                    completion(.failure, alert)
                 } else if response == "rate_limit_error" || response == "StripeRateLimitError" || response == "authentication_error" || response == "StripeAuthenticationError" {
                     
-                    DispatchQueue.main.async {
-                        self.createErrorAlert(alertBody: "Bad connection to server. Please try again.", presentTryAgain: true)
-                    }
                     
-                    completion(.failure)
+                    let alert = self.createErrorAlert(alertBody: "Bad connection to server. Please try again.", presentTryAgain: true)
+                    
+                    
+                    completion(.failure, alert)
                     //CARD ERRORS
                 } else if response == "invalid_number" || response == "StripeInvalidNumber" || response == "incorrect_number" || response == "StripeIncorrectNumber" {
                     
-                    DispatchQueue.main.async {
-                        self.createErrorAlert(alertBody: "Invalid credit card number.", presentTryAgain: false)
-                    }
+                   // DispatchQueue.main.async {
+                    let alert = self.createErrorAlert(alertBody: "Invalid credit card number.", presentTryAgain: false)
+                    //}
                     
-                    completion(.failure)
+                    completion(.failure, alert)
                 } else if response == "invalid_expiry_month" || response == "StripeExpiryMonth" || response == "invalid_expiry_year" || response == "StripeExpiryYear"{
                     
-                    DispatchQueue.main.async {
-                        self.createErrorAlert(alertBody: "Invalid expiration date.", presentTryAgain: false)
-                    }
+                    //DispatchQueue.main.async {
+                        let alert = self.createErrorAlert(alertBody: "Invalid expiration date.", presentTryAgain: false)
+                    //}
                     
-                    completion(.failure)
+                    completion(.failure, alert)
                 } else if response == "invalid_cvc" || response == "StripeInvalidCvc" || response == "incorrect_cvc" || response == "StripeIncorrectCvc"{
                     
-                    DispatchQueue.main.async {
-                        self.createErrorAlert(alertBody: "Invalid security code.", presentTryAgain: false)
-                    }
+                    //DispatchQueue.main.async {
+                        let alert = self.createErrorAlert(alertBody: "Invalid security code.", presentTryAgain: false)
+                    //}
                     
-                    completion(.failure)
+                    completion(.failure, alert)
                 } else if response == "card_declined" || response == "StripeCardDecline" {
                     
-                    DispatchQueue.main.async {
-                        self.createErrorAlert(alertBody: "The credit card used was declined by the issuer.", presentTryAgain: true)
-                    }
+                    //DispatchQueue.main.async {
+                        let alert = self.createErrorAlert(alertBody: "The credit card used was declined by the issuer.", presentTryAgain: true)
+                    //}
                     
-                    completion(.failure)
+                    completion(.failure, alert)
                 } else if response == "expired_card" || response == "StripeExpiredCard" {
                     
-                    DispatchQueue.main.async {
-                        self.createErrorAlert(alertBody: "The credit card used is expired.", presentTryAgain: false)
-                    }
+                    //DispatchQueue.main.async {
+                        let alert = self.createErrorAlert(alertBody: "The credit card used is expired.", presentTryAgain: false)
+                    //}
                     
-                    completion(.failure)
+                    completion(.failure, alert)
                 } else if response == "processing_error" || response == "StripeProcessingError" {
                     
-                    DispatchQueue.main.async {
-                        self.createErrorAlert(alertBody: "There was an error during processing.", presentTryAgain: true)
-                    }
+                    //DispatchQueue.main.async {
+                        let alert = self.createErrorAlert(alertBody: "There was an error during processing.", presentTryAgain: true)
+                    //}
                     
-                    completion(.failure)
+                    completion(.failure, alert)
                 } else {
-                    DispatchQueue.main.async {
-                        self.createErrorAlert(alertBody: "Unknown error was \(response).", presentTryAgain: true)
-                    }
+                    //DispatchQueue.main.async {
+                        let alert = self.createErrorAlert(alertBody: "Unknown error was \(response).", presentTryAgain: true)
+                    //}
                     
-                    completion(.failure)
+                    completion(.failure, alert)
                 }
                 
             } else {
                 print("No response")
-                completion(.failure)
+                completion(.failure, nil)
             }
             return nil
         }
@@ -1102,17 +1108,12 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         self.present(alert, animated: true, completion: nil)
     }
     
-    func createErrorAlert(alertBody: String, presentTryAgain: Bool) {
+    func createErrorAlert(alertBody: String, presentTryAgain: Bool)  -> UIAlertController {
         let alert = UIAlertController(title: "Error", message: alertBody, preferredStyle: .alert)
-        if presentTryAgain {
-            alert.addAction(UIAlertAction(title: "Try Again", style: .cancel, handler: { (action) in
-                self.applePayButtonPressed()
-            }))
-        }
         alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: { (action) in
             alert.dismiss(animated: true, completion: nil)
         }))
-        self.present(alert, animated: true, completion: nil)
+        return alert
     }
     
     func createUserErrorAlert(alertBody: String) {
@@ -1141,6 +1142,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                 completion(false)
             } else {
                 //Success
+                completion(true)
                 guard let id = record?.recordID else { completion(false); return }
                 publicCloud.delete(withRecordID: id, completionHandler: { (recordid, error) in
                     if let error = error as? CKError {
@@ -1150,8 +1152,6 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                         let controller = error!.alert()
                         self.present(controller, animated: true, completion: nil)
                     } else {
-                        
-                        completion(true)
                         
                     }
                 })
@@ -1169,11 +1169,13 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                         //First time user did not select pick-up time
                         
                         createUserErrorAlert(alertBody: "Please select a pick-up time. For future purchases, the closest time available will be auto-filled.")
+                        
                         completion(false)
                     }
                 } else {
                     //First time user did not select pick-up place
                     createUserErrorAlert(alertBody: "Please select a pick-up location. For future purchases, the location last chosen will be auto-filled.")
+                    
                     completion(false)
                 }
             } else {
@@ -1184,7 +1186,6 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         } else {
             //User did not enter name
             createUserErrorAlert(alertBody: "Please enter your first name in the field above. This is so we know who to give the order to. This will save next order.")
-            
             completion(false)
         }
     }
@@ -1225,7 +1226,7 @@ extension Error {
 }
 
 extension CKError {
-    func handleAndAlert() -> UIAlertController {
+    func handleAndAlert(crash: Bool = false) -> UIAlertController {
         var title: String = "Error"
         var message: String = self.localizedDescription
         
@@ -1243,6 +1244,9 @@ extension CKError {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: { (action) in
             alert.dismiss(animated: true, completion: nil)
+            if crash {
+                fatalError()
+            }
         }))
         return alert
     }

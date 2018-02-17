@@ -49,8 +49,8 @@ class InitialLoadingViewController: UIViewController {
         database.perform(query, inZoneWith: nil, completionHandler: { (results:[CKRecord]?, error:Error?) in
             guard error == nil else {
                 if let error = error as? CKError {
-                    let error = error.handleAndAlert()
-                    self.present(error, animated: true, completion: nil)
+                    let erroralert = error.handleAndAlert(crash: true)
+                    self.present(erroralert, animated: true, completion: nil)
                     completion(false, [])
                     return
                 }
@@ -78,6 +78,14 @@ class InitialLoadingViewController: UIViewController {
             }
             
         })
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return false
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
     func sortMenuItems(items: [Product]) {
