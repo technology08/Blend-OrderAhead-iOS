@@ -64,5 +64,9 @@ class ConfirmationViewController: UIViewController {
         let components = calendar.dateComponents([.month, .day, .year], from: datething)
         return "Pick Up on \(components.month.unsafelyUnwrapped).\(components.day.unsafelyUnwrapped).\(components.year.unsafelyUnwrapped) at \(pickUpTime)"
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
 
 }

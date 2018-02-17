@@ -1054,9 +1054,9 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         
         if modifierString != "" {
-            record["notificationPayload"] = "New Order: \(finalOrder.baseProduct.name + " " + finalOrder.baseProduct.type.description) for \((finalOrder.orderName)) with \(modifierString)" as CKRecordValue
+            record["notificationPayload"] = "New Order: \(finalOrder.baseProduct.name) for \((finalOrder.orderName)) with \(modifierString)" as CKRecordValue
         } else {
-            record["notificationPayload"] = "New Order: \(finalOrder.baseProduct.name + " " + finalOrder.baseProduct.type.description) for \((finalOrder.orderName))." as CKRecordValue
+            record["notificationPayload"] = "New Order: \(finalOrder.baseProduct.name) for \((finalOrder.orderName))." as CKRecordValue
         }
         
         CKContainer.default().publicCloudDatabase.save(record) { (record, error) in
