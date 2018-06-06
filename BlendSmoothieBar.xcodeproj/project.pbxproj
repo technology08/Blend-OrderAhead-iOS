@@ -19,6 +19,12 @@
 		00A1C4DD1F9A789A002FB11E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00A1C4DC1F9A789A002FB11E /* CloudKit.framework */; };
 		00C3547D1F8C62360053A6A8 /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C3547C1F8C62360053A6A8 /* MenuTableViewController.swift */; };
 		00CCD1E11F91308F0060D213 /* Stripe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00CCD1E01F912F810060D213 /* Stripe.framework */; };
+		00CDA0B220C8558200618FFE /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 00CDA0B120C8558200618FFE /* Intents.intentdefinition */; };
+		00CDA0B620C8730E00618FFE /* ApplePay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CDA0B520C8730E00618FFE /* ApplePay.swift */; };
+		00CDA0B820C8735B00618FFE /* AWSBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CDA0B720C8735B00618FFE /* AWSBackend.swift */; };
+		00CDA0BA20C8745700618FFE /* CloudKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CDA0B920C8745700618FFE /* CloudKit.swift */; };
+		00CDA0BC20C8749900618FFE /* ErrorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CDA0BB20C8749900618FFE /* ErrorExtensions.swift */; };
+		00CDA0C020C8754700618FFE /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CDA0BF20C8754700618FFE /* Extensions.swift */; };
 		00DAAC2B1F8D8AAD006F088F /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00DAAC2A1F8D8AAD006F088F /* PassKit.framework */; };
 		00DAAC2D1F8D8D09006F088F /* OrderMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00DAAC2C1F8D8D09006F088F /* OrderMenuViewController.swift */; };
 		8554A3CFAA578633F3F4E726 /* Pods_BlendSmoothieBar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27DE48AEBBA010EB85BF738A /* Pods_BlendSmoothieBar.framework */; };
@@ -40,6 +46,12 @@
 		00A1C4DC1F9A789A002FB11E /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		00C3547C1F8C62360053A6A8 /* MenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
 		00CCD1E01F912F810060D213 /* Stripe.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Stripe.framework; sourceTree = "<group>"; };
+		00CDA0B120C8558200618FFE /* Intents.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = Intents.intentdefinition; sourceTree = "<group>"; };
+		00CDA0B520C8730E00618FFE /* ApplePay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplePay.swift; sourceTree = "<group>"; };
+		00CDA0B720C8735B00618FFE /* AWSBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSBackend.swift; sourceTree = "<group>"; };
+		00CDA0B920C8745700618FFE /* CloudKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKit.swift; sourceTree = "<group>"; };
+		00CDA0BB20C8749900618FFE /* ErrorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorExtensions.swift; sourceTree = "<group>"; };
+		00CDA0BF20C8754700618FFE /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		00DAAC2A1F8D8AAD006F088F /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
 		00DAAC2C1F8D8D09006F088F /* OrderMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderMenuViewController.swift; sourceTree = "<group>"; };
 		27DE48AEBBA010EB85BF738A /* Pods_BlendSmoothieBar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BlendSmoothieBar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,16 +97,12 @@
 			children = (
 				005C92451F8974EA0018DD44 /* BlendSmoothieBar.entitlements */,
 				005C922C1F8916170018DD44 /* AppDelegate.swift */,
-				000CF6722005088E009A8CCD /* InitialLoadingViewController.swift */,
-				00C3547C1F8C62360053A6A8 /* MenuTableViewController.swift */,
-				00DAAC2C1F8D8D09006F088F /* OrderMenuViewController.swift */,
-				0034E2441FA7A2CB008FDC23 /* CustomTableViewCells.swift */,
-				0034E2421FA79C7D008FDC23 /* ConfirmationViewController.swift */,
-				005C923E1F8916350018DD44 /* Product.swift */,
-				005C92301F8916170018DD44 /* Main.storyboard */,
+				00CDA0BD20C8750700618FFE /* View Controllers */,
+				00CDA0BE20C8751C00618FFE /* Processing */,
+				00CDA0C120C8757400618FFE /* Extensions and Objects */,
+				00CDA0C220C8759B00618FFE /* Storyboards */,
 				00721DF620388A6A005A1602 /* Settings.bundle */,
 				005C92331F8916170018DD44 /* Assets.xcassets */,
-				005C92351F8916180018DD44 /* LaunchScreen.storyboard */,
 				005C92381F8916180018DD44 /* Info.plist */,
 			);
 			path = BlendSmoothieBar;
@@ -109,6 +117,48 @@
 				27DE48AEBBA010EB85BF738A /* Pods_BlendSmoothieBar.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		00CDA0BD20C8750700618FFE /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				000CF6722005088E009A8CCD /* InitialLoadingViewController.swift */,
+				00C3547C1F8C62360053A6A8 /* MenuTableViewController.swift */,
+				0034E2421FA79C7D008FDC23 /* ConfirmationViewController.swift */,
+				00DAAC2C1F8D8D09006F088F /* OrderMenuViewController.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		00CDA0BE20C8751C00618FFE /* Processing */ = {
+			isa = PBXGroup;
+			children = (
+				00CDA0B920C8745700618FFE /* CloudKit.swift */,
+				00CDA0B720C8735B00618FFE /* AWSBackend.swift */,
+				00CDA0B520C8730E00618FFE /* ApplePay.swift */,
+			);
+			path = Processing;
+			sourceTree = "<group>";
+		};
+		00CDA0C120C8757400618FFE /* Extensions and Objects */ = {
+			isa = PBXGroup;
+			children = (
+				00CDA0BB20C8749900618FFE /* ErrorExtensions.swift */,
+				0034E2441FA7A2CB008FDC23 /* CustomTableViewCells.swift */,
+				005C923E1F8916350018DD44 /* Product.swift */,
+				00CDA0BF20C8754700618FFE /* Extensions.swift */,
+				00CDA0B120C8558200618FFE /* Intents.intentdefinition */,
+			);
+			path = "Extensions and Objects";
+			sourceTree = "<group>";
+		};
+		00CDA0C220C8759B00618FFE /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				005C92301F8916170018DD44 /* Main.storyboard */,
+				005C92351F8916180018DD44 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
 			sourceTree = "<group>";
 		};
 		64528C242702C1AB9C5837E1 /* Pods */ = {
@@ -256,11 +306,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				000CF6732005088E009A8CCD /* InitialLoadingViewController.swift in Sources */,
+				00CDA0BA20C8745700618FFE /* CloudKit.swift in Sources */,
+				00CDA0BC20C8749900618FFE /* ErrorExtensions.swift in Sources */,
 				00DAAC2D1F8D8D09006F088F /* OrderMenuViewController.swift in Sources */,
 				005C923F1F8916350018DD44 /* Product.swift in Sources */,
 				00C3547D1F8C62360053A6A8 /* MenuTableViewController.swift in Sources */,
 				005C922D1F8916170018DD44 /* AppDelegate.swift in Sources */,
+				00CDA0B820C8735B00618FFE /* AWSBackend.swift in Sources */,
+				00CDA0C020C8754700618FFE /* Extensions.swift in Sources */,
 				0034E2451FA7A2CB008FDC23 /* CustomTableViewCells.swift in Sources */,
+				00CDA0B220C8558200618FFE /* Intents.intentdefinition in Sources */,
+				00CDA0B620C8730E00618FFE /* ApplePay.swift in Sources */,
 				0034E2431FA79C7D008FDC23 /* ConfirmationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -393,7 +449,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};

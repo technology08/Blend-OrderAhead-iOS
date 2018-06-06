@@ -59,7 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-/*
+
     func createMenuItems() {
         CKContainer.default().publicCloudDatabase.perform(CKQuery(recordType: "Item", predicate: NSPredicate(format: "TRUEPREDICATE", argumentArray: nil)), inZoneWith: nil, completionHandler: { (results:[CKRecord]?, error:Error?) in
             guard error == nil else { print(error!); return }
@@ -77,7 +77,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let malt = Modifier(name: "Malt", price: 0.5)
         //Encoder
         
-        let product = Product(name: "Strawberry", price: 3, modifiers: [modifier, secondmodifier], type: "Smoothies")
+        let product = Product(name: "M&M's® Shake", price: 3, modifiers: [secondmodifier], type: "Ice Cream & Sweets")
+        let product17 = Product(name: "Strawberry", price: 3, modifiers: [modifier, secondmodifier], type: "Smoothies")
         let product2 = Product(name: "Pineapple", price: 3, modifiers: [modifier, secondmodifier], type: "Smoothies")
         let product3 = Product(name: "Strawberry Lemonade", price: 3, modifiers: [secondmodifier], type: "Smoothies")
         let product4 = Product(name: "Blackberry Izze®", price: 1, modifiers: [], type: "Drinks")
@@ -93,12 +94,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let product14 = Product(name: "Red Cream Soda Ice Cream Float", price: 3.5, modifiers: [secondmodifier], type: "Ice Cream & Sweets")
         let product15 = Product(name: "Chocolate Shake", price: 3, modifiers: [secondmodifier, malt], type: "Ice Cream & Sweets")
         let product16 = Product(name: "Oreo Shake", price: 3, modifiers: [secondmodifier], type: "Ice Cream & Sweets")
-        let product17 = Product(name: "Pulled Pork Slider", price: 3, modifiers: [], type: "Food")
-        let product18 = Product(name: "Cinnamon Bread", price: 0.75, modifiers: [], type: "Food")
-        let product19 = Product(name: "Belgian Waffle", price: 3.5, modifiers: [Modifier.init(name: "Powdered Sugar", price: 0), Modifier.init(name: "Chocolate", price: 0), Modifier.init(name: "Whipped Cream", price: 0)], type: "Food")
+        //let product17 = Product(name: "Pulled Pork Slider", price: 3, modifiers: [], type: "Food")
+        //let product18 = Product(name: "Cinnamon Bread", price: 0.75, modifiers: [], type: "Food")
+        //let product19 = Product(name: "Belgian Waffle", price: 3.5, modifiers: [Modifier.init(name: "Powdered Sugar", price: 0), Modifier.init(name: "Chocolate", price: 0), Modifier.init(name: "Whipped Cream", price: 0)], type: "Food")
         let product20 = Product(name: "Cinnamon Rolls", price: 1.5, modifiers: [], type: "Food")
         
-        let array = [product, product2, product3, product4, product5, product6, product7, product8, product9, product10, product11, product12, product13, product14, product15, product16, product17, product18, product19, product20]
+        let array = [product, product2, product3, product4, product5, product6, product7, product8, product9, product10, product11, product12, product13, product14, product15, product16, product17, product20]
         
         for item in array {
             do {
@@ -119,6 +120,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-    */
+ 
 }
 
