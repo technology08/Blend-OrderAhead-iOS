@@ -137,24 +137,12 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             order.finalPrice = currentSmoothies.first?.price
             visualEffectView.effect = UIBlurEffect(style: .dark)
             backgroundImageView.image = #imageLiteral(resourceName: "smoothie")
-        case "Drinks":
-            productTypeLabel.text = "Drinks"
-            order.baseProduct = currentDrinks.first
-            order.finalPrice = currentDrinks.first?.price
-            visualEffectView.effect = UIBlurEffect(style: .dark)
-            backgroundImageView.image = #imageLiteral(resourceName: "smoothie")
         case "Ice Cream & Sweets":
             productTypeLabel.text = "Ice Cream & Sweets"
             order.baseProduct = currentIceCream.first
             order.finalPrice = currentIceCream.first?.price
             visualEffectView.effect = UIBlurEffect(style: .dark)
             backgroundImageView.image = #imageLiteral(resourceName: "shake")
-        case "Food":
-            productTypeLabel.text = "Food"
-            order.baseProduct = currentFoods.first
-            order.finalPrice = currentFoods.first?.price
-            visualEffectView.effect = UIBlurEffect(style: .dark)
-            backgroundImageView.image = #imageLiteral(resourceName: "waffle")
         default:
             productTypeLabel.text = "Smoothie"
             order.baseProduct = currentSmoothies.first

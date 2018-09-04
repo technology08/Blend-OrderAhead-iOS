@@ -100,7 +100,6 @@ var currentSmoothies: [Product] = []/*{
     let three = Product(name: "Pineapple", price: 3, modifiers: smoothiemodifiers, type: "Smoothie")
     return [one, two, three]
 }*/
-var currentDrinks: [Product] = []
 var currentIceCream: [Product] = []/*{
     
     let shakemodifiers = [Modifier.init(name: "Whipped Cream", price: 0.5), Modifier.init(name: "Protein", price: 0.5)]
@@ -108,9 +107,4 @@ var currentIceCream: [Product] = []/*{
     let five = Product(name: "Chocolate", price: 3, modifiers: shakemodifiers, type: "Ice Cream & Sweets")
     
     return [four, five]
-}*/
-
-var currentFoods: [Product] = [] /*{
-    let six = Product(name: "Waffle", price: 3.5, modifiers: [Modifier(name: "Powdered Sugar", price: 0), Modifier(name: "Whipped Cream", price: 0), Modifier(name: "Chocolate", price: 0)], type: "Food")
-    return [six]
 }*/

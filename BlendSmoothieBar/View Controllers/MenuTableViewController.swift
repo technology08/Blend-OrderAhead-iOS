@@ -67,10 +67,6 @@ class MenuTableViewController: UITableViewController {
             cell.categoryLabel.text = "SMOOTHIES"
             cell.category = "Smoothies"
         case 1:
-            cell.categoryLabel.text = "BEVERAGES"
-            cell.category = "Drinks"
-            cell.categoryImage.image = #imageLiteral(resourceName: "drink")
-        case 2:
             cell.categoryImage.image = #imageLiteral(resourceName: "shake")
             cell.categoryLabel.text =   """
                                         ICE CREAM &
@@ -79,10 +75,6 @@ class MenuTableViewController: UITableViewController {
             cell.categoryLabel.numberOfLines = 2
             cell.categoryLabel.textAlignment = .center
             cell.category = "Ice Cream & Sweets"
-        case 3:
-            cell.categoryImage.image = #imageLiteral(resourceName: "waffle")
-            cell.categoryLabel.text = "FOOD"
-            cell.category = "Food"
         default:
             //Grab new categories from CloudKit?
             print("cellforrowat error category cell")

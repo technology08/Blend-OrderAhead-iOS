@@ -75,31 +75,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let modifier = Modifier(name: "Protein", price: 0.5)
         let secondmodifier = Modifier(name: "Whipped Cream", price: 0.5)
         let malt = Modifier(name: "Malt", price: 0.5)
+        let largeSize = Modifier(name: "Make it a Large?", price: 1)
         //Encoder
         
-        let product = Product(name: "M&M's® Shake", price: 3, modifiers: [secondmodifier], type: "Ice Cream & Sweets")
-        let product17 = Product(name: "Strawberry", price: 3, modifiers: [modifier, secondmodifier], type: "Smoothies")
-        let product2 = Product(name: "Pineapple", price: 3, modifiers: [modifier, secondmodifier], type: "Smoothies")
-        let product3 = Product(name: "Strawberry Lemonade", price: 3, modifiers: [secondmodifier], type: "Smoothies")
-        let product4 = Product(name: "Blackberry Izze®", price: 1, modifiers: [], type: "Drinks")
-        let product5 = Product(name: "Grapefruit Izze®", price: 1, modifiers: [], type: "Drinks")
-        let product6 = Product(name: "Clementine Izze®", price: 1, modifiers: [], type: "Drinks")
-        let product7 = Product(name: "Apple Izze®", price: 1, modifiers: [], type: "Drinks")
-        let product8 = Product(name: "Black Raspberry Sparkling Ice", price: 1.5, modifiers: [], type: "Drinks")
-        let product9 = Product(name: "Cherry Limeade Sparkling Ice", price: 1.5, modifiers: [], type: "Drinks")
-        let product10 = Product(name: "Orange Mango Sparkling Ice", price: 1.5, modifiers: [], type: "Drinks")
-        let product11 = Product(name: "Kiwi Strawberry Sparkling Ice", price: 1.5, modifiers: [], type: "Drinks")
-        let product12 = Product(name: "Raspberry Lemonade Italian Ice", price: 1.5, modifiers: [secondmodifier], type: "Ice Cream & Sweets")
-        let product13 = Product(name: "Root Beer Ice Cream Float", price: 3.5, modifiers: [secondmodifier], type: "Ice Cream & Sweets")
-        let product14 = Product(name: "Red Cream Soda Ice Cream Float", price: 3.5, modifiers: [secondmodifier], type: "Ice Cream & Sweets")
-        let product15 = Product(name: "Chocolate Shake", price: 3, modifiers: [secondmodifier, malt], type: "Ice Cream & Sweets")
-        let product16 = Product(name: "Oreo Shake", price: 3, modifiers: [secondmodifier], type: "Ice Cream & Sweets")
-        //let product17 = Product(name: "Pulled Pork Slider", price: 3, modifiers: [], type: "Food")
-        //let product18 = Product(name: "Cinnamon Bread", price: 0.75, modifiers: [], type: "Food")
-        //let product19 = Product(name: "Belgian Waffle", price: 3.5, modifiers: [Modifier.init(name: "Powdered Sugar", price: 0), Modifier.init(name: "Chocolate", price: 0), Modifier.init(name: "Whipped Cream", price: 0)], type: "Food")
-        let product20 = Product(name: "Cinnamon Rolls", price: 1.5, modifiers: [], type: "Food")
+        let product17 = Product(name: "Strawberry", price: 3, modifiers: [modifier, secondmodifier, largeSize], type: "Smoothies")
+        let product2 = Product(name: "Pineapple", price: 3, modifiers: [modifier, secondmodifier, largeSize], type: "Smoothies")
+        let product3 = Product(name: "Strawberry Lemonade", price: 3, modifiers: [secondmodifier, largeSize], type: "Smoothies")
+        let product15 = Product(name: "Chocolate Shake", price: 3, modifiers: [secondmodifier, malt, largeSize], type: "Ice Cream & Sweets")
+        let product16 = Product(name: "Oreo Shake", price: 3, modifiers: [secondmodifier, largeSize], type: "Ice Cream & Sweets")
         
-        let array = [product, product2, product3, product4, product5, product6, product7, product8, product9, product10, product11, product12, product13, product14, product15, product16, product17, product20]
+        let array = [product17, product2, product3, product15, product16]
         
         for item in array {
             do {

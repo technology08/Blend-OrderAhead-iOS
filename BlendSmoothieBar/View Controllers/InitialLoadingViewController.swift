@@ -91,18 +91,12 @@ class InitialLoadingViewController: UIViewController {
     func sortMenuItems(items: [Product]) {
         currentSmoothies = []
         currentIceCream = []
-        currentFoods = []
-        currentDrinks = []
         for decoded in items {
             switch decoded.type {
             case "Smoothies":
                 currentSmoothies.append(decoded)
-            case "Drinks":
-                currentDrinks.append(decoded)
             case "Ice Cream & Sweets":
                 currentIceCream.append(decoded)
-            case "Food":
-                currentFoods.append(decoded)
             default:
                 fatalError("Encountered product which doesn't conform to category. Record name: \(decoded.name)")
             }
