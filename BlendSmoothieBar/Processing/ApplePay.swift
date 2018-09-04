@@ -39,7 +39,7 @@ extension OrderMenuViewController: PKPaymentAuthorizationViewControllerDelegate 
                 let stripeprice = NSDecimalNumber(decimal: secondprice).intValue
                 self.sendToBackendResult(token: token, amount: stripeprice, completion: { (success1, alert)  -> Void in
                     if success1 == PKPaymentAuthorizationStatus.success {
-                        self.createOrder(finalOrder: self.order, payed: true, completion: { (success, record, error) in
+                        self.createOrder(finalOrder: self.order, paid: true) { (success, record, error) in
                             
                             if success {
                                 if success {
@@ -59,7 +59,7 @@ extension OrderMenuViewController: PKPaymentAuthorizationViewControllerDelegate 
                                     }
                                 }
                             }
-                        })
+                        }
                     } else {
                         
                         guard let alert = alert else { completion(success1); return }

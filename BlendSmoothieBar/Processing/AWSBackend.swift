@@ -12,7 +12,12 @@ import AWSLambda
 
 extension OrderMenuViewController {
     // MARK: - Backend Function
-    
+    /**
+     Sends Stripe token to AWS Lambda backend.
+     - Parameter token: The token from the successful Apple Pay transaction.
+     - Parameter amount: The $ amount in Int form. $xx.xx becomes $xxxx.
+     - Parameter completion: The completion handler with a status and optional Alert Controller containing an error.
+ */
     func sendToBackendResult(token: STPToken, amount: Int, completion: @escaping ((PKPaymentAuthorizationStatus, UIAlertController?) -> Void)) {
         
         let lambdaInvoker = AWSLambdaInvoker.default()
