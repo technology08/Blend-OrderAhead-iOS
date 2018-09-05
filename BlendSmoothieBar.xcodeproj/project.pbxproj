@@ -11,6 +11,7 @@
 		0034E2431FA79C7D008FDC23 /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0034E2421FA79C7D008FDC23 /* ConfirmationViewController.swift */; };
 		0034E2451FA7A2CB008FDC23 /* CustomTableViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0034E2441FA7A2CB008FDC23 /* CustomTableViewCells.swift */; };
 		0051C356213F4274008352F2 /* OrderMenuVCErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0051C355213F4274008352F2 /* OrderMenuVCErrorAlert.swift */; };
+		0051C358213F47B9008352F2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0051C357213F47B9008352F2 /* GoogleService-Info.plist */; };
 		005C922D1F8916170018DD44 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C922C1F8916170018DD44 /* AppDelegate.swift */; };
 		005C92321F8916170018DD44 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 005C92301F8916170018DD44 /* Main.storyboard */; };
 		005C92341F8916170018DD44 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 005C92331F8916170018DD44 /* Assets.xcassets */; };
@@ -48,6 +49,7 @@
 		0034E2421FA79C7D008FDC23 /* ConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationViewController.swift; sourceTree = "<group>"; };
 		0034E2441FA7A2CB008FDC23 /* CustomTableViewCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCells.swift; sourceTree = "<group>"; };
 		0051C355213F4274008352F2 /* OrderMenuVCErrorAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderMenuVCErrorAlert.swift; sourceTree = "<group>"; };
+		0051C357213F47B9008352F2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		005C92291F8916170018DD44 /* BlendSmoothieBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlendSmoothieBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		005C922C1F8916170018DD44 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		005C92311F8916170018DD44 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 				00721DF620388A6A005A1602 /* Settings.bundle */,
 				005C92331F8916170018DD44 /* Assets.xcassets */,
 				005C92381F8916180018DD44 /* Info.plist */,
+				0051C357213F47B9008352F2 /* GoogleService-Info.plist */,
 			);
 			path = BlendSmoothieBar;
 			sourceTree = "<group>";
@@ -197,7 +200,6 @@
 				005C92261F8916170018DD44 /* Frameworks */,
 				005C92271F8916170018DD44 /* Resources */,
 				B216C75ECEE98F544474913C /* [CP] Embed Pods Frameworks */,
-				7BA95FEDA47D709A535CB8A0 /* [CP] Copy Pods Resources */,
 				00CDA0E620C8769200618FFE /* Embed App Extensions */,
 			);
 			buildRules = (
@@ -259,6 +261,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0051C358213F47B9008352F2 /* GoogleService-Info.plist in Resources */,
 				00721DF720388A6A005A1602 /* Settings.bundle in Resources */,
 				005C92371F8916180018DD44 /* LaunchScreen.storyboard in Resources */,
 				005C92341F8916170018DD44 /* Assets.xcassets in Resources */,
@@ -275,28 +278,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BlendSmoothieBar-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		7BA95FEDA47D709A535CB8A0 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BlendSmoothieBar/Pods-BlendSmoothieBar-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B216C75ECEE98F544474913C /* [CP] Embed Pods Frameworks */ = {
@@ -305,9 +296,24 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-BlendSmoothieBar/Pods-BlendSmoothieBar-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AWSCognito/AWSCognito.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSCore/AWSCore.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSLambda/AWSLambda.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/Stripe/Stripe.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCognito.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSLambda.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Stripe.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

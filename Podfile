@@ -12,5 +12,7 @@ target 'BlendSmoothieBar' do
 pod 'Stripe'
 pod 'AWSCognito'
 pod 'AWSLambda'
+pod 'Firebase/Core'
+pod 'Firebase/Messaging'
 
 end
