@@ -59,6 +59,7 @@ PODS:
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
   - Protobuf (3.6.1)
+  - Siren (3.5.0)
   - Stripe (10.1.0)
 
 DEPENDENCIES:
@@ -66,6 +67,7 @@ DEPENDENCIES:
   - AWSLambda
   - Firebase/Core
   - Firebase/Messaging
+  - Siren
   - Stripe
 
 SPEC REPOS:
@@ -82,6 +84,7 @@ SPEC REPOS:
     - GoogleUtilities
     - nanopb
     - Protobuf
+    - Siren
     - Stripe
 
 SPEC CHECKSUMS:
@@ -97,8 +100,9 @@ SPEC CHECKSUMS:
   GoogleUtilities: 06b66f9567769a7958db20a92f0128b2843e49d5
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
+  Siren: 1a33b8b5f5e925648b2f5eb5f969a169076c8352
   Stripe: 1c7aa951a075cced500a919d92b687b35d410705
 
-PODFILE CHECKSUM: c23c20dc9dd2622199cc1471b732da7b7c2f2861
+PODFILE CHECKSUM: 6f194f5bf40cdda57d2a6461b30db3b29e876c76
 
 COCOAPODS: 1.5.3

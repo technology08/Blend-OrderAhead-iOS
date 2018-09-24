@@ -13,6 +13,7 @@ import Stripe
 import CloudKit
 import Firebase
 import UserNotifications
+import Siren
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
@@ -39,6 +40,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         FirebaseApp.configure()
         
+        //Check App Store for new update
+        let siren = Siren.shared
+        
+        siren.alertType = .force
+        
         return true
     }
 
@@ -54,10 +60,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        Siren.shared.checkVersion(checkType: .daily)
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        Siren.shared.checkVersion(checkType: .daily)
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

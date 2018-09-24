@@ -14,5 +14,6 @@ pod 'AWSCognito'
 pod 'AWSLambda'
 pod 'Firebase/Core'
 pod 'Firebase/Messaging'
+pod 'Siren'
 
 end
