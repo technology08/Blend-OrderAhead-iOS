@@ -7,30 +7,72 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		000CF6732005088E009A8CCD /* InitialLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000CF6722005088E009A8CCD /* InitialLoadingViewController.swift */; };
+		0034E2431FA79C7D008FDC23 /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0034E2421FA79C7D008FDC23 /* ConfirmationViewController.swift */; };
+		0034E2451FA7A2CB008FDC23 /* CustomTableViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0034E2441FA7A2CB008FDC23 /* CustomTableViewCells.swift */; };
+		0051C356213F4274008352F2 /* OrderMenuVCErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0051C355213F4274008352F2 /* OrderMenuVCErrorAlert.swift */; };
+		0051C358213F47B9008352F2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0051C357213F47B9008352F2 /* GoogleService-Info.plist */; };
 		005C922D1F8916170018DD44 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C922C1F8916170018DD44 /* AppDelegate.swift */; };
-		005C922F1F8916170018DD44 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C922E1F8916170018DD44 /* ViewController.swift */; };
 		005C92321F8916170018DD44 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 005C92301F8916170018DD44 /* Main.storyboard */; };
 		005C92341F8916170018DD44 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 005C92331F8916170018DD44 /* Assets.xcassets */; };
 		005C92371F8916180018DD44 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 005C92351F8916180018DD44 /* LaunchScreen.storyboard */; };
 		005C923F1F8916350018DD44 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C923E1F8916350018DD44 /* Product.swift */; };
-		005C92431F8928EF0018DD44 /* MenuTableHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C92411F8928EF0018DD44 /* MenuTableHeader.swift */; };
-		005C92441F8928EF0018DD44 /* MenuTableHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 005C92421F8928EF0018DD44 /* MenuTableHeader.xib */; };
-		005C92481F8974ED0018DD44 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 005C92471F8974ED0018DD44 /* CloudKit.framework */; };
+		00721DF720388A6A005A1602 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 00721DF620388A6A005A1602 /* Settings.bundle */; };
+		00A1C4DD1F9A789A002FB11E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00A1C4DC1F9A789A002FB11E /* CloudKit.framework */; };
+		00C3547D1F8C62360053A6A8 /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C3547C1F8C62360053A6A8 /* MenuTableViewController.swift */; };
+		00CCD1E11F91308F0060D213 /* Stripe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00CCD1E01F912F810060D213 /* Stripe.framework */; };
+		00CDA0B620C8730E00618FFE /* ApplePay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CDA0B520C8730E00618FFE /* ApplePay.swift */; };
+		00CDA0B820C8735B00618FFE /* AWSBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CDA0B720C8735B00618FFE /* AWSBackend.swift */; };
+		00CDA0BA20C8745700618FFE /* CloudKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CDA0B920C8745700618FFE /* CloudKit.swift */; };
+		00CDA0BC20C8749900618FFE /* ErrorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CDA0BB20C8749900618FFE /* ErrorExtensions.swift */; };
+		00CDA0C020C8754700618FFE /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CDA0BF20C8754700618FFE /* Extensions.swift */; };
+		00DAAC2B1F8D8AAD006F088F /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00DAAC2A1F8D8AAD006F088F /* PassKit.framework */; };
+		00DAAC2D1F8D8D09006F088F /* OrderMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00DAAC2C1F8D8D09006F088F /* OrderMenuViewController.swift */; };
+		8554A3CFAA578633F3F4E726 /* Pods_BlendSmoothieBar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27DE48AEBBA010EB85BF738A /* Pods_BlendSmoothieBar.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		00CDA0E620C8769200618FFE /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		000CF6722005088E009A8CCD /* InitialLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialLoadingViewController.swift; sourceTree = "<group>"; };
+		0034E2421FA79C7D008FDC23 /* ConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationViewController.swift; sourceTree = "<group>"; };
+		0034E2441FA7A2CB008FDC23 /* CustomTableViewCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCells.swift; sourceTree = "<group>"; };
+		0051C355213F4274008352F2 /* OrderMenuVCErrorAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderMenuVCErrorAlert.swift; sourceTree = "<group>"; };
+		0051C357213F47B9008352F2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		005C92291F8916170018DD44 /* BlendSmoothieBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlendSmoothieBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		005C922C1F8916170018DD44 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		005C922E1F8916170018DD44 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		005C92311F8916170018DD44 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		005C92331F8916170018DD44 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		005C92361F8916180018DD44 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		005C92381F8916180018DD44 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		005C923E1F8916350018DD44 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
-		005C92411F8928EF0018DD44 /* MenuTableHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableHeader.swift; sourceTree = "<group>"; };
-		005C92421F8928EF0018DD44 /* MenuTableHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MenuTableHeader.xib; sourceTree = "<group>"; };
 		005C92451F8974EA0018DD44 /* BlendSmoothieBar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BlendSmoothieBar.entitlements; sourceTree = "<group>"; };
-		005C92471F8974ED0018DD44 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		00721DF620388A6A005A1602 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		00A1C4DC1F9A789A002FB11E /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		00C3547C1F8C62360053A6A8 /* MenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
+		00CCD1E01F912F810060D213 /* Stripe.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Stripe.framework; sourceTree = "<group>"; };
+		00CDA0B520C8730E00618FFE /* ApplePay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplePay.swift; sourceTree = "<group>"; };
+		00CDA0B720C8735B00618FFE /* AWSBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSBackend.swift; sourceTree = "<group>"; };
+		00CDA0B920C8745700618FFE /* CloudKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKit.swift; sourceTree = "<group>"; };
+		00CDA0BB20C8749900618FFE /* ErrorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorExtensions.swift; sourceTree = "<group>"; };
+		00CDA0BF20C8754700618FFE /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		00CDA0D120C8769200618FFE /* IntentsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IntentsUI.framework; path = System/Library/Frameworks/IntentsUI.framework; sourceTree = SDKROOT; };
+		00DAAC2A1F8D8AAD006F088F /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
+		00DAAC2C1F8D8D09006F088F /* OrderMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderMenuViewController.swift; sourceTree = "<group>"; };
+		27DE48AEBBA010EB85BF738A /* Pods_BlendSmoothieBar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BlendSmoothieBar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4916D011EE3E996920E913E /* Pods-BlendSmoothieBar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlendSmoothieBar.release.xcconfig"; path = "Pods/Target Support Files/Pods-BlendSmoothieBar/Pods-BlendSmoothieBar.release.xcconfig"; sourceTree = "<group>"; };
+		F15E890A899817DEF3DC3F8D /* Pods-BlendSmoothieBar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlendSmoothieBar.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BlendSmoothieBar/Pods-BlendSmoothieBar.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,7 +80,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				005C92481F8974ED0018DD44 /* CloudKit.framework in Frameworks */,
+				00CCD1E11F91308F0060D213 /* Stripe.framework in Frameworks */,
+				00A1C4DD1F9A789A002FB11E /* CloudKit.framework in Frameworks */,
+				00DAAC2B1F8D8AAD006F088F /* PassKit.framework in Frameworks */,
+				8554A3CFAA578633F3F4E726 /* Pods_BlendSmoothieBar.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -51,6 +96,7 @@
 				005C922B1F8916170018DD44 /* BlendSmoothieBar */,
 				005C922A1F8916170018DD44 /* Products */,
 				005C92461F8974ED0018DD44 /* Frameworks */,
+				64528C242702C1AB9C5837E1 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -67,14 +113,14 @@
 			children = (
 				005C92451F8974EA0018DD44 /* BlendSmoothieBar.entitlements */,
 				005C922C1F8916170018DD44 /* AppDelegate.swift */,
-				005C922E1F8916170018DD44 /* ViewController.swift */,
-				005C923E1F8916350018DD44 /* Product.swift */,
-				005C92411F8928EF0018DD44 /* MenuTableHeader.swift */,
-				005C92421F8928EF0018DD44 /* MenuTableHeader.xib */,
-				005C92301F8916170018DD44 /* Main.storyboard */,
+				00CDA0BD20C8750700618FFE /* View Controllers */,
+				00CDA0BE20C8751C00618FFE /* Processing */,
+				00CDA0C120C8757400618FFE /* Extensions and Objects */,
+				00CDA0C220C8759B00618FFE /* Storyboards */,
+				00721DF620388A6A005A1602 /* Settings.bundle */,
 				005C92331F8916170018DD44 /* Assets.xcassets */,
-				005C92351F8916180018DD44 /* LaunchScreen.storyboard */,
 				005C92381F8916180018DD44 /* Info.plist */,
+				0051C357213F47B9008352F2 /* GoogleService-Info.plist */,
 			);
 			path = BlendSmoothieBar;
 			sourceTree = "<group>";
@@ -82,9 +128,64 @@
 		005C92461F8974ED0018DD44 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				005C92471F8974ED0018DD44 /* CloudKit.framework */,
+				00A1C4DC1F9A789A002FB11E /* CloudKit.framework */,
+				00CCD1E01F912F810060D213 /* Stripe.framework */,
+				00DAAC2A1F8D8AAD006F088F /* PassKit.framework */,
+				27DE48AEBBA010EB85BF738A /* Pods_BlendSmoothieBar.framework */,
+				00CDA0D120C8769200618FFE /* IntentsUI.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		00CDA0BD20C8750700618FFE /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				000CF6722005088E009A8CCD /* InitialLoadingViewController.swift */,
+				00C3547C1F8C62360053A6A8 /* MenuTableViewController.swift */,
+				0034E2421FA79C7D008FDC23 /* ConfirmationViewController.swift */,
+				00DAAC2C1F8D8D09006F088F /* OrderMenuViewController.swift */,
+				0051C355213F4274008352F2 /* OrderMenuVCErrorAlert.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		00CDA0BE20C8751C00618FFE /* Processing */ = {
+			isa = PBXGroup;
+			children = (
+				00CDA0B920C8745700618FFE /* CloudKit.swift */,
+				00CDA0B720C8735B00618FFE /* AWSBackend.swift */,
+				00CDA0B520C8730E00618FFE /* ApplePay.swift */,
+			);
+			path = Processing;
+			sourceTree = "<group>";
+		};
+		00CDA0C120C8757400618FFE /* Extensions and Objects */ = {
+			isa = PBXGroup;
+			children = (
+				00CDA0BB20C8749900618FFE /* ErrorExtensions.swift */,
+				0034E2441FA7A2CB008FDC23 /* CustomTableViewCells.swift */,
+				005C923E1F8916350018DD44 /* Product.swift */,
+				00CDA0BF20C8754700618FFE /* Extensions.swift */,
+			);
+			path = "Extensions and Objects";
+			sourceTree = "<group>";
+		};
+		00CDA0C220C8759B00618FFE /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				005C92301F8916170018DD44 /* Main.storyboard */,
+				005C92351F8916180018DD44 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		64528C242702C1AB9C5837E1 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F15E890A899817DEF3DC3F8D /* Pods-BlendSmoothieBar.debug.xcconfig */,
+				E4916D011EE3E996920E913E /* Pods-BlendSmoothieBar.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -94,9 +195,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 005C923B1F8916180018DD44 /* Build configuration list for PBXNativeTarget "BlendSmoothieBar" */;
 			buildPhases = (
+				42E566C3306479581293F8A8 /* [CP] Check Pods Manifest.lock */,
 				005C92251F8916170018DD44 /* Sources */,
 				005C92261F8916170018DD44 /* Frameworks */,
 				005C92271F8916170018DD44 /* Resources */,
+				B216C75ECEE98F544474913C /* [CP] Embed Pods Frameworks */,
+				00CDA0E620C8769200618FFE /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
@@ -113,8 +217,8 @@
 		005C92211F8916170018DD44 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0900;
-				LastUpgradeCheck = 0900;
+				LastSwiftUpdateCheck = 1000;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Connor Espenshade";
 				TargetAttributes = {
 					005C92281F8916170018DD44 = {
@@ -157,24 +261,87 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0051C358213F47B9008352F2 /* GoogleService-Info.plist in Resources */,
+				00721DF720388A6A005A1602 /* Settings.bundle in Resources */,
 				005C92371F8916180018DD44 /* LaunchScreen.storyboard in Resources */,
 				005C92341F8916170018DD44 /* Assets.xcassets in Resources */,
-				005C92441F8928EF0018DD44 /* MenuTableHeader.xib in Resources */,
 				005C92321F8916170018DD44 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		42E566C3306479581293F8A8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BlendSmoothieBar-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B216C75ECEE98F544474913C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-BlendSmoothieBar/Pods-BlendSmoothieBar-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AWSCognito/AWSCognito.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSCore/AWSCore.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSLambda/AWSLambda.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/Siren/Siren.framework",
+				"${BUILT_PRODUCTS_DIR}/Stripe/Stripe.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCognito.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSLambda.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Siren.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Stripe.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BlendSmoothieBar/Pods-BlendSmoothieBar-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		005C92251F8916170018DD44 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				005C922F1F8916170018DD44 /* ViewController.swift in Sources */,
+				000CF6732005088E009A8CCD /* InitialLoadingViewController.swift in Sources */,
+				00CDA0BA20C8745700618FFE /* CloudKit.swift in Sources */,
+				0051C356213F4274008352F2 /* OrderMenuVCErrorAlert.swift in Sources */,
+				00CDA0BC20C8749900618FFE /* ErrorExtensions.swift in Sources */,
+				00DAAC2D1F8D8D09006F088F /* OrderMenuViewController.swift in Sources */,
 				005C923F1F8916350018DD44 /* Product.swift in Sources */,
-				005C92431F8928EF0018DD44 /* MenuTableHeader.swift in Sources */,
+				00C3547D1F8C62360053A6A8 /* MenuTableViewController.swift in Sources */,
 				005C922D1F8916170018DD44 /* AppDelegate.swift in Sources */,
+				00CDA0B820C8735B00618FFE /* AWSBackend.swift in Sources */,
+				00CDA0C020C8754700618FFE /* Extensions.swift in Sources */,
+				0034E2451FA7A2CB008FDC23 /* CustomTableViewCells.swift in Sources */,
+				00CDA0B620C8730E00618FFE /* ApplePay.swift in Sources */,
+				0034E2431FA79C7D008FDC23 /* ConfirmationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,6 +381,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -221,6 +389,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -271,6 +440,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -278,6 +448,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -309,14 +480,22 @@
 		};
 		005C923C1F8916180018DD44 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F15E890A899817DEF3DC3F8D /* Pods-BlendSmoothieBar.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = BlendSmoothieBar/BlendSmoothieBar.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9PNHQ3XQ2M;
+				DEVELOPMENT_TEAM = PRR3XF7JNB;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = BlendSmoothieBar/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.CE.BlendSmoothieBar;
+				PRODUCT_BUNDLE_IDENTIFIER = com.CHCA.BlendSmoothieBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -325,14 +504,22 @@
 		};
 		005C923D1F8916180018DD44 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E4916D011EE3E996920E913E /* Pods-BlendSmoothieBar.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = BlendSmoothieBar/BlendSmoothieBar.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9PNHQ3XQ2M;
+				DEVELOPMENT_TEAM = PRR3XF7JNB;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = BlendSmoothieBar/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.CE.BlendSmoothieBar;
+				PRODUCT_BUNDLE_IDENTIFIER = com.CHCA.BlendSmoothieBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
