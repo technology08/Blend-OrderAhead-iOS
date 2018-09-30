@@ -41,7 +41,7 @@ extension CKError {
         alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: { (action) in
             alert.dismiss(animated: true, completion: nil)
             if crash {
-                fatalError()
+            fatalError()
             }
         }))
         return alert
