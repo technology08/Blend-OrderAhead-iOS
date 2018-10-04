@@ -8,8 +8,10 @@
 
 import UIKit
 import CloudKit
+import Siren
+import Firebase
 
-class InitialLoadingViewController: UIViewController {
+class InitialLoadingViewController: UIViewController, SirenDelegate {
     
     var ai: UIActivityIndicatorView?
     
@@ -18,6 +20,21 @@ class InitialLoadingViewController: UIViewController {
         
         // Do any additional setup after loading the view.
         self.displayLoadingIndicator()
+        Siren.shared.delegate = self
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        Siren.shared.checkVersion(checkType: .immediately)
+    }
+ 
+    func sirenLatestVersionInstalled() {
         fetchMenuItems { (completion, items) in
             if completion {
                 self.sortMenuItems(items: items)
@@ -27,11 +44,11 @@ class InitialLoadingViewController: UIViewController {
         }
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func sirenDidFailVersionCheck(error: Error) {
+        print(error.localizedDescription)
+        
+        Analytics.logEvent("siren_version_check_crash", parameters: ["error": error.localizedDescription])
     }
-    
     
     /*
      // MARK: - Navigation
@@ -104,7 +121,7 @@ class InitialLoadingViewController: UIViewController {
     }
     
     func displayLoadingIndicator() {
-        self.ai = UIActivityIndicatorView.init(activityIndicatorStyle: .whiteLarge)
+        self.ai = UIActivityIndicatorView.init(style: .whiteLarge)
         self.ai!.startAnimating()
         self.ai!.center = self.view.center
         
@@ -121,3 +138,4 @@ class InitialLoadingViewController: UIViewController {
         }
     }
 }
+

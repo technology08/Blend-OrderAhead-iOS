@@ -52,7 +52,7 @@ class FlavorPickerTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
     
     var delegate: ParameterReturnDelegate? = nil
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
     
@@ -88,13 +88,13 @@ class FlavorPickerTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
         case "Smoothies":
             let string = currentSmoothies[row].name
             
-            let attributedString = NSAttributedString(string: string, attributes: [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
+            let attributedString = NSAttributedString(string: string, attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
             
             return attributedString
         case "Ice Cream & Sweets":
             let string = currentIceCream[row].name
             
-            let attributedString = NSAttributedString(string: string, attributes: [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
+            let attributedString = NSAttributedString(string: string, attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
             
             return attributedString
         default:
@@ -167,7 +167,7 @@ class TimeCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
         
         let string = times[row]
         
-        let attributedString = NSAttributedString(string: string, attributes: [NSAttributedStringKey.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
+        let attributedString = NSAttributedString(string: string, attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
         
         return attributedString
         
@@ -200,7 +200,7 @@ class NameCell: UITableViewCell, UITextFieldDelegate {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        textField.attributedPlaceholder = NSAttributedString(string: "Enter your name here...", attributes: [NSAttributedStringKey.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
+        textField.attributedPlaceholder = NSAttributedString(string: "Enter your name here...", attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
         textField.delegate = self
     }
     

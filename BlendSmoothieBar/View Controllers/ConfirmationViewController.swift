@@ -16,7 +16,7 @@ class ConfirmationViewController: UIViewController {
     @IBOutlet weak var pickUpLocation: UILabel!
     @IBOutlet weak var amountDue: UILabel!
     
-    var recordId: CKRecordID!
+    var recordId: CKRecord.ID!
     var date: String?
     var order: Order!
     
