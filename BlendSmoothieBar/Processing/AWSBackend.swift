@@ -9,6 +9,7 @@
 import Stripe
 import PassKit
 import AWSLambda
+import Firebase
 
 extension OrderMenuViewController {
     // MARK: - Backend Function
@@ -109,6 +110,8 @@ extension OrderMenuViewController {
                     //DispatchQueue.main.async {
                     let alert = self.createErrorAlert(alertBody: "Unknown error was \(response).", presentTryAgain: true)
                     //}
+                    
+                    Analytics.logEvent("stripe_processor_error", parameters: ["error": response])
                     
                     completion(.failure, alert)
                 }

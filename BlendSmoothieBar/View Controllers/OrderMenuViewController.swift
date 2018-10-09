@@ -349,31 +349,21 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                         let calendar = Calendar.current
                         let hour = calendar.dateComponents([.hour, .minute], from: newDate)
                         
-                        if (((hour.hour! == 10 && hour.minute! >= 30) || (hour.hour! > 10))) && ((hour.hour == 13 && hour.minute! <= 25) || (hour.hour! <= 13)) {
-                            //GO TO 1:25
-                            order.pickUpTime = "1:25 PM"
-                        } else if hour.hour! > 15 || (hour.hour! > 14 && hour.minute! > 30) {
-                            //GO TO 7:30
-                            
-                            //IMPORTANT CHANGE: PRIOR TO v.1.0 (7), this started at 4:30 (not 3:30), or
-                            //else if hour.hour! > 16 || (hour.hour! > 15 && hour.minute! > 30)
-                            
-                            //This was changed on 2.20.18
-                            order.pickUpTime = "7:30 AM"
-                        } else if (hour.hour! == 10 && hour.minute! <= 30) || hour.hour! < 10 {
-                            
-                            order.pickUpTime = "\(hour.hour!):\(hour.minute!) AM"
-                            
-                        } else if (hour.hour! == 13 && hour.minute! > 25) || hour.hour! > 14 {
-                            
+                        if hour.hour! > 16 ||
+                            (hour.hour! == 15 && hour.minute! > 45) {
+                            //If hour is past 3:45, go to next day at 2:30
+                            order.pickUpTime = "2:30 PM"
+                        } else if hour.hour! < 14 ||
+                            (hour.hour! == 14 && hour.minute! < 30) {
+                            //If hour is before 2:30
+                            order.pickUpTime = "2:30 PM"
+                        } else {
+                            //Within operating hours, set default to ASAP
                             let newHour = hour.hour! - 12
                             order.pickUpTime = "\(newHour):\(hour.minute!) PM"
-                            
-                        } else {
-                            order.pickUpTime = "7:30 AM"
                         }
                     }
-                    cell.parameterValueLabel.text = order.pickUpTime ?? "7:45 AM"
+                    cell.parameterValueLabel.text = order.pickUpTime ?? "2:30 PM"
                 }
                 return cell
             case 3:

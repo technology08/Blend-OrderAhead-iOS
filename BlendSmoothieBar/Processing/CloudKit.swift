@@ -8,6 +8,7 @@
 
 import CloudKit
 import UIKit
+import Firebase
 
 extension OrderMenuViewController {
     /**
@@ -88,7 +89,7 @@ extension OrderMenuViewController {
      - Parameter paid: A `Bool` indicating whether the user has pre-paid using Apple Pay or promised to pay in cash.
      - Parameter completion: A completion handler containing a success `Bool`, the `CKRecordID` of the order in case it needs to be deleted or accessed, and an optional `Error`.
      */
-    func createOrder(finalOrder: Order, paid: Bool, completion: @escaping ((Bool, CKRecordID?, Error?) -> Void)) {
+    func createOrder(finalOrder: Order, paid: Bool, completion: @escaping ((Bool, CKRecord.ID?, Error?) -> Void)) {
         
         let record = CKRecord(recordType: "Order")
         record["item"] = (finalOrder.baseProduct.name + " " + finalOrder.baseProduct.type.description) as CKRecordValue
@@ -183,10 +184,22 @@ extension OrderMenuViewController {
                     self.present(alert, animated: true, completion: nil)
                 }
                 
+                Analytics.logEvent("purchase-failed", parameters: [
+                    "paymentMethod": paid ? "applePay" : "cash",
+                    "product": self.order.baseProduct.name,
+                    "price": self.order.finalPrice,
+                    "error": error?.localizedDescription ?? "null"
+                    ])
+                
                 completion(false, nil, error)
                 
             } else {
                 //GO BACK TO MENU, SHOW CONFIRMATION, YOU ARE DONE!
+                Analytics.logEvent("purchase", parameters: [
+                    "paymentMethod": paid ? "applePay" : "cash",
+                    "product": self.order.baseProduct.name,
+                    "price": self.order.finalPrice
+                    ])
                 completion(true, record!.recordID, nil)
                 
             }
@@ -196,7 +209,7 @@ extension OrderMenuViewController {
     
     func fetchAuthenticationKey(completion: @escaping ((String?, UIAlertController?) -> Void)) {
         
-        let id = CKRecordID(recordName: "INSERT_CLOUDKIT_RECORD_ID")
+        let id = CKRecord.ID(recordName: "INSERT_CLOUDKIT_RECORD_ID")
         let currentCodeQuery = CKQuery(recordType: "Constants", predicate: NSPredicate(format: "recordID = %@", id))
         let database = CKContainer.default().publicCloudDatabase
         database.perform(currentCodeQuery, inZoneWith: nil) { (recordArray, error) in
