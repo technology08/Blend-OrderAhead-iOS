@@ -74,37 +74,10 @@ struct Modifier:Codable {
     }
 }
 
-var currentSmoothies: [Product] = []/*{
-    /*
-     Smoothies: (all $3)
-     Strawberry
-     Strawberry Lemonade
-     Pineapple
-     (modifiers – whipped cream $.50, protein $.50)
-     
-     Milk Shakes (all $3)
-     Oreo
-     Chocolate
-     (modifiers – whipped cream $.50, protein $.50)
-     
-     Food Items:
-     Waffle - $3.50
-     (Modifier – powdered sugar, or whipped cream and chocolate – no charge for modifier)
-     Jacked Waffle - $4 (comes with almond butter, sliced bananas, pecans, and honey)
-     Ferrero Waffle - $4 (comes with Nutella, sliced bananas, and pecans)
-     Jacked Toast - $3 (comes with almond butter, sliced bananas, pecans, and honey)
-     */
-    let smoothiemodifiers = [Modifier.init(name: "Whipped Cream", price: 0.5), Modifier.init(name: "Protein", price: 0.5)]
-    let one = Product(name: "Strawberry", price: 3, modifiers: smoothiemodifiers, type: "Smoothie")
-    let two = Product(name: "Strawberry Lemonade", price: 3, modifiers: smoothiemodifiers, type: "Smoothie")
-    let three = Product(name: "Pineapple", price: 3, modifiers: smoothiemodifiers, type: "Smoothie")
-    return [one, two, three]
-}*/
-var currentIceCream: [Product] = []/*{
-    
-    let shakemodifiers = [Modifier.init(name: "Whipped Cream", price: 0.5), Modifier.init(name: "Protein", price: 0.5)]
-    let four = Product(name: "Oreo", price: 3, modifiers: shakemodifiers, type: "Ice Cream & Sweets")
-    let five = Product(name: "Chocolate", price: 3, modifiers: shakemodifiers, type: "Ice Cream & Sweets")
-    
-    return [four, five]
-}*/
+enum Business: Int {
+    case Blend = 0
+    case LeaningEagle = 1
+}
+
+var currentSmoothies: [Product] = []
+var currentIceCream: [Product] = []

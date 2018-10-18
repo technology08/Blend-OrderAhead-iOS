@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		000CF6732005088E009A8CCD /* InitialLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000CF6722005088E009A8CCD /* InitialLoadingViewController.swift */; };
+		0010670A21782ABF004FFCF1 /* CoffeeMenuTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0010670921782ABF004FFCF1 /* CoffeeMenuTableVC.swift */; };
 		0034E2431FA79C7D008FDC23 /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0034E2421FA79C7D008FDC23 /* ConfirmationViewController.swift */; };
 		0034E2451FA7A2CB008FDC23 /* CustomTableViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0034E2441FA7A2CB008FDC23 /* CustomTableViewCells.swift */; };
 		0051C356213F4274008352F2 /* OrderMenuVCErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0051C355213F4274008352F2 /* OrderMenuVCErrorAlert.swift */; };
@@ -19,7 +20,7 @@
 		005C923F1F8916350018DD44 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C923E1F8916350018DD44 /* Product.swift */; };
 		00721DF720388A6A005A1602 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 00721DF620388A6A005A1602 /* Settings.bundle */; };
 		00A1C4DD1F9A789A002FB11E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00A1C4DC1F9A789A002FB11E /* CloudKit.framework */; };
-		00C3547D1F8C62360053A6A8 /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C3547C1F8C62360053A6A8 /* MenuTableViewController.swift */; };
+		00C3547D1F8C62360053A6A8 /* BlendMenuTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C3547C1F8C62360053A6A8 /* BlendMenuTableVC.swift */; };
 		00CCD1E11F91308F0060D213 /* Stripe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00CCD1E01F912F810060D213 /* Stripe.framework */; };
 		00CDA0B620C8730E00618FFE /* ApplePay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CDA0B520C8730E00618FFE /* ApplePay.swift */; };
 		00CDA0B820C8735B00618FFE /* AWSBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CDA0B720C8735B00618FFE /* AWSBackend.swift */; };
@@ -46,6 +47,7 @@
 
 /* Begin PBXFileReference section */
 		000CF6722005088E009A8CCD /* InitialLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialLoadingViewController.swift; sourceTree = "<group>"; };
+		0010670921782ABF004FFCF1 /* CoffeeMenuTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoffeeMenuTableVC.swift; sourceTree = "<group>"; };
 		0034E2421FA79C7D008FDC23 /* ConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationViewController.swift; sourceTree = "<group>"; };
 		0034E2441FA7A2CB008FDC23 /* CustomTableViewCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCells.swift; sourceTree = "<group>"; };
 		0051C355213F4274008352F2 /* OrderMenuVCErrorAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderMenuVCErrorAlert.swift; sourceTree = "<group>"; };
@@ -60,7 +62,7 @@
 		005C92451F8974EA0018DD44 /* BlendSmoothieBar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BlendSmoothieBar.entitlements; sourceTree = "<group>"; };
 		00721DF620388A6A005A1602 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		00A1C4DC1F9A789A002FB11E /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
-		00C3547C1F8C62360053A6A8 /* MenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
+		00C3547C1F8C62360053A6A8 /* BlendMenuTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlendMenuTableVC.swift; sourceTree = "<group>"; };
 		00CCD1E01F912F810060D213 /* Stripe.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Stripe.framework; sourceTree = "<group>"; };
 		00CDA0B520C8730E00618FFE /* ApplePay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplePay.swift; sourceTree = "<group>"; };
 		00CDA0B720C8735B00618FFE /* AWSBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSBackend.swift; sourceTree = "<group>"; };
@@ -141,7 +143,8 @@
 			isa = PBXGroup;
 			children = (
 				000CF6722005088E009A8CCD /* InitialLoadingViewController.swift */,
-				00C3547C1F8C62360053A6A8 /* MenuTableViewController.swift */,
+				00C3547C1F8C62360053A6A8 /* BlendMenuTableVC.swift */,
+				0010670921782ABF004FFCF1 /* CoffeeMenuTableVC.swift */,
 				0034E2421FA79C7D008FDC23 /* ConfirmationViewController.swift */,
 				00DAAC2C1F8D8D09006F088F /* OrderMenuViewController.swift */,
 				0051C355213F4274008352F2 /* OrderMenuVCErrorAlert.swift */,
@@ -336,9 +339,10 @@
 				00CDA0BC20C8749900618FFE /* ErrorExtensions.swift in Sources */,
 				00DAAC2D1F8D8D09006F088F /* OrderMenuViewController.swift in Sources */,
 				005C923F1F8916350018DD44 /* Product.swift in Sources */,
-				00C3547D1F8C62360053A6A8 /* MenuTableViewController.swift in Sources */,
+				00C3547D1F8C62360053A6A8 /* BlendMenuTableVC.swift in Sources */,
 				005C922D1F8916170018DD44 /* AppDelegate.swift in Sources */,
 				00CDA0B820C8735B00618FFE /* AWSBackend.swift in Sources */,
+				0010670A21782ABF004FFCF1 /* CoffeeMenuTableVC.swift in Sources */,
 				00CDA0C020C8754700618FFE /* Extensions.swift in Sources */,
 				0034E2451FA7A2CB008FDC23 /* CustomTableViewCells.swift in Sources */,
 				00CDA0B620C8730E00618FFE /* ApplePay.swift in Sources */,
