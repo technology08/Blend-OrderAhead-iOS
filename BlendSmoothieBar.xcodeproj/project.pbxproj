@@ -145,8 +145,8 @@
 				000CF6722005088E009A8CCD /* InitialLoadingViewController.swift */,
 				00C3547C1F8C62360053A6A8 /* BlendMenuTableVC.swift */,
 				0010670921782ABF004FFCF1 /* CoffeeMenuTableVC.swift */,
-				0034E2421FA79C7D008FDC23 /* ConfirmationViewController.swift */,
 				00DAAC2C1F8D8D09006F088F /* OrderMenuViewController.swift */,
+				0034E2421FA79C7D008FDC23 /* ConfirmationViewController.swift */,
 				0051C355213F4274008352F2 /* OrderMenuVCErrorAlert.swift */,
 			);
 			path = "View Controllers";

@@ -94,6 +94,7 @@ class BlendMenuTableViewController: UITableViewController {
         if segue.identifier == "toMenuOrder" {
             if let destination = segue.destination as? OrderMenuViewController {
                 destination.currentProductCategory = selectedCategory
+                destination.selectedBusiness = .Blend
             }
         }
     }

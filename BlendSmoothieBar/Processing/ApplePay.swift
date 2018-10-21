@@ -67,37 +67,6 @@ extension OrderMenuViewController: PKPaymentAuthorizationViewControllerDelegate 
                         completion(success1)
                     }
                     
-                    /*
-                     self.createOrder(finalOrder: self.order, payed: true, completion: { (success, record, error) in
-                     
-                     if success {
-                     self.sendToBackendResult(token: token, amount: stripeprice, completion: { (status) -> Void in
-                     completion(status)
-                     if status == PKPaymentAuthorizationStatus.success {
-                     self.performSegue(withIdentifier: "toConfirmation", sender: nil)
-                     } else {
-                     //Delete order
-                     guard record != nil else { return }
-                     CKContainer.default().publicCloudDatabase.delete(withRecordID: record!, completionHandler: { (record, error) in
-                     
-                     if error != nil {
-                     self.createErrorAlert(alertBody: "The credit card was not charged, but the order went through anyway. Please pay at pick-up.", presentTryAgain: false)
-                     }
-                     
-                     })
-                     }
-                     })
-                     } else {
-                     if let error = error as? CKError {
-                     //HANDLE
-                     print(error)
-                     fatalError("CKError while uploading order: \(error.localizedDescription)")
-                     } else if error != nil {
-                     print(error!)
-                     fatalError("Error while uploading order to CloudKit: \(error?.localizedDescription ?? "No error description.")")
-                     } else {
-                     
-                     }*/
                     
                 })
             } else {
@@ -124,6 +93,11 @@ extension OrderMenuViewController: PKPaymentAuthorizationViewControllerDelegate 
                         let baseItem = PKPaymentSummaryItem(label: "\(self.order.baseProduct.name) \(self.order.baseProduct.type)", amount: NSDecimalNumber(decimal: self.order.baseProduct.price))
                         
                         request.paymentSummaryItems = [baseItem]
+                        
+                        if let sizePrice = self.order.sizeUpgradePrice {
+                            let paymentitem = PKPaymentSummaryItem(label: self.order.selectedSize!, amount: NSDecimalNumber(decimal: sizePrice))
+                            request.paymentSummaryItems.append(paymentitem)
+                        }
                         
                         for modifier in self.order.modifiers {
                             let paymentitem = PKPaymentSummaryItem(label: modifier.name!, amount: NSDecimalNumber(decimal: modifier.price!))

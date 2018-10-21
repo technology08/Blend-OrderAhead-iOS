@@ -92,7 +92,11 @@ extension OrderMenuViewController {
     func createOrder(finalOrder: Order, paid: Bool, completion: @escaping ((Bool, CKRecord.ID?, Error?) -> Void)) {
         
         let record = CKRecord(recordType: "Order")
-        record["item"] = (finalOrder.baseProduct.name + " " + finalOrder.baseProduct.type.description) as CKRecordValue
+        if let size = finalOrder.selectedSize {
+            record["item"] = (finalOrder.baseProduct.name + ": " + size) as CKRecordValue
+        } else {
+            record["item"] = finalOrder.baseProduct.name as CKRecordValue
+        }
         
         var modifiers: [String] = []
         for modifier in order.modifiers {
@@ -237,7 +241,7 @@ extension OrderMenuViewController {
                 
                 for record in array {
                     if record.recordID == id {
-                        completion(record["string"]! as! String, nil)
+                        completion(record["string"]! as? String, nil)
                     }
                 }
             }

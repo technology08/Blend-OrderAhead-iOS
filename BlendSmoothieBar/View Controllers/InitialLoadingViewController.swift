@@ -108,12 +108,24 @@ class InitialLoadingViewController: UIViewController, SirenDelegate {
     func sortMenuItems(items: [Product]) {
         currentSmoothies = []
         currentIceCream = []
+        currentEspresso = []
+        currentTea = []
+        currentCold = []
+        currentNonCoffee = []
         for decoded in items {
             switch decoded.type {
             case "Smoothies":
                 currentSmoothies.append(decoded)
             case "Ice Cream & Sweets":
                 currentIceCream.append(decoded)
+            case "Espresso":
+                currentEspresso.append(decoded)
+            case "Tea":
+                currentTea.append(decoded)
+            case "Cold":
+                currentCold.append(decoded)
+            case "Non-Coffee":
+                currentNonCoffee.append(decoded)
             default:
                 print("Encountered product which doesn't conform to category. Record name: \(decoded.name)")
             }

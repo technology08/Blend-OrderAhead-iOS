@@ -19,12 +19,12 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var productTypeLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var parameterTableView: UITableView!
-    @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
     
     let defaults = UserDefaults.standard
     var applePayButton: UIButton?
     var currentProductCategory: String = "Smoothie"
     var initalLoad = false
+    var selectedBusiness: Business = .Blend
     public var selectedProduct: Product? {
         didSet {
             parameterTableView.beginUpdates()
@@ -48,7 +48,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet var cashButton: UIButton!
     @IBOutlet var cashButtonTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var cashButtonLeadingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var cashButtonBottomConstraint: NSLayoutConstraint!
+    //@IBOutlet weak var cashButtonBottomConstraint: NSLayoutConstraint!
     
     // MARK: - Apple Pay Variables
     
@@ -143,6 +143,34 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             order.finalPrice = currentIceCream.first?.price
             visualEffectView.effect = UIBlurEffect(style: .dark)
             backgroundImageView.image = #imageLiteral(resourceName: "shake")
+        case "Espresso":
+            productTypeLabel.text = "Espresso"
+            order.baseProduct = currentEspresso.first
+            order.finalPrice  = currentEspresso.first?.price
+            visualEffectView.effect = UIBlurEffect(style: .dark)
+            backgroundImageView.image = #imageLiteral(resourceName: "espresso")
+        case "Tea":
+            productTypeLabel.text = "Tea"
+            order.baseProduct = currentEspresso.first
+            order.finalPrice  = currentEspresso.first?.price
+            visualEffectView.effect = UIBlurEffect(style: .dark)
+            backgroundImageView.image = #imageLiteral(resourceName: "tea")
+        case "Cold Brew":
+            productTypeLabel.text = "Cold Brew"
+            order.baseProduct = currentCold.first
+            order.finalPrice  = currentCold.first?.price
+            visualEffectView.effect = UIBlurEffect(style: .light)
+            backgroundImageView.image = #imageLiteral(resourceName: "coffee_drinks")
+        case "Non-Coffee":
+            productTypeLabel.text = "Non-Caffeinated"
+            order.baseProduct = currentNonCoffee.first
+            order.finalPrice  = currentNonCoffee.first?.price
+            if #available(iOS 10.0, *) {
+                visualEffectView.effect = UIBlurEffect(style: .light)
+            } else {
+                // Fallback on earlier versions
+            }
+            backgroundImageView.image = #imageLiteral(resourceName: "soda")
         default:
             productTypeLabel.text = "Smoothie"
             order.baseProduct = currentSmoothies.first
@@ -234,14 +262,14 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             case false:
                 return 0
             }
-        } else if indexPath.row == (order.baseProduct.modifiers.count + 4) {
+        } else if indexPath.row == (order.baseProduct.modifiers.count + (((selectedProduct?.sizes.count ?? 1) > 1) ? 5 : 4)) {
             switch timePickerShown {
             case true:
                 return 150
             case false:
                 return 0
             }
-        } else if indexPath.row == (order.baseProduct.modifiers.count + 6) {
+            } else if indexPath.row == (order.baseProduct.modifiers.count + (((selectedProduct?.sizes.count ?? 1) > 1) ? 7 : 6)) {
             switch locationShown {
             case true:
                 return 150
@@ -256,6 +284,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let product = order.baseProduct else { return tableView.dequeueReusableCell(withIdentifier: "parameterCell")! }
+        let sizesShown = (product.sizes.count > 1) ? true : false
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "parameterCell") as! MenuParameterCell
             switch product.type {
@@ -299,11 +328,31 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             
             return cell
             
-        } else if indexPath.row > 1 && indexPath.row <= product.modifiers.count + 1{
+        } else if indexPath.row == 2 && sizesShown {
+            // Display sizes cell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "sizeCell") as! SizeSegmentedCell
+            
+            var names: [String] = []
+            var prices: [Decimal] = []
+            
+            for size in product.sizes {
+                names.append(size.name)
+                prices.append(size.price)
+            }
+            cell.configure(delegate: self, sizeNames: names, sizePrices: prices, theme: self.selectedBusiness)
+            
+            if self.order.sizeUpgradePrice == nil {
+                self.order.selectedSize = product.sizes.first!.name
+                
+                
+            }
+            
+            return cell
+        } else if indexPath.row > (sizesShown ? 2 : 1) && indexPath.row <= product.modifiers.count + (sizesShown ? 2 : 1) {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "modifierCell") as! MenuModifierCell
             
-            let modifier = product.modifiers[indexPath.row - 2]
+            let modifier = product.modifiers[indexPath.row - (sizesShown ? 3 : 2)]
             
             var modifierText = modifier.name
             
@@ -382,14 +431,22 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                     cell.parameterValueLabel.adjustsFontSizeToFitWidth = true
                     cell.parameterValueLabel.minimumScaleFactor = 0.3
                 } else {
-                    cell.parameterValueLabel.text = order.pickUpPlace ?? defaults.string(forKey: "place") ?? "Smoothie Bar"
-                    self.order.pickUpPlace = order.pickUpPlace ?? defaults.string(forKey: "place") ?? "Smoothie Bar"
+                    switch selectedBusiness {
+                    case .Blend:
+                        cell.parameterValueLabel.text = order.pickUpPlace ?? "Smoothie Bar"
+                        self.order.pickUpPlace = order.pickUpPlace ?? "Smoothie Bar"
+                    case .LeaningEagle:
+                        cell.parameterValueLabel.text = order.pickUpPlace ?? "Coffee Bar"
+                        self.order.pickUpPlace = order.pickUpPlace ?? "Coffee Bar"
+                    }
+                    
                 }
                 
                 return cell
             case 5:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "locationCell") as! LocationPickerCell
                 cell.delegate = self
+                cell.business = self.selectedBusiness
                 return cell
             default:
                 print("PROBLEM!")
@@ -516,8 +573,20 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         } else {
             parameterTableView.reloadData()
         }
-        defaults.set(location, forKey: "place")
         
+    }
+    
+    func sizeChanged(size: String, price: Decimal) {
+        
+        self.order.selectedSize = size
+        self.order.finalPrice! -= self.order.sizeUpgradePrice ?? 0
+        
+        if price == 0 {
+            self.order.sizeUpgradePrice = nil
+        } else {
+            self.order.sizeUpgradePrice = price
+            self.order.finalPrice! += price
+        }
         
     }
     
@@ -702,33 +771,5 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         self.present(alert, animated: true, completion: nil)
     }
     
-    
-    
-    
-    // MARK: - User Error Catches
-    
-    
-    /*
-     func authenticate(completion: @escaping ((Bool) -> Void)) {
-     let context:LAContext = LAContext()
-     if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil) {
-     context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: "Please use biometrics in order to verify your identity before purchase.", reply: { (authenticated, error) in
-     
-     if let error = error as? LAError {
-     switch error.errorCode {
-     
-     case LAError.passcodeNotSet.rawValue:
-     completion(true)
-     
-     default:
-     completion(false)
-     }
-     } else {
-     completion(authenticated)
-     }
-     })
-     }
-     }
-     */
 }
 

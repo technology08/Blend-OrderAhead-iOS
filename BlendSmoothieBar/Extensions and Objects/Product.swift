@@ -12,6 +12,7 @@ import UIKit
 struct Product: Codable {
     var name: String = ""
     var modifiers: [Modifier] = []
+    var sizes: [Modifier] = []
     var price: Decimal = 0
     var type: String = "Smoothies"
     
@@ -32,13 +33,20 @@ struct Product: Codable {
         self.modifiers = modifiers
         self.type = type
     }
-}
-
-struct ModifierArray: Codable {
-    var array: [Modifier]!
     
-    init(array: [Modifier]) {
-        self.array = array
+    init(name: String, price: Decimal, modifiers: [Modifier], sizes: [Modifier], type: String) {
+        self.name = name
+        self.price = price
+        self.modifiers = modifiers
+        self.sizes = sizes
+        self.type = type
+    }
+    
+    init(name: String, price: Decimal, sizes: [Modifier], type: String) {
+        self.name = name
+        self.price = price
+        self.sizes = sizes
+        self.type = type
     }
 }
 
@@ -50,7 +58,9 @@ struct Order {
     var pickUpTime: String!
     var orderName = "No Name"
     var pickUpPlace: String? 
-    var specialInstructions: String?
+    var specialInstructions: String?    
+    var selectedSize: String? = nil
+    var sizeUpgradePrice: Decimal?
     var payed: Bool = false
     var sortDate = Int()
     
@@ -59,8 +69,10 @@ struct Order {
     }
     
 }
-
-struct Modifier:Codable {
+/**
+ Used for both sizes and modifiers.
+*/
+struct Modifier: Codable {
     var price: Decimal!
     var name: String!
     
@@ -74,10 +86,22 @@ struct Modifier:Codable {
     }
 }
 
+struct ModifierArray: Codable {
+    var array: [Modifier]!
+    
+    init(array: [Modifier]) {
+        self.array = array
+    }
+}
+
 enum Business: Int {
     case Blend = 0
     case LeaningEagle = 1
 }
 
 var currentSmoothies: [Product] = []
-var currentIceCream: [Product] = []
+var currentIceCream:  [Product] = []
+var currentEspresso:  [Product] = []
+var currentTea:       [Product] = []
+var currentCold:      [Product] = []
+var currentNonCoffee: [Product] = []
