@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         AWSServiceManager.default().defaultServiceConfiguration = configuration
         
-        UIApplication.shared.statusBarStyle = .lightContent
+        //UIApplication.shared.statusBarStyle = .lightContent
         
         FirebaseApp.configure()
         
@@ -114,7 +114,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let espresso2 = Product(name: "Cortado", price: 2.0, sizes: [small], type: "Espresso")
         let espresso3 = Product(name: "Cappuccino", price: 2.25, sizes: [small], type: "Espresso")
         let espresso4 = Product(name: "Brewed Coffee", price: 1.50, sizes: [small, mediumSizeCheap, largeSizeCheap], type: "Espresso")
-        let espresso5 = Product(name: "Cold Brew", price: 2.25, sizes: [small, mediumSizeCheap], type: "Espresso")
+        let espresso5 = Product(name: "Cold Brew", price: 2.25, sizes: [small, mediumSizeCheap], type: "Cold Brew")
         let espresso6 = Product(name: "Latte", price: 2.50, modifiers: [mocha, vanilla, raspberry, caramel], sizes: [small, largeSizeCheap], type: "Espresso")
         let hotChocolate = Product(name: "Hot Chocolate", price: 2.00, sizes: [small, mediumSizeExpensive, largeSizeReallyExpensive], type: "Non-Coffee")
         let italianSoda = Product(name: "Raspberry Italian Soda", price: 3, modifiers: [freeWhipped], sizes: [small, largeSizeCheap], type: "Non-Coffee")

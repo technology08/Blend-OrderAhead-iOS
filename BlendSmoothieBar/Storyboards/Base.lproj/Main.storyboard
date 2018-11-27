@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FpR-3A-Aym">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FpR-3A-Aym">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,11 +17,11 @@
                     <view key="view" contentMode="scaleToFill" id="Wi9-5l-3zp">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.1700388193" green="0.18219807739999999" blue="0.2666769028" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="qak-m7-V3C"/>
                     </view>
                     <connections>
-                        <segue destination="abX-Wz-gBw" kind="showDetail" identifier="toApp" id="VIz-eX-c3p"/>
+                        <segue destination="ufo-QT-4jU" kind="presentation" identifier="toApp" id="30K-yn-A3T"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Lf-af-fhU" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -54,7 +54,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YzK-lr-top" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="849" y="-187"/>
+            <point key="canvasLocation" x="849" y="-188"/>
         </scene>
         <!--Menu-->
         <scene sceneID="DQN-rd-0qx">
@@ -503,7 +503,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M70-cP-jwZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2676" y="132.68365817091455"/>
+            <point key="canvasLocation" x="3615.1999999999998" y="132.68365817091455"/>
         </scene>
         <!--Confirmation View Controller-->
         <scene sceneID="sdK-jR-SCz">
@@ -627,7 +627,7 @@
                 <exit id="stg-ba-h5g" userLabel="Exit" sceneMemberID="exit"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uID-fB-GXg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4504.8000000000002" y="130.88455772113943"/>
+            <point key="canvasLocation" x="5444" y="130.88455772113943"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="MKt-6F-JDX">
@@ -646,32 +646,13 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ofb-WK-bNT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3703.1999999999998" y="130.88455772113943"/>
+            <point key="canvasLocation" x="4642.3999999999996" y="130.88455772113943"/>
         </scene>
-        <!--Tab Bar Controller-->
-        <scene sceneID="twq-cO-hS3">
-            <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="abX-Wz-gBw" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" id="wBd-kT-IVs">
-                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    </tabBar>
-                    <connections>
-                        <segue destination="wd6-xz-xIg" kind="relationship" relationship="viewControllers" id="abu-Lk-XIm"/>
-                        <segue destination="TbX-N3-1Ra" kind="relationship" relationship="viewControllers" id="bBb-Ae-qc1"/>
-                    </connections>
-                </tabBarController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="HMW-OJ-xzA" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-66.400000000000006" y="130.88455772113943"/>
-        </scene>
-        <!--Coffee Bar-->
+        <!--Leaning Eagle-->
         <scene sceneID="ATz-xd-cuR">
             <objects>
                 <navigationController storyboardIdentifier="coffee" automaticallyAdjustsScrollViewInsets="NO" id="TbX-N3-1Ra" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Coffee Bar" image="coffee" id="67P-TT-bAE"/>
+                    <tabBarItem key="tabBarItem" title="Leaning Eagle" image="coffee" id="67P-TT-bAE"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="CGw-Fc-Lcm">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -690,7 +671,7 @@
             </objects>
             <point key="canvasLocation" x="849" y="486"/>
         </scene>
-        <!--Menu-->
+        <!--Leaning Eagle-->
         <scene sceneID="HNR-Ju-604">
             <objects>
                 <tableViewController id="962-nS-AwI" customClass="CoffeeMenuTableViewController" customModule="BlendSmoothieBar" customModuleProvider="target" sceneMemberID="viewController">
@@ -737,7 +718,7 @@
                             <outlet property="delegate" destination="962-nS-AwI" id="e4b-sY-fta"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Menu" id="q9T-7y-PTb"/>
+                    <tabBarItem key="tabBarItem" title="Leaning Eagle" selectedImage="coffee" id="q9T-7y-PTb"/>
                     <navigationItem key="navigationItem" id="nAJ-L5-26s"/>
                     <connections>
                         <segue destination="o6r-YA-F8k" kind="show" identifier="toMenuOrderCoffee" id="dzc-3O-ks5"/>
@@ -747,6 +728,24 @@
             </objects>
             <point key="canvasLocation" x="1785" y="485"/>
         </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="xhk-Nn-vAH">
+            <objects>
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="ufo-QT-4jU" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="pQD-L8-7uK">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="TbX-N3-1Ra" kind="relationship" relationship="viewControllers" id="hMD-nj-Gi1"/>
+                        <segue destination="wd6-xz-xIg" kind="relationship" relationship="viewControllers" id="rI5-Td-vb6"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Mcv-NJ-C9J" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-194" y="133"/>
+        </scene>
     </scenes>
     <resources>
         <image name="blender" width="45" height="45"/>
@@ -755,6 +754,6 @@
         <image name="smoothie" width="3264" height="2448"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="dzc-3O-ks5"/>
+        <segue reference="hof-Tz-zK3"/>
     </inferredMetricsTieBreakers>
 </document>

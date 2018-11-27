@@ -200,6 +200,7 @@ class FlavorPickerTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
 class TimeCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
     
     @IBOutlet weak var picker: UIPickerView!
+    var business: Business = .Blend
     
     var delegate: ParameterReturnDelegate? = nil
     
@@ -208,32 +209,56 @@ class TimeCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return times.count
+        
+        switch business {
+        case .Blend:
+            return times.count
+        case .LeaningEagle:
+            return coffeeBarTimes.count
+        }
+        
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
         
-        
-        let string = times[row]
-        
-        let attributedString = NSAttributedString(string: string, attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
-        
-        return attributedString
-        
+        switch business {
+        case .Blend:
+            let string = times[row]
+            
+            let attributedString = NSAttributedString(string: string, attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
+            
+            return attributedString
+        case .LeaningEagle:
+            let string = coffeeBarTimes[row]
+            
+            let attributedString = NSAttributedString(string: string, attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
+            
+            return attributedString
+        }
         
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if delegate != nil {
             
+            switch business {
+            case .Blend:
+                delegate?.time(time: times[picker.selectedRow(inComponent: 0)], remainShowing: true)
+            case .LeaningEagle:
+                delegate?.time(time: coffeeBarTimes[picker.selectedRow(inComponent: 0)], remainShowing: true)
+            }
             
-            delegate?.time(time: times[picker.selectedRow(inComponent: 0)], remainShowing: true)
         }
     }
     
     @IBAction func donePressed(_ sender: Any) {
         if delegate != nil {
-            delegate?.time(time: times[picker.selectedRow(inComponent: 0)], remainShowing: false)
+            switch business {
+            case .Blend:
+                delegate?.time(time: times[picker.selectedRow(inComponent: 0)], remainShowing: false)
+            case .LeaningEagle:
+                delegate?.time(time: coffeeBarTimes[picker.selectedRow(inComponent: 0)], remainShowing: false)
+            }
         }
     }
 }
@@ -315,13 +340,37 @@ class LocationPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDat
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if delegate != nil {
-            delegate?.locationChanged(location: places[row], remainShowing: true)
+            switch business {
+            case .Blend:
+                delegate?.locationChanged(location: places[row], remainShowing: true)
+            case .LeaningEagle:
+                switch row {
+                case 0:
+                    delegate?.locationChanged(location: "Coffee Bar", remainShowing: true)
+                case 1:
+                    delegate?.locationChanged(location: "Smoothie Bar", remainShowing: true)
+                default:
+                    delegate?.locationChanged(location: "Coffee Bar", remainShowing: true)
+                }
+            }
         }
     }
     
     @IBAction func donePressed(_ sender: Any) {
         if delegate != nil {
-            delegate?.locationChanged(location: places[picker.selectedRow(inComponent: 0)], remainShowing: false)
+            switch business {
+            case .Blend:
+                delegate?.locationChanged(location: places[picker.selectedRow(inComponent: 0)], remainShowing: false)
+            case .LeaningEagle:
+                switch picker.selectedRow(inComponent: 0) {
+                case 0:
+                    delegate?.locationChanged(location: "Coffee Bar", remainShowing: false)
+                case 1:
+                    delegate?.locationChanged(location: "Smoothie Bar", remainShowing: false)
+                default:
+                    delegate?.locationChanged(location: "Coffee Bar", remainShowing: false)
+                }
+            }
         }
         
     }

@@ -79,12 +79,6 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        
-    }
-    
     override func viewWillLayoutSubviews() {
         super.updateViewConstraints()
         
@@ -129,6 +123,15 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        switch selectedBusiness {
+        case .Blend:
+            self.tabBarController?.tabBar.barTintColor = #colorLiteral(red: 0.3294117647, green: 0.3411764706, blue: 0.4117647059, alpha: 1)
+            self.tabBarController?.tabBar.tintColor = UIColor.white            
+        case .LeaningEagle:
+            self.tabBarController?.tabBar.barTintColor = UIColor.white
+            self.tabBarController?.tabBar.tintColor = UIColor.black
+        }
         
         switch currentProductCategory {
         case "Smoothies":
@@ -282,6 +285,9 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
+    var selectedTimeIndex: Int = 0
+    var initalized = false
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let product = order.baseProduct else { return tableView.dequeueReusableCell(withIdentifier: "parameterCell")! }
         let sizesShown = (product.sizes.count > 1) ? true : false
@@ -392,33 +398,76 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                     cell.parameterValueLabel.adjustsFontSizeToFitWidth = true
                     cell.parameterValueLabel.minimumScaleFactor = 0.3
                 } else {
-                    if order.pickUpTime == nil {
-                        let date = Date()
-                        let newDate = date.ceil(precision: 300)
-                        let calendar = Calendar.current
-                        let hour = calendar.dateComponents([.hour, .minute], from: newDate)
-                        
-                        if hour.hour! > 16 ||
-                            (hour.hour! == 15 && hour.minute! > 45) {
-                            //If hour is past 3:45, go to next day at 2:30
-                            order.pickUpTime = "2:30 PM"
-                        } else if hour.hour! < 14 ||
-                            (hour.hour! == 14 && hour.minute! < 30) {
-                            //If hour is before 2:30
-                            order.pickUpTime = "2:30 PM"
-                        } else {
-                            //Within operating hours, set default to ASAP
-                            let newHour = hour.hour! - 12
-                            order.pickUpTime = "\(newHour):\(hour.minute!) PM"
+                    switch selectedBusiness {
+                    case .Blend:
+                        if order.pickUpTime == nil {
+                            let date = Date()
+                            let newDate = date.ceil(precision: 300)
+                            let calendar = Calendar.current
+                            let hour = calendar.dateComponents([.hour, .minute], from: newDate)
+                            
+                            if hour.hour! > 16 ||
+                                (hour.hour! == 15 && hour.minute! > 45) {
+                                //If hour is past 3:45, go to next day at 2:30
+                                order.pickUpTime = "2:30 PM"
+                            } else if hour.hour! < 14 ||
+                                (hour.hour! == 14 && hour.minute! < 30) {
+                                //If hour is before 2:30
+                                order.pickUpTime = "2:30 PM"
+                            } else {
+                                //Within operating hours, set default to ASAP
+                                let newHour = hour.hour! - 12
+                                order.pickUpTime = "\(newHour):\(hour.minute!) PM"
+                            }
                         }
+                        cell.parameterValueLabel.text = order.pickUpTime ?? "2:30 PM"
+                    case .LeaningEagle:
+                        // 8:00 AM - 3:05 PM
+                        if order.pickUpTime == nil {
+                            let date = Date()
+                            let newDate = date.ceil(precision: 300)
+                            let calendar = Calendar.current
+                            let time = calendar.dateComponents([.hour, .minute], from: newDate)
+                            
+                            if time.hour! > 15 ||
+                                (time.hour! == 15 && time.minute! > 5) {
+                                // If time is past 3:05, go to next day at 7:30 AM
+                                order.pickUpTime = "7:30 AM"
+                            } else if time.hour! < 7 ||
+                                (time.hour! == 7 && time.minute! < 30) {
+                                // If time is before 7:30, go to 7:30 AM
+                                order.pickUpTime = "7:30 AM"
+                            } else if time.hour! < 13 {
+                                // Within operating hours, set default to ASAP
+                                let newHour = time.hour!
+                                let pickUpTime  = "\(newHour):\(time.minute!) AM"
+                                order.pickUpTime = pickUpTime
+                                if let index = coffeeBarTimes.firstIndex(of: pickUpTime) {
+                                    selectedTimeIndex = index
+                                }
+                            } else {
+                                let newHour = time.hour! - 12
+                                let pickUpTime  = "\(newHour):\(time.minute!) PM"
+                                order.pickUpTime = pickUpTime
+                                if let index = coffeeBarTimes.firstIndex(of: pickUpTime) {
+                                    selectedTimeIndex = index
+                                }
+                            }
+                        }
+                        cell.parameterValueLabel.text = order.pickUpTime ?? "2:30 PM"
                     }
-                    cell.parameterValueLabel.text = order.pickUpTime ?? "2:30 PM"
                 }
                 return cell
             case 3:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "timeCell") as! TimeCell
                 
                 cell.delegate = self
+                cell.business = self.selectedBusiness
+                
+                if !initalized {
+                    cell.picker.selectRow(selectedTimeIndex, inComponent: 0, animated: true)
+                    initalized = true
+                }
                 
                 return cell
             case 4:
@@ -453,7 +502,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                 return tableView.dequeueReusableCell(withIdentifier: "parameterCell")!
             }
         }
- }
+    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         

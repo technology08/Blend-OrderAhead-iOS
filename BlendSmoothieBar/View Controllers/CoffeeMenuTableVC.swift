@@ -17,6 +17,10 @@ class CoffeeMenuTableViewController: UITableViewController {
         self.navigationItem.title = "Leaning Eagle"
         self.tableView.separatorColor = UIColor.clear
         
+        if let tabTitles = self.tabBarController?.tabBar.items {
+            tabTitles[0].title = "Leaning Eagle"
+            tabTitles[1].title = "Blend Smoothie Bar"
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

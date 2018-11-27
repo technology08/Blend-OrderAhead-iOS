@@ -18,7 +18,6 @@ class BlendMenuTableViewController: UITableViewController {
 
         self.navigationItem.title = "Blend Smoothie Bar"
         self.tableView.separatorColor = UIColor.clear
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -134,6 +134,7 @@ class InitialLoadingViewController: UIViewController, SirenDelegate {
     
     func displayLoadingIndicator() {
         self.ai = UIActivityIndicatorView.init(style: .whiteLarge)
+        self.ai?.color = UIColor.black
         self.ai!.startAnimating()
         self.ai!.center = self.view.center
         
@@ -151,3 +152,4 @@ class InitialLoadingViewController: UIViewController, SirenDelegate {
     }
 }
 
+class TabBar: UITabBarController {}
