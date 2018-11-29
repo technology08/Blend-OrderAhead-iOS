@@ -307,14 +307,14 @@ class LocationPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDat
     
     var delegate: ParameterReturnDelegate? = nil
     var business: Business = .Blend
-    var places = ["Smoothie Bar", "Coffee Bar"]
+    var places = ["Smoothie Bar", "Coffee Bar", "Library"]
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 2
+        return places.count
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
@@ -324,6 +324,8 @@ class LocationPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDat
                 return NSAttributedString(string: "Smoothie Bar", attributes: [.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
             } else if row == 1 {
                 return NSAttributedString(string: "Coffee Bar", attributes: [.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
+            } else if row == 2 {
+                return NSAttributedString(string: "Library", attributes: [.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
             } else {
                 return nil
             }
@@ -332,6 +334,8 @@ class LocationPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDat
                 return NSAttributedString(string: "Smoothie Bar", attributes: [.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
             } else if row == 0 {
                 return NSAttributedString(string: "Coffee Bar", attributes: [.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
+            } else if row == 2 {
+                return NSAttributedString(string: "Library", attributes: [.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
             } else {
                 return nil
             }
@@ -349,6 +353,8 @@ class LocationPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDat
                     delegate?.locationChanged(location: "Coffee Bar", remainShowing: true)
                 case 1:
                     delegate?.locationChanged(location: "Smoothie Bar", remainShowing: true)
+                case 2:
+                    delegate?.locationChanged(location: "Library", remainShowing: true)
                 default:
                     delegate?.locationChanged(location: "Coffee Bar", remainShowing: true)
                 }
@@ -367,6 +373,8 @@ class LocationPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDat
                     delegate?.locationChanged(location: "Coffee Bar", remainShowing: false)
                 case 1:
                     delegate?.locationChanged(location: "Smoothie Bar", remainShowing: false)
+                case 2:
+                    delegate?.locationChanged(location: "Library", remainShowing: false)
                 default:
                     delegate?.locationChanged(location: "Coffee Bar", remainShowing: false)
                 }
