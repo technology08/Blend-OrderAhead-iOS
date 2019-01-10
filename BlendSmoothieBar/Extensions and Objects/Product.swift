@@ -61,7 +61,7 @@ struct Order {
     var specialInstructions: String?    
     var selectedSize: String? = nil
     var sizeUpgradePrice: Decimal?
-    var payed: Bool = false
+    var paid: Bool = false
     var sortDate = Int()
     
     init() {

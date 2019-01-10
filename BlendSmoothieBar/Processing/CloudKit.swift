@@ -107,7 +107,7 @@ extension OrderMenuViewController {
         record["pickUpLocation"] = (finalOrder.pickUpPlace ?? defaults.string(forKey: "place") ?? "Smoothie Bar") as CKRecordValue
         record["modifiers"] = modifiers as CKRecordValue
         record["payedFor"] = NSNumber.init(value: paid) as CKRecordValue
-        self.order.payed = paid
+        self.order.paid = paid
         record["pickUpTime"] = finalOrder.pickUpTime as CKRecordValue
         record["name"] = finalOrder.orderName as CKRecordValue
         record["price"] = finalOrder.finalPrice.description as CKRecordValue
