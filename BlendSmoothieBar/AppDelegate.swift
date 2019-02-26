@@ -85,15 +85,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         let modifier = Modifier(name: "Protein", price: 0.5)
         let secondmodifier = Modifier(name: "Whipped Cream", price: 0.5)
-        let freeWhipped = Modifier(name: "Whipped Cream", price: 0)
+        let freeWhipped = Modifier(name: "No Whipped Cream", price: 0)
         let malt = Modifier(name: "Malt", price: 0.5)
         
         // Sizes
         let largeSizeReallyExpensive = Modifier(name: "Large", price: 1.5)
         let mediumSizeExpensive = Modifier(name: "Medium", price: 1)
         let largeSizeExpensive  = Modifier(name: "Large", price: 1)
-        let mediumSizeCheap     = Modifier(name: "Medium", price: 0.25)
-        let largeSizeCheap      = Modifier(name: "Large",  price: 0.5)
+        let mediumSizeCheap     = Modifier(name: "Medium", price: 0.5)
+        let largeSizeCheap      = Modifier(name: "Large",  price: 1.0)
         let small = Modifier(name: "Small", price: 0)
         
         // Coffee Bar Flavors
@@ -103,23 +103,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let caramel = Modifier(name: "Caramel", price: 0.5)
         
         // Smoothie Bar Products
-        let product17 = Product(name: "Strawberry", price: 3, modifiers: [modifier, secondmodifier], sizes: [small, largeSizeExpensive], type: "Smoothies")
-        let product2  = Product(name: "Pineapple",  price: 3, modifiers: [modifier, secondmodifier], sizes: [small, largeSizeExpensive], type: "Smoothies")
-        let product3  = Product(name: "Strawberry Lemonade", price: 3, modifiers: [secondmodifier], sizes: [small, largeSizeExpensive], type: "Smoothies")
-        let product15 = Product(name: "Chocolate Shake", price: 3, modifiers: [secondmodifier, malt], sizes: [small, largeSizeExpensive], type: "Ice Cream & Sweets")
-        let product16 = Product(name: "Oreo Shake", price: 3, modifiers: [secondmodifier], sizes: [small, largeSizeExpensive], type: "Ice Cream & Sweets")
+        let product17 = Product(name: "Strawberry", price: 5, modifiers: [modifier, secondmodifier], sizes: [small], type: "Smoothies")
+        let product2  = Product(name: "Pineapple",  price: 5, modifiers: [modifier, secondmodifier], sizes: [small], type: "Smoothies")
+        let product3  = Product(name: "Strawberry Lemonade", price: 5, modifiers: [secondmodifier], sizes: [small], type: "Smoothies")
+        let product15 = Product(name: "Chocolate Shake", price: 5, modifiers: [secondmodifier, malt], sizes: [small], type: "Ice Cream & Sweets")
+        let product16 = Product(name: "Oreo Shake", price: 5, modifiers: [secondmodifier], sizes: [small], type: "Ice Cream & Sweets")
         
         //Coffee Bar
-        let espresso1 = Product(name: "Espresso", price: 1.5, sizes: [small], type: "Espresso")
-        let espresso2 = Product(name: "Cortado", price: 2.0, sizes: [small], type: "Espresso")
-        let espresso3 = Product(name: "Cappuccino", price: 2.25, sizes: [small], type: "Espresso")
-        let espresso4 = Product(name: "Brewed Coffee", price: 1.50, sizes: [small, mediumSizeCheap, largeSizeCheap], type: "Espresso")
-        let espresso5 = Product(name: "Cold Brew", price: 2.25, sizes: [small, mediumSizeCheap], type: "Cold Brew")
-        let espresso6 = Product(name: "Latte", price: 2.50, modifiers: [mocha, vanilla, raspberry, caramel], sizes: [small, largeSizeCheap], type: "Espresso")
-        let hotChocolate = Product(name: "Hot Chocolate", price: 2.00, sizes: [small, mediumSizeExpensive, largeSizeReallyExpensive], type: "Non-Coffee")
-        let italianSoda = Product(name: "Raspberry Italian Soda", price: 3, modifiers: [freeWhipped], sizes: [small, largeSizeCheap], type: "Non-Coffee")
+        let espresso1 = Product(name: "Espresso", price: 2.5, sizes: [small], type: "Espresso")
+        let espresso2 = Product(name: "Cortado", price: 3.0, sizes: [small], type: "Espresso")
+        let espresso3 = Product(name: "Cappuccino", price: 3.25, sizes: [small], type: "Espresso")
+        let espresso4 = Product(name: "Brewed Coffee", price: 2, sizes: [small, Modifier(name: "Medium", price: 0.5), Modifier(name: "Large", price: 1)], type: "Espresso")
+        let espresso5 = Product(name: "Cold Brew", price: 3.5, sizes: [Modifier(name: "Large", price: 0)], type: "Cold Brew")
+        let espresso6 = Product(name: "Latte", price: 3.5, modifiers: [mocha, vanilla, raspberry, caramel], sizes: [Modifier(name: "Medium", price: 0), Modifier(name: "Large", price: 0.5)], type: "Espresso")
+        let hotChocolate = Product(name: "Hot Chocolate", price: 3, sizes: [small, mediumSizeExpensive, largeSizeReallyExpensive], type: "Non-Coffee")
         
-        let array = [product17, product2, product3, product15, product16, italianSoda, espresso1, espresso2, espresso3, espresso4, espresso5, espresso6, hotChocolate]
+        let teaSize = Modifier(name: "Medium", price: 0)
+        let tea1 = Product(name: "Mystic Blue Lady", price: 3, sizes: [teaSize], type: "Tea")
+        let tea2 = Product(name: "Queen Black Cherry", price: 3, sizes: [teaSize], type: "Tea")
+        let tea3 = Product(name: "Coconut Green Cream", price: 3, sizes: [teaSize], type: "Tea")
+        let tea4 = Product(name: "Bigfoot Black Tea", price: 3, sizes: [teaSize], type: "Tea")
+        let tea5 = Product(name: "King Dragon Oolong", price: 3, sizes: [teaSize], type: "Tea")
+        let chai = Product(name: "Chai Tea", price: 3, sizes: [Modifier(name: "Small", price: 0), Modifier(name: "Medium", price: 0.5), Modifier(name: "Large", price: 1)], type: "Tea")
+        
+        let lemonade = Product(name: "Lemonade", price: 3, modifiers: [], sizes: [small], type: "Non-Coffee")
+        let raspLemonade = Product(name: "Raspberry Lemonade", price: 3.5, modifiers: [], sizes: [small], type: "Non-Coffee")
+        let raspItalianSoda = Product(name: "Raspberry Italian Soda", price: 4, modifiers: [freeWhipped], sizes: [small], type: "Non-Coffee")
+        let vanillaItalianSoda = Product(name: "Vanilla Italian Soda", price: 4, modifiers: [freeWhipped], sizes: [small], type: "Non-Coffee")
+        let cremosa = Product(name: "Cremosa", price: 4, modifiers: [], sizes: [small], type: "Non-Coffee")
+        
+        let icedVanillaLatte = Product(name: "Iced Vanilla Latte", price: 4.5, modifiers: [], sizes: [small], type: "Cold Brew")
+        let icedMocha = Product(name: "Iced Mocha", price: 4.5, modifiers: [], sizes: [small], type: "Cold Brew")
+        let icedWhiteMocha = Product(name: "Iced White Mocha", price: 4.5, modifiers: [], sizes: [small], type: "Cold Brew")
+        let icedCaramelLatte = Product(name: "Iced Caramel Latte", price: 4.5, modifiers: [], sizes: [small], type: "Cold Brew")
+        let icedLatte = Product(name: "Iced Latte", price: 4.0, modifiers: [mocha, caramel, raspberry, vanilla], sizes: [small], type: "Cold Brew")
+        let macchiato = Product(name: "Macchiato", price: 4.0, modifiers: [mocha, caramel, raspberry, vanilla], sizes: [small], type: "Cold Brew")
+        
+        let array = [product17, product2, product3, product15, product16, espresso1, espresso2, espresso3, espresso4, espresso5, espresso6, hotChocolate, tea1, tea2, tea3, tea4, tea5, chai, lemonade, raspLemonade, raspItalianSoda, vanillaItalianSoda, cremosa, icedVanillaLatte, icedMocha, icedWhiteMocha, icedCaramelLatte, icedLatte, macchiato]
         
         for item in array {
             do {

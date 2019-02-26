@@ -81,7 +81,7 @@ class FlavorPickerTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
             return currentEspresso.count
         case "Tea":
             return currentTea.count
-        case "Cold":
+        case "Cold Brew":
             return currentCold.count
         case "Non-Coffee":
             return currentNonCoffee.count
@@ -118,7 +118,7 @@ class FlavorPickerTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
             let attributedString = NSAttributedString(string: string, attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
             
             return attributedString
-        case "Cold":
+        case "Cold Brew":
             let string = currentCold[row].name
             
             let attributedString = NSAttributedString(string: string, attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
@@ -153,7 +153,7 @@ class FlavorPickerTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
                 returnedProduct = currentEspresso[row]
             case "Tea":
                 returnedProduct = currentTea[row]
-            case "Cold":
+            case "Cold Brew":
                 returnedProduct = currentCold[row]
             case "Non-Coffee":
                 returnedProduct = currentNonCoffee[row]
@@ -183,7 +183,7 @@ class FlavorPickerTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
                 returnedProduct = currentEspresso[row]
             case "Tea":
                 returnedProduct = currentTea[row]
-            case "Cold":
+            case "Cold Brew":
                 returnedProduct = currentCold[row]
             case "Non-Coffee":
                 returnedProduct = currentNonCoffee[row]

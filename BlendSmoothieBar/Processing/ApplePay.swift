@@ -90,7 +90,7 @@ extension OrderMenuViewController: PKPaymentAuthorizationViewControllerDelegate 
                         request.supportedNetworks = self.supportedNetworks
                         request.merchantCapabilities = .capability3DS //CHECK WITH STRIPE
                         
-                        let baseItem = PKPaymentSummaryItem(label: "\(self.order.baseProduct.name) \(self.order.baseProduct.type)", amount: NSDecimalNumber(decimal: self.order.baseProduct.price))
+                        let baseItem = PKPaymentSummaryItem(label: "\(self.order.baseProduct.name)", amount: NSDecimalNumber(decimal: self.order.baseProduct.price))
                         
                         request.paymentSummaryItems = [baseItem]
                         

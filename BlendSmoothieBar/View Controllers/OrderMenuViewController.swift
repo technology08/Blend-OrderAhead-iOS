@@ -154,8 +154,8 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             backgroundImageView.image = #imageLiteral(resourceName: "espresso")
         case "Tea":
             productTypeLabel.text = "Tea"
-            order.baseProduct = currentEspresso.first
-            order.finalPrice  = currentEspresso.first?.price
+            order.baseProduct = currentTea.first
+            order.finalPrice  = currentTea.first?.price
             visualEffectView.effect = UIBlurEffect(style: .dark)
             backgroundImageView.image = #imageLiteral(resourceName: "tea")
         case "Cold Brew":
@@ -249,39 +249,71 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
          -Name
          -Modifiers 
          */
-        
+        let sizesShown = (order.baseProduct.sizes.count > 1) ? true : false
         if order.baseProduct != nil {
-            return order.baseProduct.modifiers.count + 7
+            if sizesShown {
+                return order.baseProduct.modifiers.count + 8
+            } else {
+                return order.baseProduct.modifiers.count + 7
+            }
         } else {
             return 7
         }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 1 {
-            switch index1Shown {
-            case true:
-                return 150
-            case false:
-                return 0
+        if order.baseProduct.sizes.count > 1 {
+            if indexPath.row == 1 {
+                switch index1Shown {
+                case true:
+                    return 150
+                case false:
+                    return 0
+                }
+            } else if indexPath.row == (order.baseProduct.modifiers.count + (((selectedProduct?.sizes.count ?? 1) > 1) ? 6 : 5)) {
+                switch timePickerShown {
+                case true:
+                    return 150
+                case false:
+                    return 0
+                }
+            } else if indexPath.row == (order.baseProduct.modifiers.count + (((selectedProduct?.sizes.count ?? 1) > 1) ? 8 : 7)) {
+                switch locationShown {
+                case true:
+                    return 150
+                case false:
+                    return 0
+                }
+                
+            } else {
+                return 44
             }
-        } else if indexPath.row == (order.baseProduct.modifiers.count + (((selectedProduct?.sizes.count ?? 1) > 1) ? 5 : 4)) {
-            switch timePickerShown {
-            case true:
-                return 150
-            case false:
-                return 0
-            }
-            } else if indexPath.row == (order.baseProduct.modifiers.count + (((selectedProduct?.sizes.count ?? 1) > 1) ? 7 : 6)) {
-            switch locationShown {
-            case true:
-                return 150
-            case false:
-                return 0
-            }
-            
         } else {
-            return 44
+            if indexPath.row == 1 {
+                switch index1Shown {
+                case true:
+                    return 150
+                case false:
+                    return 0
+                }
+            } else if indexPath.row == (order.baseProduct.modifiers.count + (((selectedProduct?.sizes.count ?? 1) > 1) ? 5 : 4)) {
+                switch timePickerShown {
+                case true:
+                    return 150
+                case false:
+                    return 0
+                }
+            } else if indexPath.row == (order.baseProduct.modifiers.count + (((selectedProduct?.sizes.count ?? 1) > 1) ? 7 : 6)) {
+                switch locationShown {
+                case true:
+                    return 150
+                case false:
+                    return 0
+                }
+                
+            } else {
+                return 44
+            }
         }
     }
     
@@ -374,8 +406,8 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             
         } else {
             
-            let number = (indexPath.row - (order.baseProduct.modifiers.count)) - 1 //+ 1
-            
+            var number = (indexPath.row - (order.baseProduct.modifiers.count)) - 1 //+ 1
+            if sizesShown { number -= 1}
             switch number {
             case 1:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "nameCell") as! NameCell
@@ -505,7 +537,39 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        if order.baseProduct.sizes.count > 1 {
+            if indexPath.row == 0 {
+                switch index1Shown {
+                case true:
+                    index1Shown = false
+                case false:
+                    index1Shown = true
+                }
+            } else if indexPath.row == (order.baseProduct.modifiers.count + 4) {
+                switch timePickerShown {
+                case true:
+                    timePickerShown = false
+                    tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+                case false:
+                    timePickerShown = true
+                }
+            }
+            else if indexPath.row == (order.baseProduct.modifiers.count + 6) {
+                switch locationShown {
+                case true:
+                    locationShown = false
+                    tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+                case false:
+                    locationShown = true
+                }
+            }
+            
+            if indexPath.row > 1 && indexPath.row <= order.modifiers.count + 1 {
+                tableView.deselectRow(at: indexPath, animated: false)
+            } else {
+                tableView.deselectRow(at: indexPath, animated: true)
+            }
+        } else {
         if indexPath.row == 0 {
             switch index1Shown {
             case true:
@@ -537,7 +601,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         } else {
             tableView.deselectRow(at: indexPath, animated: true)
         }
-        
+        }
         
     }
     
@@ -758,9 +822,9 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                 }
             }
         }
-     
+        
     }
-
+    
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

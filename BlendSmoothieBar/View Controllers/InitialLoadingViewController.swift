@@ -122,7 +122,7 @@ class InitialLoadingViewController: UIViewController, SirenDelegate {
                 currentEspresso.append(decoded)
             case "Tea":
                 currentTea.append(decoded)
-            case "Cold":
+            case "Cold Brew":
                 currentCold.append(decoded)
             case "Non-Coffee":
                 currentNonCoffee.append(decoded)
