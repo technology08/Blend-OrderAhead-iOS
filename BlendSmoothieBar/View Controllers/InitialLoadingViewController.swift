@@ -31,6 +31,9 @@ class InitialLoadingViewController: UIViewController, SirenDelegate {
         // Do any additional setup after loading the view.
         self.displayLoadingIndicator()
         Siren.shared.delegate = self
+        if #available(iOS 13.0, *) {
+            self.view.backgroundColor = UIColor.systemBackground
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -193,7 +196,17 @@ class InitialLoadingViewController: UIViewController, SirenDelegate {
     
     func displayLoadingIndicator() {
         self.ai = UIActivityIndicatorView.init(style: .whiteLarge)
-        self.ai?.color = UIColor.black
+        if #available(iOS 13.0, *) {
+            switch traitCollection.userInterfaceStyle {
+            case .light, .unspecified:
+                self.ai?.color = UIColor.black
+            case .dark:
+                self.ai?.color = UIColor.white
+            }
+        } else {
+            self.ai?.color = UIColor.black
+        }
+        
         self.ai!.startAnimating()
         self.ai!.center = self.view.center
         
