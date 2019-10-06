@@ -14,6 +14,16 @@ import Firebase
 class InitialLoadingViewController: UIViewController, SirenDelegate {
     
     var ai: UIActivityIndicatorView?
+    var processesCompleted = 0 {
+        didSet {
+            if processesCompleted > 1 {
+                DispatchQueue.main.async {
+                    self.stopLoadingIndicator()
+                    self.performSegue(withIdentifier: "toApp", sender: nil)
+                }                
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +38,15 @@ class InitialLoadingViewController: UIViewController, SirenDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+//        switch traitCollection.userInterfaceStyle {
+//        case .light, .unspecified:
+//            self.backgroundColor = UIColor.white
+//        }
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -38,8 +57,16 @@ class InitialLoadingViewController: UIViewController, SirenDelegate {
         fetchMenuItems { (completion, items) in
             if completion {
                 self.sortMenuItems(items: items)
-                self.stopLoadingIndicator()
-                self.performSegue(withIdentifier: "toApp", sender: nil)
+                self.processesCompleted += 1
+            }
+        }
+        
+        fetchLocations { (completion, items) in
+            if completion {
+                for place in items {
+                    locations.append(place)
+                }
+                self.processesCompleted += 1
             }
         }
     }
@@ -85,6 +112,38 @@ class InitialLoadingViewController: UIViewController, SirenDelegate {
                         } catch {
                             fatalError(error as! String)
                         }
+                    }
+                }
+                
+                completion(true, items)
+            } else {
+                //Create alert to turn on iCloud Drive
+                
+            }
+            
+        })
+    }
+    
+    func fetchLocations(completion: @escaping ((Bool, [String]) -> Void)) {
+        let database = CKContainer.default().publicCloudDatabase
+        let query = CKQuery(recordType: "Location", predicate: NSPredicate(format: "TRUEPREDICATE", argumentArray: nil))
+        database.perform(query, inZoneWith: nil, completionHandler: { (results:[CKRecord]?, error:Error?) in
+            guard error == nil else {
+                if let error = error as? CKError {
+                    let erroralert = error.handleAndAlert(crash: true)
+                    self.present(erroralert, animated: true, completion: nil)
+                    completion(false, [])
+                    return
+                }
+                fatalError(error.debugDescription)
+            }
+            
+            if let results = results {
+                
+                var items: [String] = []
+                for result in results {
+                    if let string = result["recordName"] as? String {
+                        items.append(string)
                     }
                 }
                 

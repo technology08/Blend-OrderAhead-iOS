@@ -24,7 +24,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     var applePayButton: UIButton?
     var currentProductCategory: String = "Smoothie"
     var initalLoad = false
-    var selectedBusiness: Business = .Blend
+    var selectedBusiness: Business = .LeaningEagle
     public var selectedProduct: Product? {
         didSet {
             parameterTableView.beginUpdates()
@@ -123,14 +123,30 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.tabBarController?.tabBar.isTranslucent = true
         switch selectedBusiness {
         case .Blend:
             self.tabBarController?.tabBar.barTintColor = #colorLiteral(red: 0.3294117647, green: 0.3411764706, blue: 0.4117647059, alpha: 1)
             self.tabBarController?.tabBar.tintColor = UIColor.white            
         case .LeaningEagle:
+            if #available(iOS 13, *) {
+                switch traitCollection.userInterfaceStyle {
+                case .light, .unspecified:
+                    self.tabBarController?.tabBar.barTintColor = UIColor.white
+                    self.tabBarController?.tabBar.tintColor = UIColor.black
+                    self.navigationController?.navigationBar.barTintColor = UIColor.white
+                    self.navigationController?.navigationBar.tintColor = UIColor.black
+                case .dark:
+                    self.tabBarController?.tabBar.barTintColor = UIColor.black
+                    self.tabBarController?.tabBar.tintColor = UIColor.white
+                    self.navigationController?.navigationBar.barTintColor = UIColor.black
+                    self.navigationController?.navigationBar.tintColor = UIColor.white
+                }
+            }
+            /*
             self.tabBarController?.tabBar.barTintColor = UIColor.white
-            self.tabBarController?.tabBar.tintColor = UIColor.black
+            self.tabBarController?.tabBar.tintColor = UIColor.black*/
         }
         
         switch currentProductCategory {
@@ -423,37 +439,14 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             case 2:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "parameterCell") as! MenuParameterCell
                 
-                cell.parameterNameLabel.text = "Pick-Up Time"
+                cell.parameterNameLabel.text = "Delivery Time"
                 //ADD TO ADJUST TO TIME OF DAY
                 if defaults.string(forKey: "tutorialtime") == nil || defaults.string(forKey: "tutorialtime") == "" {
                     cell.parameterValueLabel.text = "Tap to Choose Time"
                     cell.parameterValueLabel.adjustsFontSizeToFitWidth = true
                     cell.parameterValueLabel.minimumScaleFactor = 0.3
                 } else {
-                    switch selectedBusiness {
-                    case .Blend:
-                        if order.pickUpTime == nil {
-                            let date = Date()
-                            let newDate = date.ceil(precision: 300)
-                            let calendar = Calendar.current
-                            let hour = calendar.dateComponents([.hour, .minute], from: newDate)
-                            
-                            if hour.hour! > 16 ||
-                                (hour.hour! == 15 && hour.minute! > 45) {
-                                //If hour is past 3:45, go to next day at 2:30
-                                order.pickUpTime = "2:30 PM"
-                            } else if hour.hour! < 14 ||
-                                (hour.hour! == 14 && hour.minute! < 30) {
-                                //If hour is before 2:30
-                                order.pickUpTime = "2:30 PM"
-                            } else {
-                                //Within operating hours, set default to ASAP
-                                let newHour = hour.hour! - 12
-                                order.pickUpTime = "\(newHour):\(hour.minute!) PM"
-                            }
-                        }
-                        cell.parameterValueLabel.text = order.pickUpTime ?? "2:30 PM"
-                    case .LeaningEagle:
+                    
                         // 8:00 AM - 3:05 PM
                         if order.pickUpTime == nil {
                             let date = Date()
@@ -486,8 +479,8 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                                 }
                             }
                         }
-                        cell.parameterValueLabel.text = order.pickUpTime ?? "2:30 PM"
-                    }
+                        cell.parameterValueLabel.text = order.pickUpTime ?? "7:30 AM"
+                    
                 }
                 return cell
             case 3:
@@ -505,22 +498,15 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             case 4:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "parameterCell") as! MenuParameterCell
                 
-                cell.parameterNameLabel.text = "Pick-Up Location"
+                cell.parameterNameLabel.text = "Delivery Location"
                 
-                if defaults.string(forKey: "place") == nil || defaults.string(forKey: "place") == "" {
+                if defaults.string(forKey: "tutorialplace") == nil || defaults.string(forKey: "tutorialplace") == "" {
                     cell.parameterValueLabel.text = "Tap to Choose Location"
                     cell.parameterValueLabel.adjustsFontSizeToFitWidth = true
                     cell.parameterValueLabel.minimumScaleFactor = 0.3
                 } else {
-                    switch selectedBusiness {
-                    case .Blend:
-                        cell.parameterValueLabel.text = order.pickUpPlace ?? "Smoothie Bar"
-                        self.order.pickUpPlace = order.pickUpPlace ?? "Smoothie Bar"
-                    case .LeaningEagle:
                         cell.parameterValueLabel.text = order.pickUpPlace ?? "Coffee Bar"
                         self.order.pickUpPlace = order.pickUpPlace ?? "Coffee Bar"
-                    }
-                    
                 }
                 
                 return cell
@@ -678,6 +664,10 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     func locationChanged(location: String, remainShowing: Bool) {
         self.order.pickUpPlace = location
         
+        if !defaults.bool(forKey: "tutorialplace") {
+                   defaults.set(true, forKey: "tutorialplace")
+        }
+        
         if !remainShowing {
             parameterTableView.beginUpdates()
             locationShown = false
@@ -685,6 +675,20 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             parameterTableView.endUpdates()
         } else {
             parameterTableView.reloadData()
+        }
+        
+        if location != "Coffee Bar" {
+            self.cashButton.isEnabled = false
+            DispatchQueue.main.async {
+                self.cashButton.backgroundColor = UIColor.darkGray
+                self.cashButton.titleLabel!.textColor = UIColor.gray
+            }
+        } else {
+            self.cashButton.isEnabled = true
+            DispatchQueue.main.async {
+                self.cashButton.backgroundColor = #colorLiteral(red: 0, green: 0.7529411765, blue: 0, alpha: 1)
+                self.cashButton.titleLabel!.textColor = UIColor.white
+            }
         }
         
     }
@@ -799,7 +803,10 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                         if auth {
                             self.createOrder(finalOrder: self.order, paid: false) { (success, record, error) in
                                 if success {
-                                    self.performSegue(withIdentifier: "toConfirmation", sender: nil)
+                                    DispatchQueue.main.async {
+                                        self.performSegue(withIdentifier: "toConfirmation", sender: nil)
+                                    }
+                                    
                                 } else {
                                     if let error = error as? CKError {
                                         //HANDLE
@@ -886,3 +893,4 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     
 }
 
+var locations = ["Coffee Bar"]

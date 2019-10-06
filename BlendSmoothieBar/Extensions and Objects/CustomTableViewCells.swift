@@ -209,56 +209,26 @@ class TimeCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        
-        switch business {
-        case .Blend:
-            return times.count
-        case .LeaningEagle:
-            return coffeeBarTimes.count
-        }
-        
+        return coffeeBarTimes.count
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+        let string = coffeeBarTimes[row]
         
-        switch business {
-        case .Blend:
-            let string = times[row]
-            
-            let attributedString = NSAttributedString(string: string, attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
-            
-            return attributedString
-        case .LeaningEagle:
-            let string = coffeeBarTimes[row]
-            
-            let attributedString = NSAttributedString(string: string, attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
-            
-            return attributedString
-        }
+        let attributedString = NSAttributedString(string: string, attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
         
+        return attributedString
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if delegate != nil {
-            
-            switch business {
-            case .Blend:
-                delegate?.time(time: times[picker.selectedRow(inComponent: 0)], remainShowing: true)
-            case .LeaningEagle:
-                delegate?.time(time: coffeeBarTimes[picker.selectedRow(inComponent: 0)], remainShowing: true)
-            }
-            
+            delegate?.time(time: coffeeBarTimes[picker.selectedRow(inComponent: 0)], remainShowing: true)
         }
     }
     
     @IBAction func donePressed(_ sender: Any) {
         if delegate != nil {
-            switch business {
-            case .Blend:
-                delegate?.time(time: times[picker.selectedRow(inComponent: 0)], remainShowing: false)
-            case .LeaningEagle:
-                delegate?.time(time: coffeeBarTimes[picker.selectedRow(inComponent: 0)], remainShowing: false)
-            }
+            delegate?.time(time: coffeeBarTimes[picker.selectedRow(inComponent: 0)], remainShowing: false)
         }
     }
 }
@@ -307,78 +277,30 @@ class LocationPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDat
     
     var delegate: ParameterReturnDelegate? = nil
     var business: Business = .Blend
-    var places = ["Smoothie Bar", "Coffee Bar", "Library"]
+    //var places = ["Coffee Bar", "Library", "Savage Greenhouse", "Howarth W223", "Salkil N149", "Parker E206", "Turvey W227", "Carter W229", "Swedes E204", "Barron W228", "Gansle E108", "Ciarniello W125", "Ewen W127", "Student Services W122A", "Counselors", "Delanoy E112", "SOS Room"]
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return places.count
+        return locations.count
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        switch business {
-        case .Blend:
-            if row == 0 {
-                return NSAttributedString(string: "Smoothie Bar", attributes: [.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
-            } else if row == 1 {
-                return NSAttributedString(string: "Coffee Bar", attributes: [.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
-            } else if row == 2 {
-                return NSAttributedString(string: "Library", attributes: [.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
-            } else {
-                return nil
-            }
-        case .LeaningEagle:
-            if row == 1 {
-                return NSAttributedString(string: "Smoothie Bar", attributes: [.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
-            } else if row == 0 {
-                return NSAttributedString(string: "Coffee Bar", attributes: [.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
-            } else if row == 2 {
-                return NSAttributedString(string: "Library", attributes: [.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
-            } else {
-                return nil
-            }
-        }
+        return NSAttributedString(string: locations[row], attributes: [.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        
         if delegate != nil {
-            switch business {
-            case .Blend:
-                delegate?.locationChanged(location: places[row], remainShowing: true)
-            case .LeaningEagle:
-                switch row {
-                case 0:
-                    delegate?.locationChanged(location: "Coffee Bar", remainShowing: true)
-                case 1:
-                    delegate?.locationChanged(location: "Smoothie Bar", remainShowing: true)
-                case 2:
-                    delegate?.locationChanged(location: "Library", remainShowing: true)
-                default:
-                    delegate?.locationChanged(location: "Coffee Bar", remainShowing: true)
-                }
-            }
+            delegate?.locationChanged(location: locations[row], remainShowing: true)
         }
     }
     
     @IBAction func donePressed(_ sender: Any) {
         if delegate != nil {
-            switch business {
-            case .Blend:
-                delegate?.locationChanged(location: places[picker.selectedRow(inComponent: 0)], remainShowing: false)
-            case .LeaningEagle:
-                switch picker.selectedRow(inComponent: 0) {
-                case 0:
-                    delegate?.locationChanged(location: "Coffee Bar", remainShowing: false)
-                case 1:
-                    delegate?.locationChanged(location: "Smoothie Bar", remainShowing: false)
-                case 2:
-                    delegate?.locationChanged(location: "Library", remainShowing: false)
-                default:
-                    delegate?.locationChanged(location: "Coffee Bar", remainShowing: false)
-                }
-            }
+            delegate?.locationChanged(location: locations[picker.selectedRow(inComponent: 0)], remainShowing: false)
         }
         
     }
@@ -418,6 +340,9 @@ class SizeSegmentedCell: UITableViewCell {
             segmentedControl.selectedSegmentIndex = selectedSegment
         }
         segmentedControl.tintColor = UIColor.white
+        if #available(iOS 13.0, *) {
+            segmentedControl.overrideUserInterfaceStyle = .dark
+        }
     }
     
     @IBAction func sizeChanged(_ sender: Any) {

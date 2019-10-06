@@ -23,7 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        createMenuItems()
+        //createMenuItems()
+        //createLocations()
         //Stripe Setup
         
         STPPaymentConfiguration.shared().publishableKey = "INSERT_STRIPE_PUBLISHABLE_KEY"
@@ -155,6 +156,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 }
             } catch {
                 print(error)
+            }
+        }
+    }
+    
+    func createLocations() {
+        CKContainer.default().publicCloudDatabase.perform(CKQuery(recordType: "Location", predicate: NSPredicate(format: "TRUEPREDICATE", argumentArray: nil)), inZoneWith: nil, completionHandler: { (results:[CKRecord]?, error:Error?) in
+            guard error == nil else { print(error!); return }
+            guard let results = results else { return }
+            for record in results {
+                CKContainer.default().publicCloudDatabase.delete(withRecordID: record.recordID, completionHandler: { (record, error) in
+                    
+                })
+            }
+            
+        })
+        
+        let deliveries = ["Library", "Savage Greenhouse", "Howarth W223", "Salkil N149", "Parker E206", "Turvey W227", "Carter W229", "Swedes E204", "Barron W228", "Gansle E108", "Ciarniello W125", "Ewen W127", "Student Services W122A", "Counselors", "Delanoy E112", "SOS Room"]
+        
+        for item in deliveries {
+            let record = CKRecord(recordType: "Location")
+            record["recordName"] = item as CKRecordValue
+            CKContainer.default().publicCloudDatabase.save(record) { (record, error) in
+                if error != nil {
+                    print(error!)
+                } else {
+                    print("Added \(item)")
+                }
             }
         }
     }

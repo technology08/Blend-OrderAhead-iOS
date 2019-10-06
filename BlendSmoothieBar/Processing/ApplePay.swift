@@ -109,7 +109,10 @@ extension OrderMenuViewController: PKPaymentAuthorizationViewControllerDelegate 
                         
                         let vc = PKPaymentAuthorizationViewController(paymentRequest: request)
                         vc?.delegate = self
-                        self.present(vc!, animated: true, completion: nil)
+                        DispatchQueue.main.async {
+                            self.present(vc!, animated: true, completion: nil)
+                        }
+                        
                         /*} else {
                          //CHECK COPYRIGHT
                          let alert = UIAlertController(title: "Apple Pay Error", message: "No supported cards. Only Visa, Mastercard, American Express, and Discover cards are valid.", preferredStyle: .alert)

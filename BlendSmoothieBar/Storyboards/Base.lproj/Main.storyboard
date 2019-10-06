@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FpR-3A-Aym">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FpR-3A-Aym">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -21,7 +19,7 @@
                         <viewLayoutGuide key="safeArea" id="qak-m7-V3C"/>
                     </view>
                     <connections>
-                        <segue destination="ufo-QT-4jU" kind="presentation" identifier="toApp" id="30K-yn-A3T"/>
+                        <segue destination="ufo-QT-4jU" kind="presentation" identifier="toApp" modalPresentationStyle="fullScreen" id="30K-yn-A3T"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Lf-af-fhU" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -35,7 +33,7 @@
                     <tabBarItem key="tabBarItem" title="Smoothie Bar" image="blender" id="Eyb-jW-aoF"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" id="RVf-Wk-8MZ">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="barTintColor" red="0.10006285458803177" green="0.11885502189397812" blue="0.21569713950157166" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -69,11 +67,11 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="193"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1YR-GS-YGe" id="lRy-51-MBM">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="192.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="193"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="smoothie" translatesAutoresizingMaskIntoConstraints="NO" id="7JQ-Sy-0gK">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="192.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="193"/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SMOOTHIES" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XWN-48-V5R">
                                             <rect key="frame" x="65.5" y="69" width="244" height="55"/>
@@ -122,12 +120,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="smoothie" translatesAutoresizingMaskIntoConstraints="NO" id="5XM-aJ-fR3">
-                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gml-1v-KfV">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="ksf-dK-QRN">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Smoothies" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GQf-wh-eey">
@@ -143,7 +141,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="O3v-1h-kbo">
-                                            <rect key="frame" x="0.0" y="94.5" width="375" height="399.5"/>
+                                            <rect key="frame" x="0.0" y="94.5" width="375" height="419.5"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <prototypes>
                                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="parameterCell" rowHeight="44" id="zEs-rt-0R7" customClass="MenuParameterCell" customModule="BlendSmoothieBar" customModuleProvider="target">
@@ -215,20 +213,20 @@
                                                     </connections>
                                                 </tableViewCell>
                                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="pickerCell" rowHeight="0.0" id="PSz-em-ejL" customClass="FlavorPickerTableViewCell" customModule="BlendSmoothieBar" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="116" width="375" height="0.0"/>
+                                                    <rect key="frame" x="0.0" y="116" width="375" height="1.1920928955078125e-07"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PSz-em-ejL" id="nRR-Bv-GWh">
-                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
+                                                    <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PSz-em-ejL" id="nRR-Bv-GWh">
+                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1.1920928955078125e-07"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
                                                             <pickerView contentMode="scaleToFill" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="8cr-P5-dS6">
-                                                                <rect key="frame" x="0.0" y="0.0" width="375" height="216"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
                                                                 <connections>
                                                                     <outlet property="dataSource" destination="PSz-em-ejL" id="PpW-dZ-W4W"/>
                                                                     <outlet property="delegate" destination="PSz-em-ejL" id="JPa-m2-mxR"/>
                                                                 </connections>
                                                             </pickerView>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9sB-pf-HjL">
+                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9sB-pf-HjL">
                                                                 <rect key="frame" x="161.5" y="216" width="52" height="36"/>
                                                                 <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="17"/>
                                                                 <state key="normal" title="DONE">
@@ -255,20 +253,20 @@
                                                     </connections>
                                                 </tableViewCell>
                                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="timeCell" rowHeight="0.0" id="yRD-V3-79g" customClass="TimeCell" customModule="BlendSmoothieBar" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="116" width="375" height="0.0"/>
+                                                    <rect key="frame" x="0.0" y="116.00000011920929" width="375" height="1.1920928955078125e-07"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="yRD-V3-79g" id="qnq-Aa-gKU">
-                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
+                                                    <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="yRD-V3-79g" id="qnq-Aa-gKU">
+                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1.1920928955078125e-07"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
                                                             <pickerView contentMode="scaleToFill" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="4yu-Vz-dD6">
-                                                                <rect key="frame" x="0.0" y="0.0" width="375" height="216"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
                                                                 <connections>
                                                                     <outlet property="dataSource" destination="yRD-V3-79g" id="NGq-nV-cwJ"/>
                                                                     <outlet property="delegate" destination="yRD-V3-79g" id="J6v-iW-9rb"/>
                                                                 </connections>
                                                             </pickerView>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mQL-cs-4wO">
+                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mQL-cs-4wO">
                                                                 <rect key="frame" x="161.5" y="216" width="52" height="36"/>
                                                                 <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="17"/>
                                                                 <state key="normal" title="DONE">
@@ -295,7 +293,7 @@
                                                     </connections>
                                                 </tableViewCell>
                                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="locationCell" rowHeight="150" id="P8L-QU-IRD" customClass="LocationPickerCell" customModule="BlendSmoothieBar" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="116" width="375" height="150"/>
+                                                    <rect key="frame" x="0.0" y="116.00000023841858" width="375" height="150"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="P8L-QU-IRD" id="M6J-G8-Pq0">
                                                         <rect key="frame" x="0.0" y="0.0" width="375" height="150"/>
@@ -335,7 +333,7 @@
                                                     </connections>
                                                 </tableViewCell>
                                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="nameCell" rowHeight="44" id="h2C-ib-Qto" customClass="NameCell" customModule="BlendSmoothieBar" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="266" width="375" height="44"/>
+                                                    <rect key="frame" x="0.0" y="266.00000023841858" width="375" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="h2C-ib-Qto" id="5gn-oT-93t">
                                                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -369,14 +367,14 @@
                                                     </connections>
                                                 </tableViewCell>
                                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="sizeCell" rowHeight="44" id="wDf-9V-iCQ" customClass="SizeSegmentedCell" customModule="BlendSmoothieBar" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="310" width="375" height="44"/>
+                                                    <rect key="frame" x="0.0" y="310.00000023841858" width="375" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wDf-9V-iCQ" id="RTY-2c-uKV">
                                                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
                                                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="SRH-WI-1pV">
-                                                                <rect key="frame" x="15" y="8" width="345" height="29"/>
+                                                                <rect key="frame" x="15" y="6.5" width="345" height="32"/>
                                                                 <segments>
                                                                     <segment title="Small"/>
                                                                     <segment title="Medium + $0.25"/>
@@ -432,7 +430,7 @@
                                             </state>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S68-Yw-4iC">
-                                            <rect key="frame" x="8" y="502" width="359" height="44"/>
+                                            <rect key="frame" x="8" y="522" width="359" height="44"/>
                                             <color key="backgroundColor" red="0.0035738963633775711" green="0.73155909776687622" blue="0.16841220855712891" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="44" id="vet-ES-WEj"/>
@@ -478,10 +476,10 @@
                             <constraint firstItem="gml-1v-KfV" firstAttribute="bottom" secondItem="5lM-g8-8JC" secondAttribute="bottom" id="4Mc-32-lgI"/>
                             <constraint firstItem="gml-1v-KfV" firstAttribute="leading" secondItem="iWn-Ce-07D" secondAttribute="leading" id="GHj-YB-OQK"/>
                             <constraint firstItem="gml-1v-KfV" firstAttribute="trailing" secondItem="iWn-Ce-07D" secondAttribute="trailing" id="GKk-xh-7Ui"/>
-                            <constraint firstItem="iWn-Ce-07D" firstAttribute="bottom" secondItem="5XM-aJ-fR3" secondAttribute="bottom" id="O7I-uO-nqb"/>
+                            <constraint firstAttribute="bottom" secondItem="5XM-aJ-fR3" secondAttribute="bottom" id="O7I-uO-nqb"/>
                             <constraint firstItem="5XM-aJ-fR3" firstAttribute="leading" secondItem="iWn-Ce-07D" secondAttribute="leading" id="R91-ft-bcn"/>
                             <constraint firstItem="iWn-Ce-07D" firstAttribute="trailing" secondItem="5XM-aJ-fR3" secondAttribute="trailing" id="Tdv-e0-AwM"/>
-                            <constraint firstItem="5XM-aJ-fR3" firstAttribute="top" secondItem="iWn-Ce-07D" secondAttribute="top" id="WJP-27-znN"/>
+                            <constraint firstItem="5XM-aJ-fR3" firstAttribute="top" secondItem="5lM-g8-8JC" secondAttribute="top" id="WJP-27-znN"/>
                             <constraint firstItem="iWn-Ce-07D" firstAttribute="bottom" secondItem="S68-Yw-4iC" secondAttribute="bottom" constant="8" id="hlU-o6-iow"/>
                             <constraint firstItem="gml-1v-KfV" firstAttribute="top" secondItem="iWn-Ce-07D" secondAttribute="top" id="unP-Ta-RNu"/>
                         </constraints>
@@ -510,16 +508,16 @@
             <objects>
                 <viewController id="FXd-lb-mIw" customClass="ConfirmationViewController" customModule="BlendSmoothieBar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fIn-QI-LHf">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="smoothie" translatesAutoresizingMaskIntoConstraints="NO" id="Kja-uk-evq">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="56" width="375" height="591"/>
                             </imageView>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c01-uC-kbk">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="56" width="375" height="591"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="SyX-TV-Tyr">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="591"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thank you for your order!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lVm-mJ-2qF">
@@ -635,7 +633,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="A1u-TO-4wW" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" id="jqq-Jy-GYH">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.22878849506378174" green="0.24111029505729675" blue="0.32550078630447388" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </navigationBar>
@@ -655,7 +653,7 @@
                     <tabBarItem key="tabBarItem" title="Leaning Eagle" image="coffee" id="67P-TT-bAE"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="CGw-Fc-Lcm">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <textAttributes key="titleTextAttributes">
@@ -684,11 +682,11 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="193"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Es0-Bc-8BI" id="xwD-sO-LQw">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="192.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="193"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="espresso" translatesAutoresizingMaskIntoConstraints="NO" id="ARZ-M5-y8A">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="192.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="193"/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ESPRESSO" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wwk-45-Dkn">
                                             <rect key="frame" x="84.5" y="69" width="206" height="55"/>
@@ -733,7 +731,9 @@
             <objects>
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="ufo-QT-4jU" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="giN-8i-cVU"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="pQD-L8-7uK">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
@@ -748,10 +748,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="blender" width="45" height="45"/>
-        <image name="coffee" width="45" height="45"/>
-        <image name="espresso" width="3024" height="4032"/>
-        <image name="smoothie" width="3264" height="2448"/>
+        <image name="blender" width="30" height="30"/>
+        <image name="coffee" width="30" height="30"/>
+        <image name="espresso" width="1512" height="2016"/>
+        <image name="smoothie" width="1632" height="1224"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="hof-Tz-zK3"/>

@@ -27,8 +27,27 @@ class CoffeeMenuTableViewController: UITableViewController {
         super.viewWillAppear(animated)
         
         UIApplication.shared.statusBarStyle = .default
-        self.tabBarController?.tabBar.barTintColor = UIColor.white
-        self.tabBarController?.tabBar.tintColor = UIColor.black //#colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
+        //self.view.backgroundColor = UIColor.white
+        //self.tableView.backgroundColor = UIColor.white
+        self.tabBarController?.tabBar.isTranslucent = false
+        self.navigationController?.navigationBar.isTranslucent = false
+        if #available(iOS 13, *) {
+            switch traitCollection.userInterfaceStyle {
+            case .light, .unspecified:
+                self.tabBarController?.tabBar.barTintColor = UIColor.white
+                self.tabBarController?.tabBar.tintColor = UIColor.black
+                self.navigationController?.navigationBar.barTintColor = UIColor.white
+                self.navigationController?.navigationBar.tintColor = UIColor.black
+                
+            case .dark:
+                self.tabBarController?.tabBar.barTintColor = UIColor.black
+                self.tabBarController?.tabBar.tintColor = UIColor.white
+                self.navigationController?.navigationBar.barTintColor = UIColor.black
+                self.navigationController?.navigationBar.tintColor = UIColor.white
+            }
+        }
+        //#colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
+        //self.navigationController?.navigationBar.isTranslucent = false
     }
     
     // MARK: - Table view data source
