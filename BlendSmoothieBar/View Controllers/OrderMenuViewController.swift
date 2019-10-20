@@ -599,7 +599,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             order.modifiers.append(modifier)
             order.finalPrice = order.finalPrice + modifier.price
         case false:
-            if let index2 = order.modifiers.index(where: { (modifier) -> Bool in
+            if let index2 = order.modifiers.firstIndex(where: { (modifier) -> Bool in
                 return true
             }) {
                 order.modifiers.remove(at: index2)

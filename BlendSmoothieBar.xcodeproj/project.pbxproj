@@ -226,7 +226,7 @@
 				TargetAttributes = {
 					005C92281F8916170018DD44 = {
 						CreatedOnToolsVersion = 9.0;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1100;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplePay = {
@@ -492,7 +492,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = BlendSmoothieBar/BlendSmoothieBar.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = PRR3XF7JNB;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -504,7 +504,7 @@
 				MARKETING_VERSION = 3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.CHCA.BlendSmoothieBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -518,7 +518,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = BlendSmoothieBar/BlendSmoothieBar.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = PRR3XF7JNB;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -530,7 +530,7 @@
 				MARKETING_VERSION = 3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.CHCA.BlendSmoothieBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

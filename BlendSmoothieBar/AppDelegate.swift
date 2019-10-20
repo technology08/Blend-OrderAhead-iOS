@@ -90,7 +90,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let malt = Modifier(name: "Malt", price: 0.5)
         
         let lemonadeMod = Modifier(name: "Lemonade", price: 0)
-        let milkMod = Modifier(name: "milk", price: 0)
+        let milkMod = Modifier(name: "Milk", price: 0)
         
         // Sizes
         let largeSizeReallyExpensive = Modifier(name: "Large", price: 1.5)
