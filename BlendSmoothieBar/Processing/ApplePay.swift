@@ -16,9 +16,13 @@ extension OrderMenuViewController: PKPaymentAuthorizationViewControllerDelegate 
         controller.dismiss(animated: true, completion: nil)
         
         if applepaysucceeded {
-            self.performSegue(withIdentifier: "toConfirmation", sender: nil)
+            DispatchQueue.main.async {
+                self.performSegue(withIdentifier: "toConfirmation", sender: nil)
+            }
         } else if let alert = applepayalert {
-            self.present(alert, animated: true, completion: nil)
+            DispatchQueue.main.async {
+                self.present(alert, animated: true, completion: nil)
+            }
         }
     }
     

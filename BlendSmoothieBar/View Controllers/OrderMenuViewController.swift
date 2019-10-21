@@ -755,7 +755,9 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                                     if auth {
                                         self.createOrder(finalOrder: self.order, paid: false) { (success, record, error) in
                                             if success {
+                                                DispatchQueue.main.async {
                                                 self.performSegue(withIdentifier: "toConfirmation", sender: nil)
+                                                }
                                             } else {
                                                 //if let error = error as? CKError {
                                                 //HANDLE
