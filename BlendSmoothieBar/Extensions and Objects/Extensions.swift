@@ -38,13 +38,13 @@ extension Date {
 
 public extension Int {
     /// returns number of digits in Int number
-    public var digitCount: Int {
+    var digitCount: Int {
         get {
             return numberOfDigits(in: self)
         }
     }
     /// returns number of useful digits in Int number
-    public var usefulDigitCount: Int {
+    var usefulDigitCount: Int {
         get {
             var count = 0
             for digitOrder in 0..<self.digitCount {

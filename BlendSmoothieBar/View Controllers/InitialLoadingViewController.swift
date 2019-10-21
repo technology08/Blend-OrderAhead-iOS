@@ -8,10 +8,9 @@
 
 import UIKit
 import CloudKit
-import Siren
 import Firebase
 
-class InitialLoadingViewController: UIViewController, SirenDelegate {
+class InitialLoadingViewController: UIViewController {
     
     var ai: UIActivityIndicatorView?
     var processesCompleted = 0 {
@@ -30,10 +29,10 @@ class InitialLoadingViewController: UIViewController, SirenDelegate {
         
         // Do any additional setup after loading the view.
         self.displayLoadingIndicator()
-        Siren.shared.delegate = self
         if #available(iOS 13.0, *) {
             self.view.backgroundColor = UIColor.systemBackground
         }
+        sirenLatestVersionInstalled()
     }
     
     override func didReceiveMemoryWarning() {
@@ -50,12 +49,6 @@ class InitialLoadingViewController: UIViewController, SirenDelegate {
 //        }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        Siren.shared.checkVersion(checkType: .immediately)
-    }
- 
     func sirenLatestVersionInstalled() {
         fetchMenuItems { (completion, items) in
             if completion {
@@ -97,7 +90,9 @@ class InitialLoadingViewController: UIViewController, SirenDelegate {
             guard error == nil else {
                 if let error = error as? CKError {
                     let erroralert = error.handleAndAlert(crash: true)
-                    self.present(erroralert, animated: true, completion: nil)
+                    DispatchQueue.main.async {
+                        self.present(erroralert, animated: true, completion: nil)
+                    }
                     completion(false, [])
                     return
                 }
@@ -134,7 +129,10 @@ class InitialLoadingViewController: UIViewController, SirenDelegate {
             guard error == nil else {
                 if let error = error as? CKError {
                     let erroralert = error.handleAndAlert(crash: true)
-                    self.present(erroralert, animated: true, completion: nil)
+                    DispatchQueue.main.async {
+                        self.present(erroralert, animated: true, completion: nil)
+                    }
+                    
                     completion(false, [])
                     return
                 }
@@ -202,6 +200,8 @@ class InitialLoadingViewController: UIViewController, SirenDelegate {
                 self.ai?.color = UIColor.black
             case .dark:
                 self.ai?.color = UIColor.white
+            @unknown default:
+                self.ai?.color = UIColor.black
             }
         } else {
             self.ai?.color = UIColor.black

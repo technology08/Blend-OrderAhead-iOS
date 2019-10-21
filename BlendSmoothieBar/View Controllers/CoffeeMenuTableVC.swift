@@ -44,6 +44,11 @@ class CoffeeMenuTableViewController: UITableViewController {
                 self.tabBarController?.tabBar.tintColor = UIColor.white
                 self.navigationController?.navigationBar.barTintColor = UIColor.black
                 self.navigationController?.navigationBar.tintColor = UIColor.white
+            @unknown default:
+                self.tabBarController?.tabBar.barTintColor = UIColor.white
+                self.tabBarController?.tabBar.tintColor = UIColor.black
+                self.navigationController?.navigationBar.barTintColor = UIColor.white
+                self.navigationController?.navigationBar.tintColor = UIColor.black
             }
         }
         //#colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)

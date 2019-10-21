@@ -43,8 +43,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         //Check App Store for new update
         let siren = Siren.shared
-        
-        siren.alertType = .force
+        siren.rulesManager = RulesManager(globalRules: Rules(promptFrequency: .immediately, forAlertType: .force), showAlertAfterCurrentVersionHasBeenReleasedForDays: 1)
+        siren.wail()
         
         return true
     }
@@ -61,7 +61,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-        Siren.shared.checkVersion(checkType: .daily)
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -95,9 +94,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Sizes
         let largeSizeReallyExpensive = Modifier(name: "Large", price: 1.5)
         let mediumSizeExpensive = Modifier(name: "Medium", price: 1)
-        let largeSizeExpensive  = Modifier(name: "Large", price: 1)
-        let mediumSizeCheap     = Modifier(name: "Medium", price: 0.5)
-        let largeSizeCheap      = Modifier(name: "Large",  price: 1.0)
         let small = Modifier(name: "Small", price: 0)
         
         // Coffee Bar Flavors

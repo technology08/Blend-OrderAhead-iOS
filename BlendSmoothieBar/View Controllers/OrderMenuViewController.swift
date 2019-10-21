@@ -142,6 +142,11 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                     self.tabBarController?.tabBar.tintColor = UIColor.white
                     self.navigationController?.navigationBar.barTintColor = UIColor.black
                     self.navigationController?.navigationBar.tintColor = UIColor.white
+                @unknown default:
+                    self.tabBarController?.tabBar.barTintColor = UIColor.white
+                    self.tabBarController?.tabBar.tintColor = UIColor.black
+                    self.navigationController?.navigationBar.barTintColor = UIColor.white
+                    self.navigationController?.navigationBar.tintColor = UIColor.black
                 }
             }
             /*
@@ -609,7 +614,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             
         }
         
-        defaults.set(value, forKey: "\(order.baseProduct.type)\(modifier.name)")
+        defaults.set(value, forKey: "\(order.baseProduct.type)\(modifier.name ?? "Unnamed")")
     }
     
     func flavorSelected(productRow: Product, remainShowing: Bool) {
@@ -763,17 +768,12 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                                                         //NOTHING
                                                     })
                                                 }))
-                                                self.present(alert2, animated: true, completion: nil)
-                                                //} else if error != nil {
-                                                //    print(error)
-                                                //} else {
-                                                
-                                                // }
-                                                
+                                                DispatchQueue.main.async {
+                                                    self.present(alert2, animated: true, completion: nil)
+                                                }
                                             }
                                         }
                                     }
-                                    //})
                                     return
                                 } else {
                                     //FAILED AUTH
@@ -782,7 +782,9 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                                     alert2.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
                                         alert2.dismiss(animated: true, completion: nil)
                                     }))
-                                    self.present(alert2, animated: true, completion: nil)
+                                    DispatchQueue.main.async {
+                                        self.present(alert2, animated: true, completion: nil)
+                                    }
                                     return
                                 }
                             }
@@ -793,7 +795,9 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                     alert.addAction(UIAlertAction(title: "Nevermind", style: .default, handler: { (action) in
                         alert.dismiss(animated: true, completion: nil)
                     }))
-                    self.present(alert, animated: true, completion: nil)
+                    DispatchQueue.main.async {
+                        self.present(alert, animated: true, completion: nil)
+                    }
                 } else {
                     
                     let alert = UIAlertController(title: "Place Order?", message: "Are you sure you want to place your order?", preferredStyle: .alert)
@@ -811,21 +815,28 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                                     if let error = error as? CKError {
                                         //HANDLE
                                         let alert = error.handleAndAlert()
-                                        self.present(alert, animated: true, completion: nil)
+                                        DispatchQueue.main.async {
+                                            self.present(alert, animated: true, completion: nil)
+                                        }
                                     } else if error != nil {
                                         let alert = error!.alert()
-                                        self.present(alert, animated: true, completion: nil)
+                                        DispatchQueue.main.async {
+                                            self.present(alert, animated: true, completion: nil)
+                                        }
                                     }
                                 }
                             }
-                            alert.dismiss(animated: true, completion: nil)
+                            DispatchQueue.main.async {
+                                alert.dismiss(animated: true, completion: nil)
+                            }
                         }
-                        //})
                     }))
                     alert.addAction(UIAlertAction(title: "No", style: .default, handler: { (action) in
                         alert.dismiss(animated: true, completion: nil)
                     }))
-                    self.present(alert, animated: true, completion: nil)
+                    DispatchQueue.main.async {
+                        self.present(alert, animated: true, completion: nil)
+                    }
                 }
             }
         }
