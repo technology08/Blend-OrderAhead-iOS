@@ -7,6 +7,7 @@ It features the latest technologies including Apple Pay and Stripe, leverages Am
 The entire app is focused around a design that features the unique traits of the Leaning Eagle, including the ever-popular milkshkes students love, in a way that a customer can order a drink within three taps. This minimizes friction, increases orders, and allows students to purchase a beverage in the tight time before class.
 
 ## Screenshots
-![Leaning Eagle Main](readme-images/leaningeagle.PNG)
-![Blend Smoothie Bar Main](readme-images/blend.PNG)
-![Order Page](readme-images/order.PNG)
+<img src="readme-images/leaningeagle.PNG" width="50">
+<img src="readme-images/blend.PNG" width="50">
+<img src="readme-images/order.PNG" width="50">
+
