@@ -20,15 +20,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     var window: UIWindow?
     
-    
+    /*
+     From Stripe, regarding switching away from STPPaymentConfiguration
+     // By default, you don't want the SDK to pass stripeAccount
+     STPAPIClient.shared().publishableKey = "pk_platform"
+     STPAPIClient.shared().stripeAccount = nil
+
+     // You do want the SDK to pass stripeAccount when it makes payments directly on your connected account, so
+     // you create a separate APIClient instance...
+     let connectedAccountAPIClient = STPAPIClient(publishableKey: "pk_platform")
+
+     // ...set stripeAccount on it...
+     connectedAccountAPIClient.stripeAccount = "your connected account's id"
+
+     // ...and either set the relevant SDK components' apiClient property to your custom APIClient instance:
+     STPPaymentHandler.shared().apiClient = connectedAccountAPIClient // e.g. if you are using PaymentIntents
+
+     // ...or use it directly to make API requests with `stripeAccount` set:
+     connectedAccountAPIClient.createToken(withCard:...) // e.g. if you are using Tokens + Charges
+     *
+     */
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         //createMenuItems()
         //createLocations()
         //Stripe Setup
         
-        STPPaymentConfiguration.shared.publishableKey = "INSERT_STRIPE_PUBLISHABLE_KEY"
-        STPPaymentConfiguration.shared.appleMerchantIdentifier = "INSERT_APPLE_MERCHANT_ID"
+        STPAPIClient.shared.publishableKey = "INSERT_STRIPE_PUBLISHABLE_KEY"
+        STPAPIClient.shared.configuration.appleMerchantIdentifier = "INSERT_APPLE_MERCHANT_ID"
+        // STPPaymentConfiguration.shared.appleMerchantIdentifier = "INSERT_APPLE_MERCHANT_ID"
         
         //AWS Setup
         
