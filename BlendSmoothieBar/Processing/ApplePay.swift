@@ -28,7 +28,7 @@ extension OrderMenuViewController: PKPaymentAuthorizationViewControllerDelegate 
     
     func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, completion: @escaping (PKPaymentAuthorizationStatus) -> Void) {
         
-        STPAPIClient.shared().createToken(with: payment) { (token: STPToken?, error: Error?) in
+        STPAPIClient.shared.createToken(with: payment) { (token: STPToken?, error: Error?) in
             if error == nil {
                 guard let token = token else {
                     completion(PKPaymentAuthorizationStatus.failure)
