@@ -16,15 +16,19 @@ extension OrderMenuViewController: PKPaymentAuthorizationViewControllerDelegate 
         controller.dismiss(animated: true, completion: nil)
         
         if applepaysucceeded {
-            self.performSegue(withIdentifier: "toConfirmation", sender: nil)
+            DispatchQueue.main.async {
+                self.performSegue(withIdentifier: "toConfirmation", sender: nil)
+            }
         } else if let alert = applepayalert {
-            self.present(alert, animated: true, completion: nil)
+            DispatchQueue.main.async {
+                self.present(alert, animated: true, completion: nil)
+            }
         }
     }
     
     func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, completion: @escaping (PKPaymentAuthorizationStatus) -> Void) {
         
-        STPAPIClient.shared().createToken(with: payment) { (token: STPToken?, error: Error?) in
+        STPAPIClient.shared.createToken(with: payment) { (token: STPToken?, error: Error?) in
             if error == nil {
                 guard let token = token else {
                     completion(PKPaymentAuthorizationStatus.failure)
@@ -67,37 +71,6 @@ extension OrderMenuViewController: PKPaymentAuthorizationViewControllerDelegate 
                         completion(success1)
                     }
                     
-                    /*
-                     self.createOrder(finalOrder: self.order, payed: true, completion: { (success, record, error) in
-                     
-                     if success {
-                     self.sendToBackendResult(token: token, amount: stripeprice, completion: { (status) -> Void in
-                     completion(status)
-                     if status == PKPaymentAuthorizationStatus.success {
-                     self.performSegue(withIdentifier: "toConfirmation", sender: nil)
-                     } else {
-                     //Delete order
-                     guard record != nil else { return }
-                     CKContainer.default().publicCloudDatabase.delete(withRecordID: record!, completionHandler: { (record, error) in
-                     
-                     if error != nil {
-                     self.createErrorAlert(alertBody: "The credit card was not charged, but the order went through anyway. Please pay at pick-up.", presentTryAgain: false)
-                     }
-                     
-                     })
-                     }
-                     })
-                     } else {
-                     if let error = error as? CKError {
-                     //HANDLE
-                     print(error)
-                     fatalError("CKError while uploading order: \(error.localizedDescription)")
-                     } else if error != nil {
-                     print(error!)
-                     fatalError("Error while uploading order to CloudKit: \(error?.localizedDescription ?? "No error description.")")
-                     } else {
-                     
-                     }*/
                     
                 })
             } else {
@@ -121,9 +94,14 @@ extension OrderMenuViewController: PKPaymentAuthorizationViewControllerDelegate 
                         request.supportedNetworks = self.supportedNetworks
                         request.merchantCapabilities = .capability3DS //CHECK WITH STRIPE
                         
-                        let baseItem = PKPaymentSummaryItem(label: "\(self.order.baseProduct.name) \(self.order.baseProduct.type)", amount: NSDecimalNumber(decimal: self.order.baseProduct.price))
+                        let baseItem = PKPaymentSummaryItem(label: "\(self.order.baseProduct.name)", amount: NSDecimalNumber(decimal: self.order.baseProduct.price))
                         
                         request.paymentSummaryItems = [baseItem]
+                        
+                        if let sizePrice = self.order.sizeUpgradePrice {
+                            let paymentitem = PKPaymentSummaryItem(label: self.order.selectedSize!, amount: NSDecimalNumber(decimal: sizePrice))
+                            request.paymentSummaryItems.append(paymentitem)
+                        }
                         
                         for modifier in self.order.modifiers {
                             let paymentitem = PKPaymentSummaryItem(label: modifier.name!, amount: NSDecimalNumber(decimal: modifier.price!))
@@ -135,7 +113,10 @@ extension OrderMenuViewController: PKPaymentAuthorizationViewControllerDelegate 
                         
                         let vc = PKPaymentAuthorizationViewController(paymentRequest: request)
                         vc?.delegate = self
-                        self.present(vc!, animated: true, completion: nil)
+                        DispatchQueue.main.async {
+                            self.present(vc!, animated: true, completion: nil)
+                        }
+                        
                         /*} else {
                          //CHECK COPYRIGHT
                          let alert = UIAlertController(title: "Apple Pay Error", message: "No supported cards. Only Visa, Mastercard, American Express, and Discover cards are valid.", preferredStyle: .alert)

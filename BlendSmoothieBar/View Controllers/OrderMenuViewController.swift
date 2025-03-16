@@ -19,12 +19,12 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var productTypeLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var parameterTableView: UITableView!
-    @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
     
     let defaults = UserDefaults.standard
     var applePayButton: UIButton?
     var currentProductCategory: String = "Smoothie"
     var initalLoad = false
+    var selectedBusiness: Business = .LeaningEagle
     public var selectedProduct: Product? {
         didSet {
             parameterTableView.beginUpdates()
@@ -48,7 +48,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet var cashButton: UIButton!
     @IBOutlet var cashButtonTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var cashButtonLeadingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var cashButtonBottomConstraint: NSLayoutConstraint!
+    //@IBOutlet weak var cashButtonBottomConstraint: NSLayoutConstraint!
     
     // MARK: - Apple Pay Variables
     
@@ -77,12 +77,6 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        
     }
     
     override func viewWillLayoutSubviews() {
@@ -129,6 +123,36 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.tabBarController?.tabBar.isTranslucent = true
+        switch selectedBusiness {
+        case .Blend:
+            self.tabBarController?.tabBar.barTintColor = #colorLiteral(red: 0.3294117647, green: 0.3411764706, blue: 0.4117647059, alpha: 1)
+            self.tabBarController?.tabBar.tintColor = UIColor.white            
+        case .LeaningEagle:
+            if #available(iOS 13, *) {
+                switch traitCollection.userInterfaceStyle {
+                case .light, .unspecified:
+                    self.tabBarController?.tabBar.barTintColor = UIColor.white
+                    self.tabBarController?.tabBar.tintColor = UIColor.black
+                    self.navigationController?.navigationBar.barTintColor = UIColor.white
+                    self.navigationController?.navigationBar.tintColor = UIColor.black
+                case .dark:
+                    self.tabBarController?.tabBar.barTintColor = UIColor.black
+                    self.tabBarController?.tabBar.tintColor = UIColor.white
+                    self.navigationController?.navigationBar.barTintColor = UIColor.black
+                    self.navigationController?.navigationBar.tintColor = UIColor.white
+                @unknown default:
+                    self.tabBarController?.tabBar.barTintColor = UIColor.white
+                    self.tabBarController?.tabBar.tintColor = UIColor.black
+                    self.navigationController?.navigationBar.barTintColor = UIColor.white
+                    self.navigationController?.navigationBar.tintColor = UIColor.black
+                }
+            }
+            /*
+            self.tabBarController?.tabBar.barTintColor = UIColor.white
+            self.tabBarController?.tabBar.tintColor = UIColor.black*/
+        }
         
         switch currentProductCategory {
         case "Smoothies":
@@ -143,6 +167,34 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             order.finalPrice = currentIceCream.first?.price
             visualEffectView.effect = UIBlurEffect(style: .dark)
             backgroundImageView.image = #imageLiteral(resourceName: "shake")
+        case "Espresso":
+            productTypeLabel.text = "Espresso"
+            order.baseProduct = currentEspresso.first
+            order.finalPrice  = currentEspresso.first?.price
+            visualEffectView.effect = UIBlurEffect(style: .dark)
+            backgroundImageView.image = #imageLiteral(resourceName: "espresso")
+        case "Tea":
+            productTypeLabel.text = "Tea"
+            order.baseProduct = currentTea.first
+            order.finalPrice  = currentTea.first?.price
+            visualEffectView.effect = UIBlurEffect(style: .dark)
+            backgroundImageView.image = #imageLiteral(resourceName: "tea")
+        case "Cold Brew":
+            productTypeLabel.text = "Cold Brew"
+            order.baseProduct = currentCold.first
+            order.finalPrice  = currentCold.first?.price
+            visualEffectView.effect = UIBlurEffect(style: .light)
+            backgroundImageView.image = #imageLiteral(resourceName: "coffee_drinks")
+        case "Non-Coffee":
+            productTypeLabel.text = "Non-Caffeinated"
+            order.baseProduct = currentNonCoffee.first
+            order.finalPrice  = currentNonCoffee.first?.price
+            if #available(iOS 10.0, *) {
+                visualEffectView.effect = UIBlurEffect(style: .light)
+            } else {
+                // Fallback on earlier versions
+            }
+            backgroundImageView.image = #imageLiteral(resourceName: "soda")
         default:
             productTypeLabel.text = "Smoothie"
             order.baseProduct = currentSmoothies.first
@@ -218,44 +270,80 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
          -Name
          -Modifiers 
          */
-        
+        let sizesShown = (order.baseProduct.sizes.count > 1) ? true : false
         if order.baseProduct != nil {
-            return order.baseProduct.modifiers.count + 7
+            if sizesShown {
+                return order.baseProduct.modifiers.count + 8
+            } else {
+                return order.baseProduct.modifiers.count + 7
+            }
         } else {
             return 7
         }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 1 {
-            switch index1Shown {
-            case true:
-                return 150
-            case false:
-                return 0
+        if order.baseProduct.sizes.count > 1 {
+            if indexPath.row == 1 {
+                switch index1Shown {
+                case true:
+                    return 150
+                case false:
+                    return 0
+                }
+            } else if indexPath.row == (order.baseProduct.modifiers.count + (((selectedProduct?.sizes.count ?? 1) > 1) ? 6 : 5)) {
+                switch timePickerShown {
+                case true:
+                    return 150
+                case false:
+                    return 0
+                }
+            } else if indexPath.row == (order.baseProduct.modifiers.count + (((selectedProduct?.sizes.count ?? 1) > 1) ? 8 : 7)) {
+                switch locationShown {
+                case true:
+                    return 150
+                case false:
+                    return 0
+                }
+                
+            } else {
+                return 44
             }
-        } else if indexPath.row == (order.baseProduct.modifiers.count + 4) {
-            switch timePickerShown {
-            case true:
-                return 150
-            case false:
-                return 0
-            }
-        } else if indexPath.row == (order.baseProduct.modifiers.count + 6) {
-            switch locationShown {
-            case true:
-                return 150
-            case false:
-                return 0
-            }
-            
         } else {
-            return 44
+            if indexPath.row == 1 {
+                switch index1Shown {
+                case true:
+                    return 150
+                case false:
+                    return 0
+                }
+            } else if indexPath.row == (order.baseProduct.modifiers.count + (((selectedProduct?.sizes.count ?? 1) > 1) ? 5 : 4)) {
+                switch timePickerShown {
+                case true:
+                    return 150
+                case false:
+                    return 0
+                }
+            } else if indexPath.row == (order.baseProduct.modifiers.count + (((selectedProduct?.sizes.count ?? 1) > 1) ? 7 : 6)) {
+                switch locationShown {
+                case true:
+                    return 150
+                case false:
+                    return 0
+                }
+                
+            } else {
+                return 44
+            }
         }
     }
     
+    var selectedTimeIndex: Int = 0
+    var initalized = false
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let product = order.baseProduct else { return tableView.dequeueReusableCell(withIdentifier: "parameterCell")! }
+        let sizesShown = (product.sizes.count > 1) ? true : false
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "parameterCell") as! MenuParameterCell
             switch product.type {
@@ -299,11 +387,31 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             
             return cell
             
-        } else if indexPath.row > 1 && indexPath.row <= product.modifiers.count + 1{
+        } else if indexPath.row == 2 && sizesShown {
+            // Display sizes cell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "sizeCell") as! SizeSegmentedCell
+            
+            var names: [String] = []
+            var prices: [Decimal] = []
+            
+            for size in product.sizes {
+                names.append(size.name)
+                prices.append(size.price)
+            }
+            cell.configure(delegate: self, sizeNames: names, sizePrices: prices, theme: self.selectedBusiness)
+            
+            if self.order.sizeUpgradePrice == nil {
+                self.order.selectedSize = product.sizes.first!.name
+                
+                
+            }
+            
+            return cell
+        } else if indexPath.row > (sizesShown ? 2 : 1) && indexPath.row <= product.modifiers.count + (sizesShown ? 2 : 1) {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "modifierCell") as! MenuModifierCell
             
-            let modifier = product.modifiers[indexPath.row - 2]
+            let modifier = product.modifiers[indexPath.row - (sizesShown ? 3 : 2)]
             
             var modifierText = modifier.name
             
@@ -319,8 +427,8 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             
         } else {
             
-            let number = (indexPath.row - (order.baseProduct.modifiers.count)) - 1 //+ 1
-            
+            var number = (indexPath.row - (order.baseProduct.modifiers.count)) - 1 //+ 1
+            if sizesShown { number -= 1}
             switch number {
             case 1:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "nameCell") as! NameCell
@@ -336,70 +444,123 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             case 2:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "parameterCell") as! MenuParameterCell
                 
-                cell.parameterNameLabel.text = "Pick-Up Time"
+                cell.parameterNameLabel.text = "Delivery Time"
                 //ADD TO ADJUST TO TIME OF DAY
                 if defaults.string(forKey: "tutorialtime") == nil || defaults.string(forKey: "tutorialtime") == "" {
                     cell.parameterValueLabel.text = "Tap to Choose Time"
                     cell.parameterValueLabel.adjustsFontSizeToFitWidth = true
                     cell.parameterValueLabel.minimumScaleFactor = 0.3
                 } else {
-                    if order.pickUpTime == nil {
-                        let date = Date()
-                        let newDate = date.ceil(precision: 300)
-                        let calendar = Calendar.current
-                        let hour = calendar.dateComponents([.hour, .minute], from: newDate)
-                        
-                        if hour.hour! > 16 ||
-                            (hour.hour! == 15 && hour.minute! > 45) {
-                            //If hour is past 3:45, go to next day at 2:30
-                            order.pickUpTime = "2:30 PM"
-                        } else if hour.hour! < 14 ||
-                            (hour.hour! == 14 && hour.minute! < 30) {
-                            //If hour is before 2:30
-                            order.pickUpTime = "2:30 PM"
-                        } else {
-                            //Within operating hours, set default to ASAP
-                            let newHour = hour.hour! - 12
-                            order.pickUpTime = "\(newHour):\(hour.minute!) PM"
+                    
+                        // 8:00 AM - 3:05 PM
+                        if order.pickUpTime == nil {
+                            let date = Date()
+                            let newDate = date.ceil(precision: 300)
+                            let calendar = Calendar.current
+                            let time = calendar.dateComponents([.hour, .minute], from: newDate)
+                            
+                            if time.hour! > 15 ||
+                                (time.hour! == 15 && time.minute! > 5) {
+                                // If time is past 3:05, go to next day at 7:30 AM
+                                order.pickUpTime = "7:30 AM"
+                            } else if time.hour! < 7 ||
+                                (time.hour! == 7 && time.minute! < 30) {
+                                // If time is before 7:30, go to 7:30 AM
+                                order.pickUpTime = "7:30 AM"
+                            } else if time.hour! < 13 {
+                                // Within operating hours, set default to ASAP
+                                let newHour = time.hour!
+                                let pickUpTime  = "\(newHour):\(time.minute!) AM"
+                                order.pickUpTime = pickUpTime
+                                if let index = coffeeBarTimes.firstIndex(of: pickUpTime) {
+                                    selectedTimeIndex = index
+                                }
+                            } else {
+                                let newHour = time.hour! - 12
+                                let pickUpTime  = "\(newHour):\(time.minute!) PM"
+                                order.pickUpTime = pickUpTime
+                                if let index = coffeeBarTimes.firstIndex(of: pickUpTime) {
+                                    selectedTimeIndex = index
+                                }
+                            }
                         }
-                    }
-                    cell.parameterValueLabel.text = order.pickUpTime ?? "2:30 PM"
+                        cell.parameterValueLabel.text = order.pickUpTime ?? "7:30 AM"
+                    
                 }
                 return cell
             case 3:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "timeCell") as! TimeCell
                 
                 cell.delegate = self
+                cell.business = self.selectedBusiness
+                
+                if !initalized {
+                    cell.picker.selectRow(selectedTimeIndex, inComponent: 0, animated: true)
+                    initalized = true
+                }
                 
                 return cell
             case 4:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "parameterCell") as! MenuParameterCell
                 
-                cell.parameterNameLabel.text = "Pick-Up Location"
+                cell.parameterNameLabel.text = "Delivery Location"
                 
-                if defaults.string(forKey: "place") == nil || defaults.string(forKey: "place") == "" {
+                if defaults.string(forKey: "tutorialplace") == nil || defaults.string(forKey: "tutorialplace") == "" {
                     cell.parameterValueLabel.text = "Tap to Choose Location"
                     cell.parameterValueLabel.adjustsFontSizeToFitWidth = true
                     cell.parameterValueLabel.minimumScaleFactor = 0.3
                 } else {
-                    cell.parameterValueLabel.text = order.pickUpPlace ?? defaults.string(forKey: "place") ?? "Smoothie Bar"
-                    self.order.pickUpPlace = order.pickUpPlace ?? defaults.string(forKey: "place") ?? "Smoothie Bar"
+                        cell.parameterValueLabel.text = order.pickUpPlace ?? "Coffee Bar"
+                        self.order.pickUpPlace = order.pickUpPlace ?? "Coffee Bar"
                 }
                 
                 return cell
             case 5:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "locationCell") as! LocationPickerCell
                 cell.delegate = self
+                cell.business = self.selectedBusiness
                 return cell
             default:
                 print("PROBLEM!")
                 return tableView.dequeueReusableCell(withIdentifier: "parameterCell")!
             }
         }
- }
+    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        if order.baseProduct.sizes.count > 1 {
+            if indexPath.row == 0 {
+                switch index1Shown {
+                case true:
+                    index1Shown = false
+                case false:
+                    index1Shown = true
+                }
+            } else if indexPath.row == (order.baseProduct.modifiers.count + 4) {
+                switch timePickerShown {
+                case true:
+                    timePickerShown = false
+                    tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+                case false:
+                    timePickerShown = true
+                }
+            }
+            else if indexPath.row == (order.baseProduct.modifiers.count + 6) {
+                switch locationShown {
+                case true:
+                    locationShown = false
+                    tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+                case false:
+                    locationShown = true
+                }
+            }
+            
+            if indexPath.row > 1 && indexPath.row <= order.modifiers.count + 1 {
+                tableView.deselectRow(at: indexPath, animated: false)
+            } else {
+                tableView.deselectRow(at: indexPath, animated: true)
+            }
+        } else {
         if indexPath.row == 0 {
             switch index1Shown {
             case true:
@@ -431,7 +592,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         } else {
             tableView.deselectRow(at: indexPath, animated: true)
         }
-        
+        }
         
     }
     
@@ -443,7 +604,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             order.modifiers.append(modifier)
             order.finalPrice = order.finalPrice + modifier.price
         case false:
-            if let index2 = order.modifiers.index(where: { (modifier) -> Bool in
+            if let index2 = order.modifiers.firstIndex(where: { (modifier) -> Bool in
                 return true
             }) {
                 order.modifiers.remove(at: index2)
@@ -453,7 +614,7 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
             
         }
         
-        defaults.set(value, forKey: "\(order.baseProduct.type)\(modifier.name)")
+        defaults.set(value, forKey: "\(order.baseProduct.type)\(modifier.name ?? "Unnamed")")
     }
     
     func flavorSelected(productRow: Product, remainShowing: Bool) {
@@ -508,6 +669,10 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
     func locationChanged(location: String, remainShowing: Bool) {
         self.order.pickUpPlace = location
         
+        if !defaults.bool(forKey: "tutorialplace") {
+                   defaults.set(true, forKey: "tutorialplace")
+        }
+        
         if !remainShowing {
             parameterTableView.beginUpdates()
             locationShown = false
@@ -516,8 +681,34 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         } else {
             parameterTableView.reloadData()
         }
-        defaults.set(location, forKey: "place")
         
+        if location != "Coffee Bar" {
+            self.cashButton.isEnabled = false
+            DispatchQueue.main.async {
+                self.cashButton.backgroundColor = UIColor.darkGray
+                self.cashButton.titleLabel!.textColor = UIColor.gray
+            }
+        } else {
+            self.cashButton.isEnabled = true
+            DispatchQueue.main.async {
+                self.cashButton.backgroundColor = #colorLiteral(red: 0, green: 0.7529411765, blue: 0, alpha: 1)
+                self.cashButton.titleLabel!.textColor = UIColor.white
+            }
+        }
+        
+    }
+    
+    func sizeChanged(size: String, price: Decimal) {
+        
+        self.order.selectedSize = size
+        self.order.finalPrice! -= self.order.sizeUpgradePrice ?? 0
+        
+        if price == 0 {
+            self.order.sizeUpgradePrice = nil
+        } else {
+            self.order.sizeUpgradePrice = price
+            self.order.finalPrice! += price
+        }
         
     }
     
@@ -564,7 +755,9 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                                     if auth {
                                         self.createOrder(finalOrder: self.order, paid: false) { (success, record, error) in
                                             if success {
+                                                DispatchQueue.main.async {
                                                 self.performSegue(withIdentifier: "toConfirmation", sender: nil)
+                                                }
                                             } else {
                                                 //if let error = error as? CKError {
                                                 //HANDLE
@@ -577,17 +770,12 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                                                         //NOTHING
                                                     })
                                                 }))
-                                                self.present(alert2, animated: true, completion: nil)
-                                                //} else if error != nil {
-                                                //    print(error)
-                                                //} else {
-                                                
-                                                // }
-                                                
+                                                DispatchQueue.main.async {
+                                                    self.present(alert2, animated: true, completion: nil)
+                                                }
                                             }
                                         }
                                     }
-                                    //})
                                     return
                                 } else {
                                     //FAILED AUTH
@@ -596,7 +784,9 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                                     alert2.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
                                         alert2.dismiss(animated: true, completion: nil)
                                     }))
-                                    self.present(alert2, animated: true, completion: nil)
+                                    DispatchQueue.main.async {
+                                        self.present(alert2, animated: true, completion: nil)
+                                    }
                                     return
                                 }
                             }
@@ -607,7 +797,9 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                     alert.addAction(UIAlertAction(title: "Nevermind", style: .default, handler: { (action) in
                         alert.dismiss(animated: true, completion: nil)
                     }))
-                    self.present(alert, animated: true, completion: nil)
+                    DispatchQueue.main.async {
+                        self.present(alert, animated: true, completion: nil)
+                    }
                 } else {
                     
                     let alert = UIAlertController(title: "Place Order?", message: "Are you sure you want to place your order?", preferredStyle: .alert)
@@ -617,32 +809,42 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
                         if auth {
                             self.createOrder(finalOrder: self.order, paid: false) { (success, record, error) in
                                 if success {
-                                    self.performSegue(withIdentifier: "toConfirmation", sender: nil)
+                                    DispatchQueue.main.async {
+                                        self.performSegue(withIdentifier: "toConfirmation", sender: nil)
+                                    }
+                                    
                                 } else {
                                     if let error = error as? CKError {
                                         //HANDLE
                                         let alert = error.handleAndAlert()
-                                        self.present(alert, animated: true, completion: nil)
+                                        DispatchQueue.main.async {
+                                            self.present(alert, animated: true, completion: nil)
+                                        }
                                     } else if error != nil {
                                         let alert = error!.alert()
-                                        self.present(alert, animated: true, completion: nil)
+                                        DispatchQueue.main.async {
+                                            self.present(alert, animated: true, completion: nil)
+                                        }
                                     }
                                 }
                             }
-                            alert.dismiss(animated: true, completion: nil)
+                            DispatchQueue.main.async {
+                                alert.dismiss(animated: true, completion: nil)
+                            }
                         }
-                        //})
                     }))
                     alert.addAction(UIAlertAction(title: "No", style: .default, handler: { (action) in
                         alert.dismiss(animated: true, completion: nil)
                     }))
-                    self.present(alert, animated: true, completion: nil)
+                    DispatchQueue.main.async {
+                        self.present(alert, animated: true, completion: nil)
+                    }
                 }
             }
         }
-     
+        
     }
-
+    
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -702,33 +904,6 @@ class OrderMenuViewController: UIViewController, UITableViewDelegate, UITableVie
         self.present(alert, animated: true, completion: nil)
     }
     
-    
-    
-    
-    // MARK: - User Error Catches
-    
-    
-    /*
-     func authenticate(completion: @escaping ((Bool) -> Void)) {
-     let context:LAContext = LAContext()
-     if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil) {
-     context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: "Please use biometrics in order to verify your identity before purchase.", reply: { (authenticated, error) in
-     
-     if let error = error as? LAError {
-     switch error.errorCode {
-     
-     case LAError.passcodeNotSet.rawValue:
-     completion(true)
-     
-     default:
-     completion(false)
-     }
-     } else {
-     completion(authenticated)
-     }
-     })
-     }
-     }
-     */
 }
 
+var locations = ["Coffee Bar"]

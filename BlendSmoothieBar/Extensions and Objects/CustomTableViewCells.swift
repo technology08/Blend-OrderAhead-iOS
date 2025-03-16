@@ -14,6 +14,7 @@ protocol ParameterReturnDelegate {
     func time(time: String, remainShowing: Bool)
     func nameEntered(name: String)
     func locationChanged(location: String, remainShowing: Bool)
+    func sizeChanged(size: String, price: Decimal)
 }
 
 class MenuParameterCell: UITableViewCell {
@@ -76,6 +77,14 @@ class FlavorPickerTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
             return currentSmoothies.count
         case "Ice Cream & Sweets":
             return currentIceCream.count
+        case "Espresso":
+            return currentEspresso.count
+        case "Tea":
+            return currentTea.count
+        case "Cold Brew":
+            return currentCold.count
+        case "Non-Coffee":
+            return currentNonCoffee.count
         default:
             return 0
         }
@@ -93,6 +102,30 @@ class FlavorPickerTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
             return attributedString
         case "Ice Cream & Sweets":
             let string = currentIceCream[row].name
+            
+            let attributedString = NSAttributedString(string: string, attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
+            
+            return attributedString
+        case "Espresso":
+            let string = currentEspresso[row].name
+            
+            let attributedString = NSAttributedString(string: string, attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
+            
+            return attributedString
+        case "Tea":
+            let string = currentTea[row].name
+            
+            let attributedString = NSAttributedString(string: string, attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
+            
+            return attributedString
+        case "Cold Brew":
+            let string = currentCold[row].name
+            
+            let attributedString = NSAttributedString(string: string, attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
+            
+            return attributedString
+        case "Non-Coffee":
+            let string = currentNonCoffee[row].name
             
             let attributedString = NSAttributedString(string: string, attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
             
@@ -116,6 +149,14 @@ class FlavorPickerTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
                 returnedProduct = currentSmoothies[row]
             case "Ice Cream & Sweets":
                 returnedProduct = currentIceCream[row]
+            case "Espresso":
+                returnedProduct = currentEspresso[row]
+            case "Tea":
+                returnedProduct = currentTea[row]
+            case "Cold Brew":
+                returnedProduct = currentCold[row]
+            case "Non-Coffee":
+                returnedProduct = currentNonCoffee[row]
             default:
                 fatalError("Return Product not a category")
             }
@@ -138,6 +179,14 @@ class FlavorPickerTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
                 returnedProduct = currentSmoothies[row]
             case "Ice Cream & Sweets":
                 returnedProduct = currentIceCream[row]
+            case "Espresso":
+                returnedProduct = currentEspresso[row]
+            case "Tea":
+                returnedProduct = currentTea[row]
+            case "Cold Brew":
+                returnedProduct = currentCold[row]
+            case "Non-Coffee":
+                returnedProduct = currentNonCoffee[row]
             default:
                 fatalError("User selected product: Does not fall in a category.")
             }
@@ -151,6 +200,7 @@ class FlavorPickerTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPicker
 class TimeCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
     
     @IBOutlet weak var picker: UIPickerView!
+    var business: Business = .Blend
     
     var delegate: ParameterReturnDelegate? = nil
     
@@ -159,32 +209,26 @@ class TimeCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return times.count
+        return coffeeBarTimes.count
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        
-        
-        let string = times[row]
+        let string = coffeeBarTimes[row]
         
         let attributedString = NSAttributedString(string: string, attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
         
         return attributedString
-        
-        
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if delegate != nil {
-            
-            
-            delegate?.time(time: times[picker.selectedRow(inComponent: 0)], remainShowing: true)
+            delegate?.time(time: coffeeBarTimes[picker.selectedRow(inComponent: 0)], remainShowing: true)
         }
     }
     
     @IBAction func donePressed(_ sender: Any) {
         if delegate != nil {
-            delegate?.time(time: times[picker.selectedRow(inComponent: 0)], remainShowing: false)
+            delegate?.time(time: coffeeBarTimes[picker.selectedRow(inComponent: 0)], remainShowing: false)
         }
     }
 }
@@ -232,39 +276,77 @@ class LocationPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDat
     @IBOutlet weak var picker: UIPickerView!
     
     var delegate: ParameterReturnDelegate? = nil
-    var places = ["Smoothie Bar", "Coffee Bar"]
+    var business: Business = .Blend
+    //var places = ["Coffee Bar", "Library", "Savage Greenhouse", "Howarth W223", "Salkil N149", "Parker E206", "Turvey W227", "Carter W229", "Swedes E204", "Barron W228", "Gansle E108", "Ciarniello W125", "Ewen W127", "Student Services W122A", "Counselors", "Delanoy E112", "SOS Room"]
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 2
+        return locations.count
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        
-        if row == 0 {
-            return NSAttributedString(string: "Smoothie Bar", attributes: [.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
-        } else if row == 1 {
-            return NSAttributedString(string: "Coffee Bar", attributes: [.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
-        } else {
-            return nil
-        }
-        
+        return NSAttributedString(string: locations[row], attributes: [.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        
         if delegate != nil {
-            delegate?.locationChanged(location: places[row], remainShowing: true)
+            delegate?.locationChanged(location: locations[row], remainShowing: true)
         }
     }
     
     @IBAction func donePressed(_ sender: Any) {
         if delegate != nil {
-            delegate?.locationChanged(location: places[picker.selectedRow(inComponent: 0)], remainShowing: false)
+            delegate?.locationChanged(location: locations[picker.selectedRow(inComponent: 0)], remainShowing: false)
         }
         
+    }
+    
+}
+
+class SizeSegmentedCell: UITableViewCell {
+    
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    
+    var delegate: ParameterReturnDelegate? = nil
+    private var sizeNames: [String] = []
+    private var sizePrices: [Decimal] = []
+    
+    public func configure(delegate: ParameterReturnDelegate, sizeNames: [String], sizePrices: [Decimal], theme: Business) {
+        
+        self.delegate = delegate
+        self.sizeNames = sizeNames
+        self.sizePrices = sizePrices
+        
+        let selectedSegment = segmentedControl.selectedSegmentIndex
+        
+        segmentedControl.removeAllSegments()
+        for (index, size) in sizeNames.enumerated() {
+            let price = sizePrices[index]
+            if price > 0 {
+                segmentedControl.insertSegment(withTitle: "\(size) + $\(price)", at: index, animated: false)
+            } else {
+                segmentedControl.insertSegment(withTitle: "\(size)", at: index, animated: false)
+            }
+        }
+        
+        if selectedSegment == -1 {
+            // Index not selected
+            segmentedControl.selectedSegmentIndex = 0
+        } else {
+            segmentedControl.selectedSegmentIndex = selectedSegment
+        }
+        segmentedControl.tintColor = UIColor.white
+        if #available(iOS 13.0, *) {
+            segmentedControl.overrideUserInterfaceStyle = .dark
+        }
+    }
+    
+    @IBAction func sizeChanged(_ sender: Any) {
+        delegate?.sizeChanged(size: sizeNames[segmentedControl.selectedSegmentIndex], price: sizePrices[segmentedControl.selectedSegmentIndex])
     }
     
 }

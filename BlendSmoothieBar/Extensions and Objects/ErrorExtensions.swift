@@ -26,7 +26,7 @@ extension CKError {
         var title: String = "Error"
         var message: String = self.localizedDescription
         
-        if self.code == CKError.Code.notAuthenticated {
+        if self.code == CKError.Code.notAuthenticated || self.code == CKError.Code.permissionFailure {
             title = "Not Authenticated"
             message = "You are not signed into iCloud Drive. Please go to Settings, enable iCloud, enable iCloud Drive, and turn on 'Blend' in the list of apps."
         } else if self.code == CKError.Code.networkUnavailable || self.code == CKError.Code.networkFailure {
@@ -41,7 +41,7 @@ extension CKError {
         alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: { (action) in
             alert.dismiss(animated: true, completion: nil)
             if crash {
-                fatalError()
+            fatalError()
             }
         }))
         return alert

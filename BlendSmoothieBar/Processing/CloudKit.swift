@@ -22,11 +22,15 @@ extension OrderMenuViewController {
         publicCloud.save(record) { (record, error) in
             if let error = error as? CKError {
                 let controller = error.handleAndAlert()
-                self.present(controller, animated: true, completion: nil)
+                DispatchQueue.main.async {
+                    self.present(controller, animated: true, completion: nil)
+                }
                 completion(false)
             } else if error != nil {
                 let controller = error!.alert()
-                self.present(controller, animated: true, completion: nil)
+                DispatchQueue.main.async {
+                    self.present(controller, animated: true, completion: nil)
+                }
                 completion(false)
             } else {
                 //Success
@@ -35,13 +39,15 @@ extension OrderMenuViewController {
                 publicCloud.delete(withRecordID: id, completionHandler: { (recordid, error) in
                     if let error = error as? CKError {
                         let controller = error.handleAndAlert()
-                        self.present(controller, animated: true, completion: nil)
+                        DispatchQueue.main.async {
+                            self.present(controller, animated: true, completion: nil)
+                        }
                     } else if error != nil {
                         let controller = error!.alert()
-                        self.present(controller, animated: true, completion: nil)
-                    } else {
-                        
-                    }
+                        DispatchQueue.main.async {
+                            self.present(controller, animated: true, completion: nil)
+                        }
+                    } 
                 })
             }
         }
@@ -92,7 +98,11 @@ extension OrderMenuViewController {
     func createOrder(finalOrder: Order, paid: Bool, completion: @escaping ((Bool, CKRecord.ID?, Error?) -> Void)) {
         
         let record = CKRecord(recordType: "Order")
-        record["item"] = (finalOrder.baseProduct.name + " " + finalOrder.baseProduct.type.description) as CKRecordValue
+        if let size = finalOrder.selectedSize {
+            record["item"] = (finalOrder.baseProduct.name + ": " + size) as CKRecordValue
+        } else {
+            record["item"] = finalOrder.baseProduct.name as CKRecordValue
+        }
         
         var modifiers: [String] = []
         for modifier in order.modifiers {
@@ -103,7 +113,7 @@ extension OrderMenuViewController {
         record["pickUpLocation"] = (finalOrder.pickUpPlace ?? defaults.string(forKey: "place") ?? "Smoothie Bar") as CKRecordValue
         record["modifiers"] = modifiers as CKRecordValue
         record["payedFor"] = NSNumber.init(value: paid) as CKRecordValue
-        self.order.payed = paid
+        self.order.paid = paid
         record["pickUpTime"] = finalOrder.pickUpTime as CKRecordValue
         record["name"] = finalOrder.orderName as CKRecordValue
         record["price"] = finalOrder.finalPrice.description as CKRecordValue
@@ -178,10 +188,14 @@ extension OrderMenuViewController {
             if error != nil {
                 if let error = error as? CKError {
                     let alert = error.handleAndAlert()
-                    self.present(alert, animated: true, completion: nil)
+                    DispatchQueue.main.async {
+                        self.present(alert, animated: true, completion: nil)
+                    }
                 } else {
                     let alert = error!.alert()
-                    self.present(alert, animated: true, completion: nil)
+                    DispatchQueue.main.async {
+                        self.present(alert, animated: true, completion: nil)
+                    }
                 }
                 
                 Analytics.logEvent("purchase-failed", parameters: [
@@ -218,9 +232,15 @@ extension OrderMenuViewController {
                 if let error = error as? CKError {
                     //Handle CKError
                     let alert = error.handleAndAlert()
+                    DispatchQueue.main.async {
+                        self.present(alert, animated: true, completion: nil)
+                    }
                     completion(nil, alert)
                 } else {
                     let alert2 = error!.alert()
+                    DispatchQueue.main.async {
+                        self.present(alert2, animated: true, completion: nil)
+                    }
                     completion(nil, alert2)
                 }
             } else {
@@ -237,7 +257,7 @@ extension OrderMenuViewController {
                 
                 for record in array {
                     if record.recordID == id {
-                        completion(record["string"]! as! String, nil)
+                        completion(record["string"]! as? String, nil)
                     }
                 }
             }

@@ -8,19 +8,31 @@
 
 import UIKit
 import CloudKit
-import Siren
 import Firebase
 
-class InitialLoadingViewController: UIViewController, SirenDelegate {
+class InitialLoadingViewController: UIViewController {
     
     var ai: UIActivityIndicatorView?
+    var processesCompleted = 0 {
+        didSet {
+            if processesCompleted > 1 {
+                DispatchQueue.main.async {
+                    self.stopLoadingIndicator()
+                    self.performSegue(withIdentifier: "toApp", sender: nil)
+                }                
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
         self.displayLoadingIndicator()
-        Siren.shared.delegate = self
+        if #available(iOS 13.0, *) {
+            self.view.backgroundColor = UIColor.systemBackground
+        }
+        sirenLatestVersionInstalled()
     }
     
     override func didReceiveMemoryWarning() {
@@ -28,18 +40,29 @@ class InitialLoadingViewController: UIViewController, SirenDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        Siren.shared.checkVersion(checkType: .immediately)
+//        switch traitCollection.userInterfaceStyle {
+//        case .light, .unspecified:
+//            self.backgroundColor = UIColor.white
+//        }
     }
- 
+    
     func sirenLatestVersionInstalled() {
         fetchMenuItems { (completion, items) in
             if completion {
                 self.sortMenuItems(items: items)
-                self.stopLoadingIndicator()
-                self.performSegue(withIdentifier: "toApp", sender: nil)
+                self.processesCompleted += 1
+            }
+        }
+        
+        fetchLocations { (completion, items) in
+            if completion {
+                for place in items {
+                    locations.append(place)
+                }
+                self.processesCompleted += 1
             }
         }
     }
@@ -67,7 +90,9 @@ class InitialLoadingViewController: UIViewController, SirenDelegate {
             guard error == nil else {
                 if let error = error as? CKError {
                     let erroralert = error.handleAndAlert(crash: true)
-                    self.present(erroralert, animated: true, completion: nil)
+                    DispatchQueue.main.async {
+                        self.present(erroralert, animated: true, completion: nil)
+                    }
                     completion(false, [])
                     return
                 }
@@ -97,6 +122,41 @@ class InitialLoadingViewController: UIViewController, SirenDelegate {
         })
     }
     
+    func fetchLocations(completion: @escaping ((Bool, [String]) -> Void)) {
+        let database = CKContainer.default().publicCloudDatabase
+        let query = CKQuery(recordType: "Location", predicate: NSPredicate(format: "TRUEPREDICATE", argumentArray: nil))
+        database.perform(query, inZoneWith: nil, completionHandler: { (results:[CKRecord]?, error:Error?) in
+            guard error == nil else {
+                if let error = error as? CKError {
+                    let erroralert = error.handleAndAlert(crash: true)
+                    DispatchQueue.main.async {
+                        self.present(erroralert, animated: true, completion: nil)
+                    }
+                    
+                    completion(false, [])
+                    return
+                }
+                fatalError(error.debugDescription)
+            }
+            
+            if let results = results {
+                
+                var items: [String] = []
+                for result in results {
+                    if let string = result["recordName"] as? String {
+                        items.append(string)
+                    }
+                }
+                
+                completion(true, items)
+            } else {
+                //Create alert to turn on iCloud Drive
+                
+            }
+            
+        })
+    }
+    
     override var prefersStatusBarHidden: Bool {
         return false
     }
@@ -108,12 +168,24 @@ class InitialLoadingViewController: UIViewController, SirenDelegate {
     func sortMenuItems(items: [Product]) {
         currentSmoothies = []
         currentIceCream = []
+        currentEspresso = []
+        currentTea = []
+        currentCold = []
+        currentNonCoffee = []
         for decoded in items {
             switch decoded.type {
             case "Smoothies":
                 currentSmoothies.append(decoded)
             case "Ice Cream & Sweets":
                 currentIceCream.append(decoded)
+            case "Espresso":
+                currentEspresso.append(decoded)
+            case "Tea":
+                currentTea.append(decoded)
+            case "Cold Brew":
+                currentCold.append(decoded)
+            case "Non-Coffee":
+                currentNonCoffee.append(decoded)
             default:
                 print("Encountered product which doesn't conform to category. Record name: \(decoded.name)")
             }
@@ -122,6 +194,19 @@ class InitialLoadingViewController: UIViewController, SirenDelegate {
     
     func displayLoadingIndicator() {
         self.ai = UIActivityIndicatorView.init(style: .whiteLarge)
+        if #available(iOS 13.0, *) {
+            switch traitCollection.userInterfaceStyle {
+            case .light, .unspecified:
+                self.ai?.color = UIColor.black
+            case .dark:
+                self.ai?.color = UIColor.white
+            @unknown default:
+                self.ai?.color = UIColor.black
+            }
+        } else {
+            self.ai?.color = UIColor.black
+        }
+        
         self.ai!.startAnimating()
         self.ai!.center = self.view.center
         
@@ -139,3 +224,4 @@ class InitialLoadingViewController: UIViewController, SirenDelegate {
     }
 }
 
+class TabBar: UITabBarController {}
