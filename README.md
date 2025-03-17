@@ -1,7 +1,7 @@
 # Blend: An OrderAhead iOS App
 
 **A streamlined iOS app for pre-ordering food and beverages, built and tested in a local business.**
-Designed for **fast and secure mobile payments**, Blend allows users to order in **three taps** and track their orders in real time, minimizing friction, increasing orders, and enabling students to purchase a beverage in the tight time before class.. It features the latest technologies including Apple Pay and Stripe, leverages Amazon Web Service's Lambda cloud function service as well as CloudKit's database, and has multiple redundancies in place to ensure that if any one of these systems fail, the customer is not charged. Further, Firebase Analytics is used to track how much of each drink is being sold, allowing the coffee bar to adjust its menu accordingly. 
+Designed for **fast and secure mobile payments**, Blend allows users to order in **three taps** and track their orders in real time, minimizing friction, increasing orders, and enabling students to purchase a beverage in the tight time before class. 
 
 ![Leaning Eagle Main](readme-images/leaningeagle.PNG)
 ![Blend Smoothie Bar Main](readme-images/blend.PNG)
@@ -11,12 +11,12 @@ Designed for **fast and secure mobile payments**, Blend allows users to order in
 
 ## 📌 Features  
 
-✅ **Order Ahead** – Users can pre-order food and drinks through the mobile app.  
-✅ **Seamless Payments** – Integrated with **Apple Pay and Stripe API** for secure transactions.
-✅ **Secure Transactions** – AWS Lambda Cloud Functions support authentication in the cloud, mitigating security risks.
-✅ **Minimalist UI** – Orders can be placed in **three taps** for maximum efficiency between classes or meetings.  
-✅ **Cloud-Backed Database** – Orders stored securely using **CloudKit**.  
-✅ **Real-Time Analytics** – Track retention rate, orders, and customer usage in real-time with Firebase.
+- ✅ **Order Ahead** – Users can pre-order food and drinks through the mobile app.  
+- ✅ **Seamless Payments** – Integrated with **Apple Pay and Stripe API** for secure transactions.
+- ✅ **Secure Transactions** – AWS Lambda Cloud Functions support authentication in the cloud, mitigating security risks.
+- ✅ **Minimalist UI** – Orders can be placed in **three taps** for maximum efficiency between classes or meetings.  
+- ✅ **Cloud-Backed Database** – Orders stored securely using **CloudKit**.  
+- ✅ **Real-Time Analytics** – Track retention rate, orders, and customer usage in real-time with Firebase.
 
 
 ## 🛠️ Tech Stack  
